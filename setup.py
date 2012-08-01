@@ -24,7 +24,7 @@ version = '0.0'
 setup(name='askbot-openmooc/',
       version=version,
       description=("Askbot openmooc integration (theme, saml2, tags api)"),
-      long_description = long_description=(read('README.rst') + '\n\n' + read('CHANGES.rst')),,
+      long_description=(read('README.rst') + '\n\n' + read('CHANGES.rst')),,
       classifiers=[
         'Development Status :: 6 - Development',
         'Environment :: Web Environment',
