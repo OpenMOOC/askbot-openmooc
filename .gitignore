@@ -2,8 +2,10 @@ build/
 dist/
 local_settings.py
 docs/build
+saml2/remote_metadata.xml
 
-
+*.key
+*.crt
 *.pyc
 *.egg-info
 *~
