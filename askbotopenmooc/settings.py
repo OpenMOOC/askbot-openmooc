@@ -1,6 +1,5 @@
 ## Django settings for ASKBOT enabled project.
 import os.path
-import logging
 import askbot
 import site
 
@@ -288,7 +287,7 @@ LIVESETTINGS_OPTIONS = {
 }
 
 
-#try:
-from local_settings import *
-#except:
-#    pass
+try:
+    from local_settings import *
+except:
+    pass
