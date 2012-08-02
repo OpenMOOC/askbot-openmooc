@@ -115,7 +115,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 
-ROOT_URLCONF = os.path.basename(os.path.dirname(__file__)) + '.urls'
+ROOT_URLCONF = 'askbotopenmooc.urls'
 
 
 #UPLOAD SETTINGS
@@ -192,12 +192,12 @@ AUTHENTICATION_BACKENDS = (
 )
 
 #logging settings
-LOG_FILENAME = 'askbot.log'
-logging.basicConfig(
-    filename=os.path.join(os.path.dirname(__file__), 'log', LOG_FILENAME),
-    level=logging.CRITICAL,
-    format='%(pathname)s TIME: %(asctime)s MSG: %(filename)s:%(funcName)s:%(lineno)d %(message)s',
-)
+#LOG_FILENAME = 'askbot.log'
+#logging.basicConfig(
+#    filename=os.path.join(os.path.dirname(__file__), 'log', LOG_FILENAME),
+#    level=logging.CRITICAL,
+#    format='%(pathname)s TIME: %(asctime)s MSG: %(filename)s:%(funcName)s:%(lineno)d %(message)s',
+#)
 
 ###########################
 #
@@ -229,16 +229,14 @@ CSRF_COOKIE_NAME = 'customdomain_csrf'
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
 STATICFILES_DIRS = (os.path.join(ASKBOT_ROOT, 'skins'),
-                    os.path.join(PROJECT_ROOT, "askbot-mooc-theme"),
+                    os.path.join(PROJECT_ROOT, "askbot-openmooc-themes"),
             )
 
 RECAPTCHA_USE_SSL = True
 
 ## MOOC Settings
 
-ASKBOT_EXTRA_SKINS_DIR =  os.path.join(
-                                PROJECT_ROOT,
-                'askbot-openmooc-themes')
+ASKBOT_EXTRA_SKINS_DIR =  os.path.join(PROJECT_ROOT, 'askbot-openmooc-themes')
 
 LOGIN_URL = '/saml2/login/'
 LOGIN_REDIRECT_URL = '/questions/' #aadjust, if needed
@@ -290,7 +288,7 @@ LIVESETTINGS_OPTIONS = {
 }
 
 
-try:
-    from local_settings import *
-except:
-    pass
+#try:
+from local_settings import *
+#except:
+#    pass

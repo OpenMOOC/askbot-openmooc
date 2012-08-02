@@ -5,6 +5,13 @@ from os import path
 BASEDIR = path.dirname(__file__)
 SAML2DIR = path.join(BASEDIR, 'saml2')
 
+#logging settings
+#LOG_FILENAME = 'askbot.log'
+#logging.basicConfig(
+#    filename=os.path.join(os.path.dirname(__file__), 'log', LOG_FILENAME),
+#    level=logging.CRITICAL,
+#    format='%(pathname)s TIME: %(asctime)s MSG: %(filename)s:%(funcName)s:%(lineno)d %(message)s',
+#)
 
 #DATABASE_ENGINE = 'mysql' # only postgres (>8.3) and mysql are supported so far others have not been tested yet
 #DATABASE_NAME = 'askbot'             # Or path to database file if using sqlite3.
@@ -96,7 +103,7 @@ SAML_CONFIG = {
        'email_address': 'sysadmin@example.com',
        'contact_type': 'technical'},
       {'given_name': 'Admin',
-       'sur_name': '',
+       'sur_name': 'CEO',
        'company': 'Example CO',
        'email_address': 'admin@example.com',
        'contact_type': 'administrative'},
