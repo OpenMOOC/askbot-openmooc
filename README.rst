@@ -27,14 +27,14 @@ System Dependencies
 
 #. Set memcached and mysql-server to start on system boot.
 
-    .. code-block:: bash
+    .. code:: bash
 
        # chkconfig mysqld on
        # chkconfig memcached on
 
 #. Install virtualenv:
 
-    .. code-block:: bash
+    .. code:: bash
 
        # easy_install virtualenv
 
@@ -43,7 +43,7 @@ System Dependencies
     .. warning::
        This link (ln) is mandatory to run saml2 auth
 
-    .. code-block:: bash
+    .. code:: bash
 
        # yum install http://epel.mirror.mendoza-conicet.gob.ar/6/x86_64/xmlsec1-1.2.16-2.el6.x86_64.rpm  http://epel.mirror.mendoza-conicet.gob.ar/6/x86_64/xmlsec1-openssl-1.2.16-2.el6.x86_64.rpm
        # ln -s /usr/lib64/libxmlsec1-openssl.so.1 /usr/lib64/libxmlsec1-openssl.so
@@ -57,13 +57,13 @@ System Dependencies
 
    #. Create database:
 
-      .. code-block:: bash
+      .. code:: bash
 
         mysqladmin -p -u root create askbot
 
    #. Create user and give permissions to access askbot.
 
-      .. code-block:: bash
+      .. code:: bash
 
         mysql -p -u root
         GRANT ALL PRIVILEGES ON askbot.* TO 'askbot'@'localhost' IDENTIFIED
@@ -87,18 +87,18 @@ System Dependencies
 
 #. Create virtualenv:
 
-   .. code-block:: bash
+   .. code:: bash
 
       virtualenv --system-site-packages askbot-openmooc-venv
 
 #. Load virtualenv:
 
-   .. code-block:: bash
+   .. code:: bash
 
       source askbot-openmooc-venv/bin/activate
 
 #. Change to askbot-opemooc directory and execute deployment:
-   .. code-block:: bash
+   .. code:: bash
 
       cd askbot-openmooc
       python setup.py develop
@@ -110,7 +110,7 @@ System Dependencies
      http://www.akadia.com/services/ssh_test_certificate.html
    * Copy server.key and server.crt to askbot-openmooc/saml2/certs
 
-   .. code-block:: bash
+   .. code:: bash
 
       openssl genrsa -des3 -out server.key 1024
       openssl req -new -key server.key -out server.csr
@@ -129,13 +129,13 @@ System Dependencies
 
 #. Initialize database:
 
-   .. code-block:: bash
+   .. code:: bash
 
       python manage.py syncdb
       python manage.py migrate
 
 #. Run server to test it:
 
-   .. code-block:: bash
+   .. code:: bash
 
       python manage.py runserver
