@@ -24,6 +24,7 @@ DATABASE_PASSWORD = 'askbot'         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
+
 #outgoing mail server settings
 SERVER_EMAIL = ''
 DEFAULT_FROM_EMAIL = ''
@@ -286,8 +287,15 @@ LIVESETTINGS_OPTIONS = {
      }
 }
 
-
 try:
     from local_settings import *
-except:
-    pass
+except ImportError:
+    print "Error in local_settings"
+
+try:
+    from course_settings import *
+except ImportError:
+    print "Error in course_settings"
+else:
+    if 'SAML_CONFIG_COURSE' in dir():
+        SAML_CONFIG = SAML_CONFIG_COURSE

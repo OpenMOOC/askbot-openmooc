@@ -3,16 +3,9 @@ import saml2
 from os import path
 
 BASEDIR = path.dirname(__file__)
-SAML2DIR = path.join(BASEDIR, 'saml2')
+#SAML2DIR = path.join(BASEDIR, 'saml2')
+SAML2DIR = '/home/mooc/saml2'
 
-#logging settings
-#LOG_FILENAME = 'askbot.log'
-# import logging
-# logging.basicConfig(
-#     filename=os.path.join(os.path.dirname(__file__), 'log', LOG_FILENAME),
-#     level=logging.CRITICAL,
-#     format='%(pathname)s TIME: %(asctime)s MSG: %(filename)s:%(funcName)s:%(lineno)d %(message)s',
-# )
 
 #DATABASE_ENGINE = 'mysql' # only postgres (>8.3) and mysql are supported so far others have not been tested yet
 #DATABASE_NAME = 'askbot'             # Or path to database file if using sqlite3.
@@ -22,11 +15,19 @@ SAML2DIR = path.join(BASEDIR, 'saml2')
 #DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
 
-#CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
-#CACHE_PREFIX = 'askbot' #make this unique
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
+CACHE_PREFIX = 'askbot' #make this unique
 
 SECRET_KEY = 'sdljdfjkldsflsdjkhsjkldgjlsdgfs s '
 
+ASKBOT_URL = ''
+FULL_ASKBOT_URL = 'http://questions/%s' % ASKBOT_URL
+
+LOGIN_URL = "%s%s" % (ASKBOT_URL, '/saml2/login/')
+LOGIN_REDIRECT_URL = ASKBOT_URL #aadjust, if needed
+LOGOUT_URL = "%s%s" % (ASKBOT_URL, '/saml2/logout/')
+LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
 SAML_CONFIG = {
@@ -34,7 +35,7 @@ SAML_CONFIG = {
   'xmlsec_binary': '/usr/bin/xmlsec1',
 
   # your entity id, usually your subdomain plus the url to the metadata view
-  'entityid': 'http://questions.example.com/saml2/metadata/',
+  'entityid': '%ssaml2/metadata/' % FULL_ASKBOT_URL,
 
   # directory with attribute mapping
   'attribute_map_dir': path.join(SAML2DIR, 'attribute-maps'),
@@ -48,13 +49,13 @@ SAML_CONFIG = {
               # url and binding to the assetion consumer service view
               # do not change the binding or service name
               'assertion_consumer_service': [
-                  ('http://questions.example.com/saml2/acs/',
+                  ('%ssaml2/acs/' % FULL_ASKBOT_URL,
                    saml2.BINDING_HTTP_POST),
                   ],
               # url and binding to the single logout service view
               # do not change the binding or service name
               'single_logout_service': [
-                  ('http://questions.example.com/saml2/ls/',
+                  ('%ssaml2/ls/' % FULL_ASKBOT_URL,
                    saml2.BINDING_HTTP_REDIRECT),
                   ],
               },
@@ -93,8 +94,9 @@ SAML_CONFIG = {
   'debug': 1,
 
   # certificate
-  'key_file': path.join(SAML2DIR, 'certs/server.key'),  # private part
-  'cert_file': path.join(SAML2DIR, 'certs/server.crt'),  # public part
+  'key_file': path.join("%s%s" % (SAML2DIR, "/certs"), 'server.key'),  # private part
+  'cert_file': path.join("%s%s" % (SAML2DIR, "/certs"), 'server.crt'),  # public part
+
 
   # own metadata settings
   'contact_person': [
@@ -117,5 +119,4 @@ SAML_CONFIG = {
       },
   'valid_for': 365,  # how long is our metadata valid
   }
-
 
