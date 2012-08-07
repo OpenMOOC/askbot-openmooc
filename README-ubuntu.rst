@@ -1,7 +1,7 @@
 Ubuntu Develop Deployment
 =========================
 
-System Dependencies
+System Requirements
 *******************
 
 .. note:: Tested in Ubuntu 12.04
@@ -22,9 +22,22 @@ System Dependencies
 #. Create database:
 
    .. note::
+
       If you have just installed mysqld, you need set a password
       You can get how do this by starting mysql service executing
       service mysqld start
+
+   .. warning::
+
+      You must have a MyISAM as mysqld storage. In ubuntu 12.04 InnoDB is the
+      default value. Do this before create database.
+
+   #. Configure your mysql to use MyISAM:
+
+      .. code:: bash
+
+         cp mysqld/askbot-openmooc.cnf /etc/mysqld/conf.d/
+         service mysql restart
 
    #. Create database:
 

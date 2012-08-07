@@ -33,6 +33,20 @@ Remember enable sphinxsearch to start at boot modifying /etc/default/sphinxsearc
 
 There are some askbot migrations thats require full text search on mysql storage engine. 
 
+
+.. warning::
+
+   You must have a MyISAM as mysqld storage. In ubuntu 12.04 InnoDB is the
+   default value. Do this before create database.
+
+Configure your mysql to use MyISAM:
+
+    .. code:: bash
+
+       cp mysqld/askbot-openmooc.cnf /etc/mysqld/conf.d/
+       service mysql restart
+
+
 Python packages
 +++++++++++++++
 
