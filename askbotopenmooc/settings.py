@@ -141,6 +141,7 @@ TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, 'admin-templates'),)
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'askbot.context.application_settings',
+    'askbotopenmooc.context.openmooc_settings',
     #'django.core.context_processors.i18n',
     'askbot.user_messages.context_processors.user_messages',#must be before auth
     'django.core.context_processors.auth', #this is required for admin
