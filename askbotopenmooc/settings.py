@@ -136,6 +136,7 @@ DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 #TEMPLATE_DIRS = (,) #template have no effect in askbot, use the variable below
 #ASKBOT_EXTRA_SKINS_DIR = #path to your private skin collection
 #take a look here http://askbot.org/en/question/207/
+TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, 'admin-templates'),)
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
@@ -167,10 +168,12 @@ INSTALLED_APPS = (
     'keyedcache',
     'robots',
     'django_countries',
-    'djcelery',
+    # 'djcelery',
     'djkombu',
     'followit',
     #'avatar',#experimental use git clone git://github.com/ericflo/django-avatar.git$
+
+    #'rosetta', # require pip install django-rosetta
 
     'djangosaml2',
 )
