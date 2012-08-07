@@ -186,9 +186,13 @@ Create a new askbot-openmooc instance
 
    Go to course directory and execute this with askbot-openmooc virtualenv enabled.
 
+   .. note::
+
+      if you don't create admin user (using --noinput or replying no to syncdb
+      question), the first login user will be the admin user.
+
    .. code-block:: bash
 
-      python manage.py syncdb
-      python manage.py migrate askbot
+      python manage.py syncdb --migrate --noinput
 
 
