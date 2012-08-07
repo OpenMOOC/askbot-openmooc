@@ -177,6 +177,8 @@ INSTALLED_APPS = (
     #'rosetta', # require pip install django-rosetta
 
     'djangosaml2',
+
+    'askbotopenmooc.askbotopenmoocapp',
 )
 
 
