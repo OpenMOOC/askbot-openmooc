@@ -10,8 +10,9 @@ def openmooc_settings(request):
                   'COURSE_NAME',
                   )
 
+    custom_settings = {}
     for key in copy_attrs:
-        openmooc_settings[key] = getattr(settings, key, '')
+        custom_settings[key] = getattr(settings, key, '')
 
     return {
         'openmooc_settings': openmooc_settings,
