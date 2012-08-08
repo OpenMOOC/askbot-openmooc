@@ -254,7 +254,7 @@ SAML_CREATE_UNKNOWN_USER = True
 
 
 SAML_ATTRIBUTE_MAPPING = {
-    'uid': ('username', ),
+    'uid': ('email', ),
     'mail': ('email', ),
     'cn': ('first_name', ),
     'sn': ('last_name', ),
@@ -303,5 +303,32 @@ try:
 except ImportError:
     print "Error in course_settings"
 else:
-    if 'SAML_CONFIG_COURSE' in dir():
-        SAML_CONFIG = SAML_CONFIG_COURSE
+    if 'COURSE_NAME' in dir():
+        from urlparse import urljoin
+        DATABASE_NAME = ('askbot_%s' % COURSE_NAME)
+        CACHE_PREFIX = ('askbot_%s' % COURSE_NAME) #make this unique
+
+        MEDIA_ROOT = path.join(COURSE_DIR, 'upfiles')
+        MEDIA_URL = '/%s/upfiles/' % COURSE_NAME
+
+        #ASKBOT_URL = ('%s/') % COURSE_NAME
+        ASKBOT_URL = ''
+        FULL_ASKBOT_URL = 'http://questions.example.com/%s/%s' % (COURSE_NAME, ASKBOT_URL)
+
+        LOGIN_URL = urljoin(FULL_ASKBOT_URL, 'saml2/login/')
+        LOGIN_REDIRECT_URL = FULL_ASKBOT_URL #aadjust, if needed
+        LOGOUT_URL = urljoin(FULL_ASKBOT_URL, 'saml2/logout/')
+        LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
+
+        SAML_CONFIG['entityid'] = urljoin(FULL_ASKBOT_URL, "saml2/metadata/")
+        SAML_CONFIG['service']['sp']['endpoints']['assertion_consumer_service'] = (
+                        urljoin(FULL_ASKBOT_URL, 'saml2/acs/'),
+                        saml2.BINDING_HTTP_POST),
+
+
+        SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'] = (
+                        urljoin(FULL_ASKBOT_URL, 'saml2/ls/'),
+                        saml2.BINDING_HTTP_REDIRECT),
+
+
+
