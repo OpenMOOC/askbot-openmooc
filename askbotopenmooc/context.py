@@ -1,6 +1,5 @@
 """Askbot OpenMOOC specific settings
 """
-import sys
 from django.conf import settings
 
 def openmooc_settings(request):
@@ -15,5 +14,5 @@ def openmooc_settings(request):
         custom_settings[key] = getattr(settings, key, '')
 
     return {
-        'openmooc_settings': openmooc_settings,
+        'openmooc_settings': custom_settings,
     }
