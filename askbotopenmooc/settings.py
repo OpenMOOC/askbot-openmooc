@@ -296,12 +296,14 @@ LIVESETTINGS_OPTIONS = {
 try:
     from local_settings import *
 except ImportError:
-    print "Error in local_settings"
+    if DEBUG:
+        print "Error in local_settings"
 
 try:
     from course_settings import *
 except ImportError:
-    print "Error in course_settings"
+    if DEBUG:
+        print "Error in course_settings"
 else:
     if 'COURSE_NAME' in dir():
         from urlparse import urljoin

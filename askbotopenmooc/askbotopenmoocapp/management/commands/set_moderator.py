@@ -16,7 +16,3 @@ class Command(BaseCommand):
             user.groups.add(moderator_group)
             user.save()
             self.stdout.write("Set %s (%s) as moderator\n" % (user.username, user.email))
-
-
-
-
