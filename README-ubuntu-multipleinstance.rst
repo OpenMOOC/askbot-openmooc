@@ -15,6 +15,7 @@ System Dependencies
    - python-mysqldb
    - python-dev
    - python-virtualenv
+   - python-imaging
    - memcached
    - mysql-server
    - openssl
@@ -84,6 +85,14 @@ Python packages
 
       cd askbot-openmooc
       python setup.py develop
+
+#. Install django-avatar
+
+   using this: http://askbot.org/doc/optional-modules.html#uploaded-avatars
+
+   .. code:: bash
+
+      pip install -e git+git://github.com/ericflo/django-avatar.git#egg=django-avatar
 
 #. For testing purposes, you should create your own self-signed certificates.
    For other purposes buy them:

@@ -174,9 +174,7 @@ INSTALLED_APPS = (
     # 'djcelery',
     'djkombu',
     'followit',
-    #'avatar',#experimental use git clone git://github.com/ericflo/django-avatar.git$
-
-    #'rosetta', # require pip install django-rosetta
+    'avatar',#experimental use git clone git://github.com/ericflo/django-avatar.git$
 
     'djangosaml2',
 
