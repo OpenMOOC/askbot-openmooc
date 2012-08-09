@@ -45,7 +45,7 @@ setup(name='askbot-openmooc/',
           'askbot==0.7.43',
           'djangosaml2>=0.5.0',
           'python-memcached',
-          'django-sphinx',
+          # 'django-sphinx', this doesn't run with askbot
       ],
       entry_points="""
       # -*- Entry points: -*-
