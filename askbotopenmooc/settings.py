@@ -1,5 +1,6 @@
 ## Django settings for ASKBOT enabled project.
 import os.path
+import sys
 import askbot
 import site
 
@@ -23,7 +24,8 @@ DATABASE_USER = 'askbot'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'askbot'         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
-
+DATABASE_NAME_PREFIX = 'askbot_'
+SPHINX_MEMORY = '256M' # max sphinxsearch memory
 
 #outgoing mail server settings
 SERVER_EMAIL = ''
@@ -297,18 +299,18 @@ try:
     from local_settings import *
 except ImportError:
     if DEBUG:
-        print "Error in local_settings"
+        sys.stderr.write("Error in local_settings\n")
 
 try:
     from course_settings import *
 except ImportError:
     if DEBUG:
-        print "Error in course_settings"
+        sys.stderr.write("Error in course_settings\n")
 else:
     if 'COURSE_NAME' in dir():
         from urlparse import urljoin
-        DATABASE_NAME = ('askbot_%s' % COURSE_NAME)
-        CACHE_PREFIX = ('askbot_%s' % COURSE_NAME) #make this unique
+        DATABASE_NAME = ('%s%s' % (DATABASE_NAME_PREFIX, COURSE_NAME))
+        CACHE_PREFIX = DATABASE_NAME #make this unique
 
         MEDIA_ROOT = path.join(COURSE_DIR, 'upfiles')
         MEDIA_URL = '/%s/upfiles/' % COURSE_NAME

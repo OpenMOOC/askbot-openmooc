@@ -4,8 +4,11 @@ from os import path
 
 BASEDIR = path.dirname(__file__)
 #SAML2DIR = path.join(BASEDIR, 'saml2')
+COURSES_BASEDIR = '/home/mooc/courses'
 SAML2DIR = '/home/mooc/saml2'
 
+
+DATABASE_NAME_PREFIX = 'askbot_'
 
 #DATABASE_ENGINE = 'mysql' # only postgres (>8.3) and mysql are supported so far others have not been tested yet
 #DATABASE_NAME = 'askbot'             # Or path to database file if using sqlite3.
@@ -28,6 +31,9 @@ LOGIN_REDIRECT_URL = ASKBOT_URL #aadjust, if needed
 LOGOUT_URL = "%s%s" % (ASKBOT_URL, '/saml2/logout/')
 LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+
+
 
 
 SAML_CONFIG = {
