@@ -142,6 +142,8 @@ Apache wsgi configuration
 Sphinx configuration
 ++++++++++++++++++++
 
+We can not set a Sphinx config because askbot models changes hasn't been
+updated with sphinx config generator.
 
 
 Instances configuration
