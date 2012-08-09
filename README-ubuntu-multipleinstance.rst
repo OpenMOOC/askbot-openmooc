@@ -29,9 +29,11 @@ System configuration
 Mysql Database
 ++++++++++++++
 
-Remember enable sphinxsearch to start at boot modifying /etc/default/sphinxsearch
+Remember enable sphinxsearch to start at boot modifying
+/etc/default/sphinxsearch
 
-There are some askbot migrations thats require full text search on mysql storage engine. 
+There are some askbot migrations thats require full text search on mysql
+storage engine.
 
 
 .. warning::
@@ -51,7 +53,8 @@ Python packages
 +++++++++++++++
 
 
-#. Download askbot-openmooc package (clone repository or download tar.gz package)
+#. Download askbot-openmooc package (clone repository or download tar.gz
+   package)
 
    .. warning::
 
@@ -107,6 +110,11 @@ Python packages
 
 #. Recolect static media files
 
+   .. note::
+
+      You need a course to execute this, and then, this must be executed on
+      course directory and call course manage.py
+
    .. code:: bash
 
       python manage.py collectstatics
@@ -116,8 +124,8 @@ Apache wsgi configuration
 
 .. note::
 
-   In example, I have created mooc user, you must change its if you have create another one or
-   has deployed over another path.
+   In example, I have created mooc user, you must change its if you have create
+   another one or has deployed over another path.
 
 
 1. Link apache2/questions-site-multipleinstance.conf to /etc/apache2/sites-available
@@ -135,18 +143,23 @@ Sphinx configuration
 ++++++++++++++++++++
 
 
+
 Instances configuration
 +++++++++++++++++++++++
 
-There are 3 settings files. This is very important, because we have this settings levels:
+There are 3 settings files. This is very important, because we have this
+settings levels:
 
-  * Askbot-openmooc generic settings at askbot-openmooc/askbotopenmooc/settings.py
+  * Askbot-openmooc generic settings at
+    askbot-openmooc/askbotopenmooc/settings.py
   * Generic settings for all instances: askbot-openmooc/local_settings.py
   * Per course settings: courses/coursename/course_settings.py
 
-You must set database host, SAML_CONFIG and another global settings in Generic settings.
+You must set database host, SAML_CONFIG and another global settings in Generic
+settings.
 
-You must set course name and another specific course settings in Course settings.
+You must set course name and another specific course settings in Course
+settings.
 
 
 Create a new askbot-openmooc instance
@@ -162,8 +175,8 @@ Create a new askbot-openmooc instance
 
       cp /home/mooc/askbot-openmooc/example-courses/courses /home/mooc/courses
 
-2. Courses take baseurl from course directory name, then if you want a maths url
-   course you need to copy skel to /home/mooc/courses/maths
+2. Courses take baseurl from course directory name, then if you want a maths
+   url course you need to copy skel to /home/mooc/courses/maths
 
    .. code-block:: bash
 
@@ -173,18 +186,18 @@ Create a new askbot-openmooc instance
 
    .. code-block:: bash
 
-      
         mysqladmin -p -u root create askbot_maths
 
         mysql -p -u root
-        GRANT ALL PRIVILEGES ON askbot_maths.* TO 'askbot'@'localhost' IDENTIFIED
-        BY 'askbot';
+        GRANT ALL PRIVILEGES ON askbot_maths.* TO 'askbot'@'localhost' 
+          IDENTIFIED BY 'askbot';
         FLUSH PRIVILEGES;
 
 
 4. Initialize database:
 
-   Go to course directory and execute this with askbot-openmooc virtualenv enabled.
+   Go to course directory and execute this with askbot-openmooc virtualenv
+   enabled.
 
    .. note::
 
@@ -195,4 +208,15 @@ Create a new askbot-openmooc instance
 
       python manage.py syncdb --migrate --noinput
 
+5. Set moderator user. You can create a admin user if you not include noinput
+   in last syncdb manage command. But if you want set a teacher or similar as a
+   moderator, you need that he do a login before you assign his role.
+
+   After teacher has been loged in, you can set it as moderator, you need his
+   email to set this. In the course directory execute this:
+
+
+   .. code-block:: bash
+
+      python manage.py set_moderator teachermail@example.com
 

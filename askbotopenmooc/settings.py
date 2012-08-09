@@ -323,6 +323,7 @@ else:
         LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 
         SAML_CONFIG['entityid'] = urljoin(FULL_ASKBOT_URL, "saml2/metadata/")
+        SAML_CONFIG['service']['sp']['name'] = '%s - Askbot - OpenMOOC SP' % COURSE_NAME
         SAML_CONFIG['service']['sp']['endpoints']['assertion_consumer_service'] = (
                         urljoin(FULL_ASKBOT_URL, 'saml2/acs/'),
                         saml2.BINDING_HTTP_POST),
