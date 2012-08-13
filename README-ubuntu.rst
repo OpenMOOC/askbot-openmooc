@@ -12,6 +12,7 @@ System Requirements
    - python-mysqldb
    - python-dev
    - python-virtualenv
+   - python-imaging
    - memcached
    - mysql-server
    - openssl

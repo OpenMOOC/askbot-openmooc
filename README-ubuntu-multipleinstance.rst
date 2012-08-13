@@ -24,6 +24,12 @@ System Dependencies
    - libapache2-mod-wsgi
    - sphinxsearch
 
+Make xmlsec1 link
+
+.. code:: bash
+
+   ln -s /usr/lib/libxmlsec1-openssl.so.1 /usr/lib/libxmlsec1-openssl.so
+
 System configuration
 ********************
 
@@ -200,7 +206,7 @@ Create a new askbot-openmooc instance
         mysqladmin -p -u root create askbot_maths
 
         mysql -p -u root
-        GRANT ALL PRIVILEGES ON askbot_maths.* TO 'askbot'@'localhost' 
+        GRANT ALL PRIVILEGES ON askbot_maths.* TO 'askbot'@'localhost'
           IDENTIFIED BY 'askbot';
         FLUSH PRIVILEGES;
 

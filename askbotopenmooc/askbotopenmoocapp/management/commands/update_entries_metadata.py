@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from django.conf import settings
 from os import listdir
@@ -20,15 +20,12 @@ FOOTER="""
 """
 
 class Command(BaseCommand):
-    args = 'courses_basedir'
-    help = 'Set a user as moderator'
+    help = 'Update saml20 entities metadata'
     requires_model_validation = False
 
     def handle(self, *args, **options):
-        if not len(args):
-            raise CommandError('You must specific courses base dir\n')
 
-        course_basedir = args[0]
+        course_basedir = settings.COURSES_BASEDIR
         metadatafile = open(path.join(settings.STATIC_ROOT, 'group-metadata.xml'), 'w')
         metadatafile.write(HEADER)
         for course in listdir(course_basedir):
