@@ -64,12 +64,12 @@ SAML_CONFIG = {
                    saml2.BINDING_HTTP_REDIRECT),
                   ],
               },
-
-           # attributes that this project need to identify a user
-          'required_attributes': ['uid'],
-
-           # attributes that may be useful to have but not required
-          'optional_attributes': ['eduPersonAffiliation'],
+          # # This is commented to be compatible with simplesamlphp
+          # # attributes that this project need to identify a user
+          #'required_attributes': ['mail'],
+          #
+          # # attributes that may be useful to have but not required
+          #'optional_attributes': ['eduPersonAffiliation'],
 
           # in this section the list of IdPs we talk to are defined
           'idp': {
