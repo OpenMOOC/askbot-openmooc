@@ -32,7 +32,7 @@ SECRET_KEY = 'sdljdfjkldsflsdjkhsjkldgjlsdgfs s '
 
 ASKBOT_URL = ''
 BASE_URL = 'http://questions.example.com/'
-FULL_ASKBOT_URL = '%s/%s' % (BASE_URL, ASKBOT_URL)
+FULL_ASKBOT_URL = '%s%s' % (BASE_URL, ASKBOT_URL)
 
 LOGIN_URL = "%s%s" % (ASKBOT_URL, '/saml2/login/')
 LOGIN_REDIRECT_URL = ASKBOT_URL #aadjust, if needed
