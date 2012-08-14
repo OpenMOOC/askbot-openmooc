@@ -9,7 +9,7 @@ System Dependencies
 #. Install packages from Centos repository:
 
    - python-setuptools
-   - python-mysql
+   - MySQL-python
    - python-devel
    - python-imaging
    - memcached
@@ -102,6 +102,14 @@ System Dependencies
       cd askbot-openmooc
       python setup.py develop
 
+#. Install django-avatar
+
+   using this: http://askbot.org/doc/optional-modules.html#uploaded-avatars
+
+   .. code:: bash
+
+      pip install -e git+git://github.com/ericflo/django-avatar.git#egg=django-avatar
+
 #. For testing purposes, you should create your own self-signed certificates.
    For other purposes buy them:
 
@@ -136,15 +144,90 @@ System Dependencies
    http://pypi.python.org/pypi/djangosaml2
    You should set this on local_settings.py file
 
-#. Initialize database:
+#. Recreate statics file directory with collectstatic command:
 
    .. code:: bash
 
+      python manage.py collectstatic
+
+#. Allow apache2 user access to static files
+
+   .. code:: bash
+
+      # gpasswd -a apache mooc
+      chmod g=rx /home/mooc
+      chmod go= /home/mooc/*
+      chmod g=rx -R /home/mooc/static_root
+
+
+#. Copy apache example config to apache
+
+   .. code:: bash
+
+      # cp /home/mooc/askboot-openmooc/apache2/questions-site-multipleinstance.conf \
+      /etc/httpd/conf.d/questions-site-multipleinstance.conf
+
+
+Create a new course
+*******************
+
+#. Create courses directory and allow apache2 access to it (upfiles directory).
+   You can change this directory modifying setting COURSES_DIR property in
+   local_settings.py and apply this change to apache conf.
+
+
+   .. code:: bash
+
+      mkdir /home/mooc/courses
+      chmod g=rx o= /home/mooc/courses
+
+#. If this is your first course, create a course template directory.
+
+  .. code:: bash
+
+     cp -R /home/mooc/askbot-openmooc/courses_example/courses/skel \
+         ~/skel_course
+
+
+#. Create a new course directory copying your skel_course to yout COURSES_DIR
+
+   .. code:: bash
+
+      cp -R ~/skel_course courses/yourcoursename
+
+#. Remeber edit the file course_settings.py and change COURSE_TITLE and another
+   settings like COURSE_URL (moocng course url).
+
+#. Create database
+
+    .. code:: bash
+
+       mysqladmin -p -u root create askbot_yourcoursename
+       mysql -p -u root
+
+       GRANT ALL PRIVILEGES ON askbot_yourcoursename.* TO 'askbot'@'localhost';
+       FLUSH PRIVILEGES;
+
+#. Initialize database. With virtualenv enabled, do this:
+
+   .. code:: bash
+
+      cd /home/mooc/courses/yourcoursename
       python manage.py syncdb
       python manage.py migrate
 
-#. Run server to test it:
+#. Create teacher user and it as moderator:
 
    .. code:: bash
 
-      python manage.py runserver
+      python manage.py add_askbot_user --user-name=teachername \
+            --email='teachermail@example.com'
+      python manage.py set_moderator teachermail@example.com
+
+#. Update saml2 metadata entities.
+
+  .. code:: bash
+
+     python manage.py update_entries_metadata
+
+

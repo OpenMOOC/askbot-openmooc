@@ -9,7 +9,7 @@ System Dependencies
 #. Install packages from Centos repository:
 
    - python-setuptools
-   - python-mysql
+   - MySQL-python
    - python-devel
    - memcached
    - mysql-server
