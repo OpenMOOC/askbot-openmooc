@@ -25,7 +25,6 @@ DATABASE_PASSWORD = 'askbot'         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 DATABASE_NAME_PREFIX = 'askbot_'
-SPHINX_MEMORY = '256M' # max sphinxsearch memory
 
 #outgoing mail server settings
 SERVER_EMAIL = ''
@@ -315,7 +314,7 @@ else:
 
         #ASKBOT_URL = ('%s/') % COURSE_NAME
         ASKBOT_URL = ''
-        FULL_ASKBOT_URL = 'http://questions.example.com/%s/%s' % (COURSE_NAME, ASKBOT_URL)
+        FULL_ASKBOT_URL = '%s/%s/%s' % (BASE_URL, COURSE_NAME, ASKBOT_URL)
 
         LOGIN_URL = urljoin(FULL_ASKBOT_URL, 'saml2/login/')
         LOGIN_REDIRECT_URL = FULL_ASKBOT_URL #aadjust, if needed
