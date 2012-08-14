@@ -18,6 +18,9 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+BASE_URL = 'http://questions.example.com/'
+
+
 DATABASE_ENGINE = 'django.db.backends.mysql' # only postgres (>8.3) and mysql are supported so far others have not been tested yet
 DATABASE_NAME = 'askbot'             # Or path to database file if using sqlite3.
 DATABASE_USER = 'askbot'             # Not used with sqlite3.

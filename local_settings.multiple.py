@@ -34,15 +34,7 @@ ASKBOT_URL = ''
 BASE_URL = 'http://questions.example.com/'
 FULL_ASKBOT_URL = '%s%s' % (BASE_URL, ASKBOT_URL)
 
-LOGIN_URL = "%s%s" % (ASKBOT_URL, '/saml2/login/')
-LOGIN_REDIRECT_URL = ASKBOT_URL #aadjust, if needed
-LOGOUT_URL = "%s%s" % (ASKBOT_URL, '/saml2/logout/')
-LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
-
-
-
 
 SAML_CONFIG = {
   # full path to the xmlsec1 binary programm
