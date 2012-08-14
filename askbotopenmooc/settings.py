@@ -18,7 +18,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = 'mysql' # only postgres (>8.3) and mysql are supported so far others have not been tested yet
+DATABASE_ENGINE = 'django.db.backends.mysql' # only postgres (>8.3) and mysql are supported so far others have not been tested yet
 DATABASE_NAME = 'askbot'             # Or path to database file if using sqlite3.
 DATABASE_USER = 'askbot'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'askbot'         # Not used with sqlite3.
@@ -305,7 +305,6 @@ except ImportError:
         sys.stderr.write("Error in course_settings\n")
 else:
     if 'COURSE_NAME' in dir():
-        from urlparse import urljoin
         DATABASE_NAME = ('%s%s' % (DATABASE_NAME_PREFIX, COURSE_NAME))
         CACHE_PREFIX = DATABASE_NAME #make this unique
 
@@ -314,22 +313,22 @@ else:
 
         #ASKBOT_URL = ('%s/') % COURSE_NAME
         ASKBOT_URL = ''
-        FULL_ASKBOT_URL = urljoin(BASE_URL, COURSE_NAME)
+        FULL_ASKBOT_URL = '%s%s/' % (BASE_URL, COURSE_NAME)
 
-        LOGIN_URL = urljoin(FULL_ASKBOT_URL, 'saml2/login/')
+        LOGIN_URL = '%s%s' % (FULL_ASKBOT_URL, 'saml2/login/')
         LOGIN_REDIRECT_URL = FULL_ASKBOT_URL #aadjust, if needed
-        LOGOUT_URL = urljoin(FULL_ASKBOT_URL, 'saml2/logout/')
+        LOGOUT_URL = "%s%s" % (FULL_ASKBOT_URL, 'saml2/logout/')
         LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 
-        SAML_CONFIG['entityid'] = urljoin(FULL_ASKBOT_URL, "saml2/metadata/")
+        SAML_CONFIG['entityid'] = '%s%s' (FULL_ASKBOT_URL, "/saml2/metadata/")
         SAML_CONFIG['service']['sp']['name'] = '%s - Askbot - OpenMOOC SP' % COURSE_NAME
         SAML_CONFIG['service']['sp']['endpoints']['assertion_consumer_service'] = (
-                        urljoin(FULL_ASKBOT_URL, 'saml2/acs/'),
+                        "%s%s" % (FULL_ASKBOT_URL, 'saml2/acs/'),
                         saml2.BINDING_HTTP_POST),
 
 
         SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'] = (
-                        urljoin(FULL_ASKBOT_URL, 'saml2/ls/'),
+                        "%s%s" % (FULL_ASKBOT_URL, 'saml2/ls/'),
                         saml2.BINDING_HTTP_REDIRECT),
 
 
