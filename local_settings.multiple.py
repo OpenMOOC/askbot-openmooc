@@ -8,6 +8,8 @@ COURSES_BASEDIR = '/home/mooc/courses'
 SAML2DIR = '/home/mooc/saml2'
 
 
+# DEBUG = False #set to True to enable debugging
+
 # STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 # STATIC_ROOT = '/home/mooc/static-root'
 

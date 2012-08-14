@@ -150,11 +150,12 @@ System Dependencies
 
       python manage.py collectstatic
 
-#. Allow apache2 user access to static files
+#. Allow apache2 user access to static files and create wsgi socket directory
 
    .. code:: bash
 
       # gpasswd -a apache mooc
+      mkdir /home/mooc/sockets
       chmod g=rx /home/mooc
       chmod go= /home/mooc/*
       chmod g=rx -R /home/mooc/static_root
