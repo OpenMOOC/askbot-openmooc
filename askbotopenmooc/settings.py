@@ -314,7 +314,7 @@ else:
 
         #ASKBOT_URL = ('%s/') % COURSE_NAME
         ASKBOT_URL = ''
-        FULL_ASKBOT_URL = '%s/%s/%s' % (BASE_URL, COURSE_NAME, ASKBOT_URL)
+        FULL_ASKBOT_URL = urljoin(BASE_URL, COURSE_NAME)
 
         LOGIN_URL = urljoin(FULL_ASKBOT_URL, 'saml2/login/')
         LOGIN_REDIRECT_URL = FULL_ASKBOT_URL #aadjust, if needed
