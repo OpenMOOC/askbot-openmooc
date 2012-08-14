@@ -8,6 +8,11 @@ COURSES_BASEDIR = '/home/mooc/courses'
 SAML2DIR = '/home/mooc/saml2'
 
 
+# STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+# STATIC_ROOT = '/home/mooc/static-root'
+
+# STATIC_URL = '/m/'#this must be different from MEDIA_URL
+
 DATABASE_NAME_PREFIX = 'askbot_'
 
 #DATABASE_ENGINE = 'mysql' # only postgres (>8.3) and mysql are supported so far others have not been tested yet
