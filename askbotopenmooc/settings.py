@@ -318,6 +318,9 @@ else:
         ASKBOT_URL = ''
         FULL_ASKBOT_URL = '%s%s/' % (BASE_URL, COURSE_NAME)
 
+        CSRF_COOKIE_NAME = '%s_csrf' % COURSE_NAME
+        SESSION_COOKIE_NAME = '%s_sessionid' % COURSE_NAME
+
         LOGIN_URL = '%s%s' % (FULL_ASKBOT_URL, 'saml2/login/')
         LOGIN_REDIRECT_URL = FULL_ASKBOT_URL #aadjust, if needed
         LOGOUT_URL = "%s%s" % (FULL_ASKBOT_URL, 'saml2/logout/')

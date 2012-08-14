@@ -28,6 +28,12 @@ SAML2DIR = path.join(BASEDIR, 'saml2')
 SECRET_KEY = 'sdljdfjkldsflsdjkhsjkldgjlsdgfs s '
 
 
+SAML_ATTRIBUTE_MAPPING = {
+    'mail': ('username', 'email', ),
+    'cn': ('first_name', ),
+    'sn': ('last_name', ),
+}
+
 
 SAML_CONFIG = {
   # full path to the xmlsec1 binary programm

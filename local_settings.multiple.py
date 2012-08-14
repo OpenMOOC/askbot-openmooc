@@ -25,6 +25,36 @@ DATABASE_NAME_PREFIX = 'askbot_'
 #DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
 
+# saml2 logger
+#
+# LOGGING = {
+#     'version': 1,
+#     'formatters': {
+#         'verbose': {
+#             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+#         },
+#         'simple': {
+#             'format': '%(levelname)s %(message)s'
+#         },
+#     },
+#     'handlers': {
+#         'saml2file': {
+#            'level': 'DEBUG',
+#            'class': 'logging.FileHandler',
+#            'filename': 'djangosaml2.log',
+#            'formatter': 'verbose',
+#         }
+#     },
+#     'loggers': {
+#         'djangosaml2': {
+#             'handlers': ['saml2file'],
+#             'level': 'DEBUG',
+#         }
+#     }
+# }
+
+
+
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 CACHE_PREFIX = 'askbot' #make this unique
 
@@ -35,6 +65,14 @@ BASE_URL = 'http://questions.example.com/'
 FULL_ASKBOT_URL = '%s%s' % (BASE_URL, ASKBOT_URL)
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+
+SAML_ATTRIBUTE_MAPPING = {
+    'mail': ('username', 'email', ),
+    'cn': ('first_name', ),
+    'sn': ('last_name', ),
+}
+
 
 SAML_CONFIG = {
   # full path to the xmlsec1 binary programm

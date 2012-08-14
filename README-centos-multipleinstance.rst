@@ -169,6 +169,9 @@ System Dependencies
       /etc/httpd/conf.d/questions-site-multipleinstance.conf
 
 
+#. Add metadata entities url to your idp. The url for file generated is like
+   this: http://questions.example.com/m/group-metadata.xml
+
 Create a new course
 *******************
 
@@ -225,10 +228,12 @@ Create a new course
             --email='teachermail@example.com'
       python manage.py set_moderator teachermail@example.com
 
-#. Update saml2 metadata entities.
+#. Update saml2 metadata entities. Execute this in askbot-openmooc directory:
 
   .. code:: bash
 
      python manage.py update_entries_metadata
 
+#. Go to your idp and call update entries, You can go to a url like this:
+   https://idp.example.com/simplesaml/module.php/metarefresh/fetch.php
 
