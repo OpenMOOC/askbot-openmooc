@@ -118,6 +118,9 @@ System Dependencies
    http://pypi.python.org/pypi/djangosaml2
    You should set this on local_settings.py file
 
+#. Define your static files path, STATIC_ROOT in settings, and change apache2
+   settings according to it.
+
 #. Initialize database:
 
    .. code:: bash

@@ -22,7 +22,6 @@ System Dependencies
    - xmlsec1
    - libxmlsec1-openssl
    - libapache2-mod-wsgi
-   - sphinxsearch
 
 Make xmlsec1 link
 
