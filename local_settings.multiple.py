@@ -161,6 +161,5 @@ SAML_CONFIG = {
       'display_name': [('Example', 'es'), ('Example', 'en')],
       'url': [('http://www.example.com', 'es'), ('http://www.example.com', 'en')],
       },
-  'valid_for': 365,  # how long is our metadata valid
   }
 
