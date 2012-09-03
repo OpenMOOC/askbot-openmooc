@@ -310,9 +310,6 @@ else:
     if EXTERNAL_KEYS:
 	LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'EXTERNAL_KEYS'] = EXTERNAL_KEYS
 
-print LIVESETTINGS_OPTIONS
-	
-
 try:
     from course_settings import *
 except ImportError:
