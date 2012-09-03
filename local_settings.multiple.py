@@ -1,12 +1,13 @@
 
 import saml2
-from os import path
+from os import path, environ
 
 BASEDIR = path.dirname(__file__)
 #SAML2DIR = path.join(BASEDIR, 'saml2')
 COURSES_BASEDIR = '/home/mooc/courses'
 SAML2DIR = '/home/mooc/saml2'
 
+STATIC_ROOT = path.join(environ.get('HOME'), "static_root")
 
 # DEBUG = False #set to True to enable debugging
 
