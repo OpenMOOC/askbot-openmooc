@@ -182,6 +182,7 @@ Create a new course
 
    .. code:: bash
 
+      usermod -a -G mooc apache
       mkdir /home/mooc/courses
       chmod g=rx o= /home/mooc/courses
 
