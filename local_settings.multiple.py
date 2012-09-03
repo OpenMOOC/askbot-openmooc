@@ -64,6 +64,11 @@ ASKBOT_URL = ''
 BASE_URL = 'http://questions.example.com/'
 FULL_ASKBOT_URL = '%s%s' % (BASE_URL, ASKBOT_URL)
 
+
+# EXTERNAL_KEYS = {u'USE_RECAPTCHA',
+#                  u'RECAPTCHA_SECRET':u'6LeJCNYSAAAAAHTzqr4fPu_KsAS4hNXAzlymh8So',
+#                  u'RECAPTCHA_KEY':u'asdfasdfasfuiquasui349248951dsi230113411'}
+
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 

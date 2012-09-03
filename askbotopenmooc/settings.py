@@ -263,6 +263,10 @@ SAML_ATTRIBUTE_MAPPING = {
 }
 
 
+EXTERNAL_KEYS = None
+
+
+
 LIVESETTINGS_OPTIONS = {
     1: {u'DB': True,
             u'SETTINGS': {
@@ -291,6 +295,7 @@ LIVESETTINGS_OPTIONS = {
                             u'AUTO_LINK_URLS': u'http://example.com/\\1/\\2',
                             u'ENABLE_AUTO_LINKING': u'True',
                             u'MARKUP_CODE_FRIENDLY': u'True'},
+                u'EXTERNAL_KEYS': {u'USE_RECAPTCHA': u'False'},
             }
      }
 }
@@ -300,6 +305,13 @@ try:
 except ImportError:
     if DEBUG:
         sys.stderr.write("Error in local_settings\n")
+
+else:
+    if EXTERNAL_KEYS:
+	LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'EXTERNAL_KEYS'] = EXTERNAL_KEYS
+
+print LIVESETTINGS_OPTIONS
+	
 
 try:
     from course_settings import *
@@ -336,6 +348,5 @@ else:
         SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'] = (
                         "%s%s" % (FULL_ASKBOT_URL, 'saml2/ls/'),
                         saml2.BINDING_HTTP_REDIRECT)
-
 
 
