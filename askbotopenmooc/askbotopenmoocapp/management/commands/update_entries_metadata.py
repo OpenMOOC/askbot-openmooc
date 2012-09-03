@@ -12,7 +12,7 @@ HEADER="""<?xml version='1.0' encoding='UTF-8'?>
     xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
     xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
     xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-    entityID="https://idp.example.org/SAML2">
+    Name="askbootSPs">
 """
 
 FOOTER="""
