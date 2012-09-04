@@ -5,36 +5,41 @@
 #header,
 #secondaryHeader,
 #ground,
-#questionCount,
+#questionCount, .question-page #questionCount,
+.question-page #comment-title,
 a.followed, a.follow,
-.question-page .question-body, .question-page .answer-body,
 .question-page #fmanswer h2,
-.box h2, .box h3, .box label,
 .tag, .tag-right,
-
-h1, h2, h3,
+#header h1,
+.section-title,
+#question-list,
+#header,
+#ground,
+.tabBar,
 body {
     font-family: Verdana,'Yanone Kaffeesatz',Arial,sans-serif;
     background: #F1F1F1;
     color: #333333;
 }
 
-#question-list,
-#header,
-#ground {
-    background: #F1F1F1;
-}
-
+.question-page .question-body, .question-page .answer-body,
+.question-page h1,
+.quesiton-content,
 .box h2, .box h3, .box label,
 .box .contributorback,
-h2, h3,
+.user-about,
+.question-page #comment-title,
 .short-summary {
+    font-family: Verdana,'Yanone Kaffeesatz',Arial,sans-serif;
     background: #FFF;
     color: #333333;
 }
 
 .box h2 {
    text-align: left;
+   border-bottom: 1px solid #DDDDDD;
+   margin-bottom: 0.5em;
+   padding: 0;
 }
 
 .short-summary a,
@@ -42,6 +47,7 @@ h2, h3,
 .footer-links a,
 #metaNav a,
 #userToolsNav .user-info, #userToolsNav .user-micro-info,
+.tabsA a, .tabsC a,
 #userToolsNav a,
 a {
     color: #D7641E;
@@ -55,26 +61,58 @@ a {
 #metaNav a:hover,
 #userToolsNav .user-info, #userToolsNav .user-micro-info a:hover,
 #userToolsNav a:hover,
+.tabsA a.on, .tabsC a.on, .tabsA a:hover, .tabsC a:hover,
 a:hover {
     color: #944515;
     text-decoration: underline;
 }
 
-
-
 #ContentRight {
     padding: 5px 10px;
 }
 
-
+.user-info-table,
+.user-stats-table table,
+body.question-page #ContentLeft,
 div.short-summary,
 #ContentRight .box {
-    background-color: #FFFFFF;
+    background-color: #FFF;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     margin-bottom: 20px;
     padding: 15px;
 }
 
+
+body.question-page #ContentLeft {
+    padding: 0;
+}
+
 ul.tags, ul.tags.marked-tags, ul#related-tags {
     display: inline-block;
+}
+
+
+#header .header-media {
+    border-bottom: 1px solid #DDDDDD;
+}
+
+#header h1 {
+  margin: 5px 0;
+}
+
+.question-page .vote-buttons .notify-sidebar label {
+   font-size: 14px;
+} 
+
+.follow-toggle, .submit {
+   width: auto;
+}
+
+#searchBar {
+   width: 250px;
+   
+}
+#searchBar .searchInput {
+   width: auto;
+   font-size: 14px;
 }

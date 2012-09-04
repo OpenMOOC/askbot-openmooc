@@ -297,6 +297,10 @@ LIVESETTINGS_OPTIONS = {
                             u'ENABLE_AUTO_LINKING': u'True',
                             u'MARKUP_CODE_FRIENDLY': u'True'},
                 u'EXTERNAL_KEYS': {u'USE_RECAPTCHA': u'False'},
+                u'QA_SITE_SETTINGS': {u'APP_TITLE': u'Askbot OpenMooc',
+                                      u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
+                                      u'APP_SHORT_NAME': u'Askbot OpenMooc'
+                                    }
            }
      }
 }
@@ -330,6 +334,14 @@ else:
 
         CSRF_COOKIE_NAME = '%s_csrf' % COURSE_NAME
         SESSION_COOKIE_NAME = '%s_sessionid' % COURSE_NAME
+
+
+
+        LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'QA_SITE_SETTINGS'] = {
+                     u'APP_TITLE': COURSE_NAME,
+                     u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
+                     u'APP_SHORT_NAME': COURSE_NAME,
+        }
 
         LOGIN_URL = '%s%s' % (FULL_ASKBOT_URL, 'saml2/login/')
         LOGIN_REDIRECT_URL = FULL_ASKBOT_URL #aadjust, if needed
