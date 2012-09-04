@@ -273,7 +273,7 @@ LIVESETTINGS_OPTIONS = {
                 u'FORUM_DATA_RULES': {u'ALLOW_POSTING_BEFORE_LOGGING_IN': u'False',
                                       u'WIKI_ON': u'False'},
                 u'GENERAL_SKIN_SETTINGS': {u'ASKBOT_DEFAULT_SKIN': u'mooc'},
-                u'GROUP_SETTINGS': {u'GROUPS_ENABLED': u'True'},
+                u'GROUP_SETTINGS': {u'GROUPS_ENABLED': u'False'},
                 u'LOGIN_PROVIDERS': {u'SIGNIN_AOL_ENABLED': u'False',
                                      u'SIGNIN_BLOGGER_ENABLED': u'False',
                                      u'SIGNIN_CLAIMID_ENABLED': u'False',
@@ -335,15 +335,15 @@ else:
         LOGOUT_URL = "%s%s" % (FULL_ASKBOT_URL, 'saml2/logout/')
         LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 
-        SAML_CONFIG['entityid'] = '%s%s' % (FULL_ASKBOT_URL, "/saml2/metadata/")
+        SAML_CONFIG['entityid'] = '%s%s' % (FULL_ASKBOT_URL, "saml2/metadata/")
         SAML_CONFIG['service']['sp']['name'] = '%s - Askbot - OpenMOOC SP' % COURSE_NAME
-        SAML_CONFIG['service']['sp']['endpoints']['assertion_consumer_service'] = (
+        SAML_CONFIG['service']['sp']['endpoints']['assertion_consumer_service'] = [(
                         "%s%s" % (FULL_ASKBOT_URL, 'saml2/acs/'),
-                        saml2.BINDING_HTTP_POST)
+                        saml2.BINDING_HTTP_POST)]
 
 
-        SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'] = (
+        SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'] = [(
                         "%s%s" % (FULL_ASKBOT_URL, 'saml2/ls/'),
-                        saml2.BINDING_HTTP_REDIRECT)
+                        saml2.BINDING_HTTP_REDIRECT)]
 
 
