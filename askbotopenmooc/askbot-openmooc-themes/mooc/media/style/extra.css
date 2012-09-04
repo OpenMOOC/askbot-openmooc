@@ -2,3 +2,23 @@
     color: #FFF;
 }
 
+
+/* Buttons not as verdana
+ #askButton, 
+.short-summary .counts 
+ */
+#header,
+#secondaryHeader,
+#ground,
+#questionCount,
+a.followed, a.follow,
+.question-page .question-body, .question-page .answer-body,
+.question-page #fmanswer h2,
+.box h2, .box h3, .box label,
+.tag, .tag-right,
+
+h1, h2, h3,
+body {
+    font-family: Verdana,'Yanone Kaffeesatz',Arial,sans-serif;
+}
+
