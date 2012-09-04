@@ -29,6 +29,7 @@ body {
 .box .contributorback,
 .user-about,
 .question-page #comment-title,
+.question-page h1 a,
 .short-summary {
     font-family: Verdana,'Yanone Kaffeesatz',Arial,sans-serif;
     background: #FFF;
@@ -49,6 +50,7 @@ body {
 #userToolsNav .user-info, #userToolsNav .user-micro-info,
 .tabsA a, .tabsC a,
 #userToolsNav a,
+.question-page h1 a,
 a {
     color: #D7641E;
     text-decoration: none;
@@ -62,6 +64,7 @@ a {
 #userToolsNav .user-info, #userToolsNav .user-micro-info a:hover,
 #userToolsNav a:hover,
 .tabsA a.on, .tabsC a.on, .tabsA a:hover, .tabsC a:hover,
+.question-page h1 a:hover,
 a:hover {
     color: #944515;
     text-decoration: underline;
@@ -82,6 +85,9 @@ div.short-summary,
     padding: 15px;
 }
 
+.question-page h1 {
+    padding-top: 5px;
+}
 
 body.question-page #ContentLeft {
     padding: 0;
