@@ -266,14 +266,15 @@ SAML_ATTRIBUTE_MAPPING = {
 EXTERNAL_KEYS = None
 
 
-
 LIVESETTINGS_OPTIONS = {
     1: {u'DB': True,
             u'SETTINGS': {
                 u'FORUM_DATA_RULES': {u'ALLOW_POSTING_BEFORE_LOGGING_IN': u'False',
                                       u'WIKI_ON': u'False'},
-                u'GENERAL_SKIN_SETTINGS': {u'ASKBOT_DEFAULT_SKIN': u'mooc'},
-                u'GROUP_SETTINGS': {u'GROUPS_ENABLED': u'False'},
+                u'GENERAL_SKIN_SETTINGS': {u'ASKBOT_DEFAULT_SKIN': u'mooc',
+                                           u'SHOW_LOGO': u'True',
+                                           u'SITE_LOGO_URL': u'images/logo.png'},
+                u'GROUP_SETTINGS': {u'GROUPS_ENABLED': u'False',},
                 u'LOGIN_PROVIDERS': {u'SIGNIN_AOL_ENABLED': u'False',
                                      u'SIGNIN_BLOGGER_ENABLED': u'False',
                                      u'SIGNIN_CLAIMID_ENABLED': u'False',
@@ -296,7 +297,7 @@ LIVESETTINGS_OPTIONS = {
                             u'ENABLE_AUTO_LINKING': u'True',
                             u'MARKUP_CODE_FRIENDLY': u'True'},
                 u'EXTERNAL_KEYS': {u'USE_RECAPTCHA': u'False'},
-            }
+           }
      }
 }
 
