@@ -1,8 +1,3 @@
-#header h1 {
-    color: #FFF;
-}
-
-
 /* Buttons not as verdana
  #askButton, 
 .short-summary .counts 
@@ -20,5 +15,64 @@ a.followed, a.follow,
 h1, h2, h3,
 body {
     font-family: Verdana,'Yanone Kaffeesatz',Arial,sans-serif;
+    background: #F1F1F1;
+    color: #333333;
 }
 
+#question-list,
+#header,
+#ground {
+    background: #F1F1F1;
+}
+
+.box h2, .box h3, .box label,
+.box .contributorback,
+h2, h3,
+.short-summary {
+    background: #FFF;
+}
+
+
+.short-summary a,
+.evenMore a,
+.footer-links a,
+#metaNav a,
+#userToolsNav .user-info, #userToolsNav .user-micro-info,
+#userToolsNav a,
+a {
+    color: #D7641E;
+    text-decoration: none;
+}
+
+
+.short-summary a:hover,
+.evenMore a:hover,
+.footer-links a:hover,
+#metaNav a:hover,
+#userToolsNav .user-info, #userToolsNav .user-micro-info a:hover,
+#userToolsNav a:hover,
+a:hover {
+    color: #944515;
+    text-decoration: underline;
+}
+
+#header h1 {
+    color: #FFF;
+}
+
+#ContentRight {
+    padding: 5px 10px;
+}
+
+
+div.short-summary,
+#ContentRight .box {
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+ul.tags, ul.tags.marked-tags, ul#related-tags {
+    display: inline-block;
+}
