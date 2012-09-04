@@ -108,11 +108,25 @@ ul.tags, ul.tags.marked-tags, ul#related-tags {
    width: auto;
 }
 
+body.anon #searchBar,
 #searchBar {
    width: 250px;
-   
 }
+
+body.anon #searchBar .searchInput,
 #searchBar .searchInput {
    width: auto;
    font-size: 14px;
+}
+
+#metaNav #navTags {
+    background: url("/m/mooc/media/images/sprites.png") no-repeat scroll -50px -5px transparent;
+}
+
+#metaNav #navUsers {
+    background: url("/m/mooc/media/images/sprites.png") no-repeat scroll -125px -5px transparent;
+}
+
+#metaNav #navBadges {
+    background: url("/m/mooc/media/images/sprites.png") no-repeat scroll -210px -5px transparent;
 }
