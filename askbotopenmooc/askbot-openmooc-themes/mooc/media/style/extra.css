@@ -30,8 +30,12 @@ body {
 h2, h3,
 .short-summary {
     background: #FFF;
+    color: #333333;
 }
 
+.box h2 {
+   text-align: left;
+}
 
 .short-summary a,
 .evenMore a,
@@ -56,9 +60,7 @@ a:hover {
     text-decoration: underline;
 }
 
-#header h1 {
-    color: #FFF;
-}
+
 
 #ContentRight {
     padding: 5px 10px;
