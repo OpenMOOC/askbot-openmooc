@@ -83,7 +83,17 @@ div.short-summary,
     background-color: #FFF;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 0;
     padding: 15px;
+}
+
+.box h2 {
+    height: auto;
+}
+
+.question-page .answered-by-owner {
+    background-color: #FFF;
 }
 
 .question-page h1 {
@@ -118,14 +128,16 @@ ul.tags, ul.tags.marked-tags, ul#related-tags {
 
 body.anon #searchBar,
 body.anon.lang-es #searchBar,
+body.lang-es #searchBar,
 #searchBar {
-   width: 250px;
+   width: 220px;
 }
 
 body.anon #searchBar .searchInput,
 body.anon.lang-es #searchBar .searchInput,
+body.lang-es #searchBar .searchInput,
 #searchBar .searchInput {
-   width: auto;
+   width: 160px;
    font-size: 14px;
 }
 

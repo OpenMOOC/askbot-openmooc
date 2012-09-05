@@ -358,6 +358,7 @@ else:
                      u'APP_TITLE': COURSE_NAME,
                      u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
                      u'APP_SHORT_NAME': COURSE_NAME,
+                     u'APP_URL': FULL_ASKBOT_URL,
         }
 
         LOGIN_URL = '%s%s' % (FULL_ASKBOT_URL, 'saml2/login/')
