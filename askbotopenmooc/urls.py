@@ -24,6 +24,10 @@ urlpatterns = patterns('',
     (r'^saml2/', include('djangosaml2.urls')),
     (r'^samltest/', 'djangosaml2.views.echo_attributes'),
 
+    #Mooc App
+    (r'^mooc/', include('askbotopenmooc.askbotopenmoocapp.urls')),
+    #(r'^i18n/', include('django.conf.urls.i18n')),
+
 )
 
 if 'rosetta' in settings.INSTALLED_APPS:

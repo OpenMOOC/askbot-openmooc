@@ -1,6 +1,6 @@
 /* Buttons not as verdana
- #askButton, 
-.short-summary .counts 
+ #askButton,
+.short-summary .counts
  */
 #header,
 #secondaryHeader,
@@ -51,6 +51,7 @@ body {
 .tabsA a, .tabsC a,
 #userToolsNav a,
 .question-page h1 a,
+.btn-link,
 a {
     color: #D7641E;
     text-decoration: none;
@@ -104,22 +105,25 @@ ul.tags, ul.tags.marked-tags, ul#related-tags {
 
 #header h1 {
   margin: 5px 0;
+  line-height: 28px;
 }
 
 .question-page .vote-buttons .notify-sidebar label {
    font-size: 14px;
-} 
+}
 
 .follow-toggle, .submit {
    width: auto;
 }
 
 body.anon #searchBar,
+body.anon.lang-es #searchBar,
 #searchBar {
    width: 250px;
 }
 
 body.anon #searchBar .searchInput,
+body.anon.lang-es #searchBar .searchInput,
 #searchBar .searchInput {
    width: auto;
    font-size: 14px;
@@ -136,3 +140,43 @@ body.anon #searchBar .searchInput,
 #metaNav #navBadges {
     background: url("/m/mooc/media/images/sprites.png") no-repeat scroll -210px -5px transparent;
 }
+
+#languageBar {
+    position: absolute;
+    bottom: 24px;
+    right: 0px;
+}
+
+#languageBar form {
+    float: left;
+}
+
+
+#languageBar form input {
+    font-size: 16px;
+}
+.btn-link {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 0 0 0 0;
+    cursor: pointer;
+    margin-right: 0;
+    padding-right: 0;
+    border-left: 0;
+}
+
+.btn.disabled, .btn[disabled] {
+    background-color: #E6E6E6;
+    color: #333333;
+    background-image: none;
+    box-shadow: none;
+    cursor: default;
+    opacity: 0.65;
+}
+
+.btn-link:hover {
+    background-color: transparent;
+    color: #944515;
+    text-decoration: underline;
+}
+

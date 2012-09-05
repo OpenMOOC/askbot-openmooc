@@ -69,7 +69,21 @@ SITE_ID = 1
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
-LANGUAGE_CODE = 'en'
+USE_L10N = True
+USE_TZ = True
+
+LANGUAGE_CODE = 'es'
+
+gettext = lambda s: s
+
+LANGUAGES = (
+    ('en', gettext('English')),
+    ('es', gettext('Spanish')),
+)
+
+# the default value is 'django_language' but changing this
+# to 'language' makes it easier to integrate with the IdP
+LANGUAGE_COOKIE_NAME = 'language'
 
 # Absolute path to the directory that holds uploaded media
 # Example: "/home/media/media.lawrence.com/"
@@ -103,6 +117,7 @@ MIDDLEWARE_CLASSES = (
     #'askbot.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     #'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     #'django.middleware.cache.FetchFromCacheMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -146,7 +161,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'askbot.context.application_settings',
     'askbotopenmooc.context.openmooc_settings',
-    #'django.core.context_processors.i18n',
+    'django.core.context_processors.i18n',
+    #'django.core.context_processors.tz',
     'askbot.user_messages.context_processors.user_messages',#must be before auth
     'django.core.context_processors.auth', #this is required for admin
     'django.core.context_processors.csrf', #necessary for csrf protection
@@ -313,16 +329,18 @@ except ImportError:
 
 else:
     if EXTERNAL_KEYS:
-	LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'EXTERNAL_KEYS'] = EXTERNAL_KEYS
+        LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'EXTERNAL_KEYS'] = EXTERNAL_KEYS
 
 try:
     from course_settings import *
+    import course_settings
 except ImportError:
     if DEBUG:
         sys.stderr.write("Error in course_settings\n")
 else:
     if 'COURSE_NAME' in dir():
-        DATABASE_NAME = ('%s%s' % (DATABASE_NAME_PREFIX, COURSE_NAME))
+        if  'DATABASE_NAME' in dir(course_settings):
+            DATABASE_NAME = ('%s%s' % (DATABASE_NAME_PREFIX, COURSE_NAME))
         CACHE_PREFIX = DATABASE_NAME #make this unique
 
         MEDIA_ROOT = path.join(COURSE_DIR, 'upfiles')
@@ -334,7 +352,6 @@ else:
 
         CSRF_COOKIE_NAME = '%s_csrf' % COURSE_NAME
         SESSION_COOKIE_NAME = '%s_sessionid' % COURSE_NAME
-
 
 
         LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'QA_SITE_SETTINGS'] = {

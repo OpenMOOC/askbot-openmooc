@@ -1,20 +1,34 @@
 <!-- template header.html -->
 {% import "macros.html" as macros %}
-<div 
-    id="header"
-    class="{% if settings.SHOW_LOGO %}with-logo{% else %}without-logo{% endif %}"
->
+
+<div id="header"
+    class="{% if settings.SHOW_LOGO %}with-logo{% else %}without-logo{% endif %}">
     <div class="content-wrapper header-media">
         <div id="userToolsNav">
             {% include "widgets/user_navigation.html" %}
         </div>
+
+        <div id="languageBar">
+        {% for lang, lang_name in LANGUAGES %}
+          <form action="{% url askbotopenmooc.askbotopenmoocapp.views.set_language %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" value="{{ lang }}" name="language">
+          <input class="btn btn-link"
+            {% if LANGUAGE_CODE == lang %}disabled="disabled"{% endif %}
+                 type="submit" value="{% trans %}{{ lang_name }}{% endtrans %}">
+          </form>
+        {% endfor %}
+        </div>
+
         {% if settings.SHOW_LOGO %}
             {% include "widgets/logo.html" %}
         {% endif %}
 
+
         <div id="metaNav">
             {% include "widgets/meta_nav.html" %}
         </div>
+
         <div class="clean"></div>
 
     </div>
