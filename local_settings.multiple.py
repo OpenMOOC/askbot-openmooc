@@ -18,6 +18,8 @@ STATIC_ROOT = path.join(environ.get('HOME'), "static_root")
 
 DATABASE_NAME_PREFIX = 'askbot_'
 
+LANGUAGE_CODE = 'en'
+
 #DATABASE_ENGINE = 'mysql' # only postgres (>8.3) and mysql are supported so far others have not been tested yet
 #DATABASE_NAME = 'askbot'             # Or path to database file if using sqlite3.
 #DATABASE_USER = 'askbot'             # Not used with sqlite3.
