@@ -19,14 +19,17 @@ DB_NAME=$2
 echo "This scripts is interactive, need mysql password and django askbot admin/password"
 
 set -e
-cd $HOME
-cp -a $COURSE_SKEL courses/$COURSE
-mkdir -p courses/$COURSE/upfiles
-
-
 echo "Mysql root password to create database $DB_NAME"
 echo "CREATE DATABASE $DB_NAME ; GRANT ALL PRIVILEGES ON $DB_NAME.* TO 'askbot'@'localhost'; FLUSH PRIVILEGES;" | mysql -u root -p
 echo "DATABASE $DB_NAME CREATED"
+
+echo "Creating directories"
+cd $HOME
+cp -av $COURSE_SKEL courses/$COURSE
+chmod 755 courses/$COURSE
+
+mkdir -p courses/$COURSE/upfiles
+
 
 cd courses/$COURSE
 
