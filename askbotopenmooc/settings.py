@@ -230,7 +230,7 @@ AUTHENTICATION_BACKENDS = (
 #   ASKBOT_URL = 'forum/'
 #
 ASKBOT_URL = '' #no leading slash, default = '' empty string
-ASKBOT_TRANSLATE_URL = True #translate specific URLs
+ASKBOT_TRANSLATE_URL = False #translate specific URLs
 #_ = lambda v:v #fake translation function for the login url
 #LOGIN_URL = '/%s%s%s' % (ASKBOT_URL,_('account/'),_('signin/'))
 
