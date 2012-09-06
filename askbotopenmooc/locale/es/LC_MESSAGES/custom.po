@@ -1,0 +1,19 @@
+# Askbot OpenMooc customization.
+# Copyright (C) 2012
+# This file is distributed under the same license as the askbot-openmooc package.
+# Antonio Perez-Aranda <aperezaranda@yaco.es>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-06 09:45+0200\n"
+"PO-Revision-Date: 2012-09-06 09:50+0200\n"
+"Last-Translator: Antonio Perez-Aranda <aperezaranda@yaco.es>\n"
+"Language-Team: Yaco Sistemas <www.yaco.es>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+

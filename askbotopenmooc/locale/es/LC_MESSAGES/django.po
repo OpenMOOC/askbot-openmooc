@@ -1,0 +1,145 @@
+# Askbot OpenMooc customization.
+# Copyright (C) 2012
+# This file is distributed under the same license as the askbot-openmooc package.
+# Antonio Perez-Aranda <aperezaranda@yaco.es>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-06 09:45+0200\n"
+"PO-Revision-Date: 2012-09-06 09:50+0200\n"
+"Last-Translator: Antonio Perez-Aranda <aperezaranda@yaco.es>\n"
+"Language-Team: Yaco Sistemas <www.yaco.es>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: settings.py:90
+msgid "English"
+msgstr "English"
+
+#: settings.py:91
+msgid "Spanish"
+msgstr "Español"
+
+#: admin-templates/admin/base_site.html:4
+#: admin-templates/admin/base_site.html:13
+msgid "Asktbot OpenMOOC administration Site"
+msgstr "Administración de Askbot OpenMooc"
+
+#: askbot-openmooc-themes/mooc/templates/meta/bottom_scripts.html:7
+#, python-format
+msgid ""
+"Please note: %(app_name)s requires javascript to work properly, please "
+"enable javascript in your browser, <a href=\"%(noscript_url)s\">here is how</"
+"a>"
+msgstr "Atención: %(app_name)s requiere javascript para trabajar correctamente "
+"active javascript en us navegador, <a href=\"%(noscript_url)s\">puede seguir "
+"esta guía para ello </a>"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:8
+msgid "Question tools"
+msgstr "Herramientas de pregunta"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:11
+msgid "click to unfollow this question"
+msgstr "click para dejar de seguir esta pregunta"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:12
+msgid "Following"
+msgstr "Siguiendo"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:13
+msgid "Unfollow"
+msgstr "Dejar de seguir"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:17
+msgid "click to follow this question"
+msgstr "click para seguir esta pregunta"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:18
+msgid "Follow"
+msgstr "Seguir"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:25
+#, python-format
+msgid "%(count)s follower"
+msgid_plural "%(count)s followers"
+msgstr[0] "%(count)s seguidor"
+msgstr[1] "%(count)s seguidores"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:31
+msgid "email the updates"
+msgstr "Envía actualizaciones por email"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:34
+msgid ""
+"<strong>Here</strong> (once you log in) you will be able to sign up for the "
+"periodic email updates about this question."
+msgstr "<strong>Here</strong> (una vez haya hecho login) puedes solicitar "
+"actualizaciones de esta pregunta por correo."
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:39
+msgid "subscribe to this question rss feed"
+msgstr "Suscribir a la fuente rss de esta pregunta"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:40
+msgid "subscribe to rss feed"
+msgstr "Suscribirse a la fuente de rss"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:48
+msgid "Stats"
+msgstr "Estadísticas"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:50
+msgid "Asked"
+msgstr "Preguntado"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:53
+msgid "Seen"
+msgstr "Vistas"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:53
+msgid "times"
+msgstr "veces"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:56
+msgid "Last updated"
+msgstr "Última actualización"
+
+#: askbot-openmooc-themes/mooc/templates/question/sidebar.html:64
+msgid "Related questions"
+msgstr "Preguntas relacionadas"
+
+#: askbot-openmooc-themes/mooc/templates/widgets/header.html:18
+#, python-format
+msgid "%(lang_name)s"
+msgstr "%(lang_name)s"
+
+#: askbot-openmooc-themes/mooc/templates/widgets/header.html:38
+#, python-format
+msgid " %(COURSE_TITLE)s Q&A "
+msgstr "Herramienta de debate de %(COURSE_TITLE)s"
+
+#: askbot-openmooc-themes/mooc/templates/widgets/user_navigation.html:16
+msgid "sign out"
+msgstr "Log out"
+
+#: askbot-openmooc-themes/mooc/templates/widgets/user_navigation.html:18
+msgid "Hi, there! Please sign in"
+msgstr "Log in"
+
+#: askbot-openmooc-themes/mooc/templates/widgets/user_navigation.html:21
+msgid "settings"
+msgstr "configuración"
+
+#: askbot-openmooc-themes/mooc/templates/widgets/user_navigation.html:23
+msgid "help"
+msgstr "ayuda"
+
+#: askbot-openmooc-themes/mooc/templates/widgets/user_navigation.html:26
+msgid "Go to course site"
+msgstr "Ir al curso"
