@@ -142,15 +142,15 @@ body.lang-es #searchBar .searchInput,
 }
 
 #metaNav #navTags {
-    background: url("/m/mooc/media/images/sprites.png") no-repeat scroll -50px -5px transparent;
+    background: url("/m/mooc/media/images/sprites.png") no-repeat scroll 0 -90px transparent;
 }
 
 #metaNav #navUsers {
-    background: url("/m/mooc/media/images/sprites.png") no-repeat scroll -125px -5px transparent;
+    background: url("/m/mooc/media/images/sprites.png") no-repeat scroll 0 -128px transparent;
 }
 
 #metaNav #navBadges {
-    background: url("/m/mooc/media/images/sprites.png") no-repeat scroll -210px -5px transparent;
+    background: url("/m/mooc/media/images/sprites.png") no-repeat scroll 0 -166px transparent;
 }
 
 #languageBar {
