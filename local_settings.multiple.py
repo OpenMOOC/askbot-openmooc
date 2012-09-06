@@ -9,6 +9,9 @@ SAML2DIR = '/home/mooc/saml2'
 
 STATIC_ROOT = path.join(environ.get('HOME'), "static_root")
 
+
+LANGUAGE_CODE = 'en'
+
 # DEBUG = False #set to True to enable debugging
 
 # STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
@@ -18,7 +21,7 @@ STATIC_ROOT = path.join(environ.get('HOME'), "static_root")
 
 DATABASE_NAME_PREFIX = 'askbot_'
 
-LANGUAGE_CODE = 'en'
+
 
 #DATABASE_ENGINE = 'mysql' # only postgres (>8.3) and mysql are supported so far others have not been tested yet
 #DATABASE_NAME = 'askbot'             # Or path to database file if using sqlite3.
@@ -27,6 +30,8 @@ LANGUAGE_CODE = 'en'
 #DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 #DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
+ASKBOT_DATABASE_USER = 'askbot'
+ASKBOT_DATABASE_PASSWORD = 'askbot'
 
 # saml2 logger
 #

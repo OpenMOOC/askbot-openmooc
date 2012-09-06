@@ -20,14 +20,24 @@ MANAGERS = ADMINS
 
 BASE_URL = 'http://questions.example.com/'
 
+## Deprecated
+# DATABASE_ENGINE = 'django.db.backends.mysql' # only postgres (>8.3) and mysql are supported so far others have not been tested yet
+# DATABASE_NAME = 'askbot'             # Or path to database file if using sqlite3.
+# DATABASE_USER = 'askbot'             # Not used with sqlite3.
+# DATABASE_PASSWORD = 'askbot'         # Not used with sqlite3.
+# DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
+# DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+# DATABASE_NAME_PREFIX = 'askbot_'
 
-DATABASE_ENGINE = 'django.db.backends.mysql' # only postgres (>8.3) and mysql are supported so far others have not been tested yet
-DATABASE_NAME = 'askbot'             # Or path to database file if using sqlite3.
-DATABASE_USER = 'askbot'             # Not used with sqlite3.
-DATABASE_PASSWORD = 'askbot'         # Not used with sqlite3.
-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
-DATABASE_NAME_PREFIX = 'askbot_'
+DATABASES = {
+    'default': {
+        'NAME': 'askbot',
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': 'askbot',
+        'PASSWORD': 'askbot'
+    },
+}
+
 
 #outgoing mail server settings
 SERVER_EMAIL = ''
@@ -164,7 +174,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     #'django.core.context_processors.tz',
     'askbot.user_messages.context_processors.user_messages',#must be before auth
-    'django.core.context_processors.auth', #this is required for admin
+    #'django.core.context_processors.auth', #this is required for admin
+    'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.csrf', #necessary for csrf protection
 )
 
@@ -339,8 +350,18 @@ except ImportError:
         sys.stderr.write("Error in course_settings\n")
 else:
     if 'COURSE_NAME' in dir():
-        if  'DATABASE_NAME' in dir(course_settings):
+        if not 'DATABASE_NAME' in dir(course_settings):
             DATABASE_NAME = ('%s%s' % (DATABASE_NAME_PREFIX, COURSE_NAME))
+
+        DATABASES = {
+            'default': {
+                'NAME': DATABASE_NAME,
+                'ENGINE': 'django.db.backends.mysql',
+                'USER': ASKBOT_DATABASE_USER,
+                'PASSWORD': ASKBOT_DATABASE_PASSWORD,
+            },
+        }
+
         CACHE_PREFIX = DATABASE_NAME #make this unique
 
         MEDIA_ROOT = path.join(COURSE_DIR, 'upfiles')
@@ -354,11 +375,16 @@ else:
         SESSION_COOKIE_NAME = '%s_sessionid' % COURSE_NAME
 
 
+        LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'MARKUP'] = {
+            u'AUTO_LINK_URLS': u'http://%s/\\1/\\2' % (FULL_ASKBOT_URL),
+        }
+
+
         LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'QA_SITE_SETTINGS'] = {
-                     u'APP_TITLE': COURSE_NAME,
-                     u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
-                     u'APP_SHORT_NAME': COURSE_NAME,
-                     u'APP_URL': FULL_ASKBOT_URL,
+            u'APP_TITLE': COURSE_NAME,
+            u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
+            u'APP_SHORT_NAME': COURSE_NAME,
+            u'APP_URL': '%s' % FULL_ASKBOT_URL,
         }
 
         LOGIN_URL = '%s%s' % (FULL_ASKBOT_URL, 'saml2/login/')

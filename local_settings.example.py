@@ -14,12 +14,19 @@ SAML2DIR = path.join(BASEDIR, 'saml2')
 #     format='%(pathname)s TIME: %(asctime)s MSG: %(filename)s:%(funcName)s:%(lineno)d %(message)s',
 # )
 
+
+LANGUAGE_CODE = 'en'
+
+
 #DATABASE_ENGINE = 'mysql' # only postgres (>8.3) and mysql are supported so far others have not been tested yet
 #DATABASE_NAME = 'askbot'             # Or path to database file if using sqlite3.
 #DATABASE_USER = 'askbot'             # Not used with sqlite3.
 #DATABASE_PASSWORD = 'askbot'         # Not used with sqlite3.
 #DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 #DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+
+ASKBOT_DATABASE_USER = 'askbot'
+ASKBOT_DATABASE_PASSWORD = 'askbot'
 
 
 #CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
