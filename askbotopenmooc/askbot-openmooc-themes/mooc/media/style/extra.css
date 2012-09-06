@@ -71,6 +71,11 @@ a:hover {
     text-decoration: underline;
 }
 
+
+#metaNav a.on {
+    color: #944515;
+}
+
 #ContentRight {
     padding: 5px 10px;
 }
@@ -153,10 +158,18 @@ body.lang-es #searchBar .searchInput,
     background: url("/m/mooc/media/images/sprites.png") no-repeat scroll 0 -166px transparent;
 }
 
+
+#metaNav {
+    float: none;
+}
+
+#userToolsNav a {
+    font-size: 12px;
+    font-weight: bold;
+}
+
 #languageBar {
-    position: absolute;
-    bottom: 24px;
-    right: 0px;
+    float: right;
 }
 
 #languageBar form {
@@ -165,7 +178,7 @@ body.lang-es #searchBar .searchInput,
 
 
 #languageBar form input {
-    font-size: 16px;
+    font-size: 12px;
 }
 .btn-link {
     border-color: transparent;
