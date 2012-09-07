@@ -43,3 +43,8 @@ python manage.py add_askbot_user --email "$EMAIL" --user-name "$EMAIL"
 python manage.py set_moderator "$EMAIL"
 
 set +e
+
+echo "Updating SP grouo metadata"
+cd ~/askbot-openbot/
+python manage.py update_entries_metadata
+
