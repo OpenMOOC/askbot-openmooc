@@ -16,7 +16,7 @@ a.followed, a.follow,
 #header,
 .tabBar,
 body {
-    font-family: Verdana,'Yanone Kaffeesatz',Arial,sans-serif;
+    font-family: Verdana,Arial,sans-serif;
     background: #F1F1F1;
     color: #333333;
 }
@@ -163,12 +163,12 @@ body.lang-es #searchBar .searchInput,
 }
 
 #userToolsNav a {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
 }
 
 #ground {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 #languageBar {
@@ -181,7 +181,7 @@ body.lang-es #searchBar .searchInput,
 
 
 #languageBar form input {
-    font-size: 12px;
+    font-size: 14px;
 }
 .btn-link {
     border-color: transparent;
@@ -208,3 +208,11 @@ body.lang-es #searchBar .searchInput,
     text-decoration: underline;
 }
 
+.userList .user ul li {
+    float: left;
+    margin-right: 5px;
+}
+
+.userList .user {
+    width: auto;
+}
