@@ -1,0 +1,12 @@
+<!-- template footer.html -->
+<div id="ground">
+    <div class="content-wrapper">
+        <div class="footer-links-mooc">
+          <ul>
+          {% for link, label in openmooc_settings.FOOTER_LINKS %}
+            <li><a href="{{ link }}">{{ label }}</a></li>
+          {% endfor %}
+          </ul>
+       </div>
+    </div>
+</div>

@@ -216,3 +216,18 @@ body.lang-es #searchBar .searchInput,
 .userList .user {
     width: auto;
 }
+
+.footer-links-mooc ul {
+  list-style-type: none;
+  margin-left: 0;
+}
+
+.footer-links-mooc li {
+  display: inline;
+  padding-right: 1em;
+
+}
+
+.footer-links-mooc li a {
+  font-size: 14px;
+}

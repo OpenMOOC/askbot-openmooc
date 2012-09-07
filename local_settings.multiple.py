@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 import saml2
 from os import path, environ
 
@@ -32,6 +32,37 @@ DATABASE_NAME_PREFIX = 'askbot_'
 
 ASKBOT_DATABASE_USER = 'askbot'
 ASKBOT_DATABASE_PASSWORD = 'askbot'
+
+
+# EXTRA LIVESETTINGS PROPERTIES
+
+EXTRA_SETTINGS = {
+    u'APP_COPYRIGHT':'Open Mooc',
+    u'USE_LICENSE':'False',
+    u'FEEDBACK_SITE_URL': 'https://moocng.org/complaints/'
+}
+
+MOOCNG_URL = 'https://moocng.org/'
+
+FOOTER_LINKS = (
+    ('%slegal' % MOOCNG_URL, {
+        'en': u'Legal',
+        'es': u'Condiciones legales',
+    }),
+    ('%scopyright' % MOOCNG_URL, {
+        'en': u'Moocng Copyright 2012',
+        'es': u'Moocng Copyright 2012',
+    }),
+    ('%stos' % MOOCNG_URL, {
+        'en': u'Terms of Use',
+        'es': u'Términos de uso',
+    }),
+    ('%scontact' % MOOCNG_URL, {
+        'en': u'Contact',
+        'es': u'Contacto',
+    }),
+)
+
 
 # saml2 logger
 #

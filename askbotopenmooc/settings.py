@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ## Django settings for ASKBOT enabled project.
 import os.path
 import sys
@@ -94,6 +95,28 @@ LANGUAGES = (
 # the default value is 'django_language' but changing this
 # to 'language' makes it easier to integrate with the IdP
 LANGUAGE_COOKIE_NAME = 'language'
+
+
+MOOCNG_URL = 'https://moocng.org/'
+
+FOOTER_LINKS = (
+    ('%slegal' % MOOCNG_URL, {
+        'en': u'Legal',
+        'es': u'Condiciones legales',
+    }),
+    ('%scopyright' % MOOCNG_URL, {
+        'en': u'Moocng Copyright 2012',
+        'es': u'Moocng Copyright 2012',
+    }),
+    ('%stos' % MOOCNG_URL, {
+        'en': u'Terms of Use',
+        'es': u'Términos de uso',
+    }),
+    ('%scontact' % MOOCNG_URL, {
+        'en': u'Contact',
+        'es': u'Contacto',
+    }),
+)
 
 # Absolute path to the directory that holds uploaded media
 # Example: "/home/media/media.lawrence.com/"
@@ -384,7 +407,15 @@ else:
             u'APP_TITLE': COURSE_NAME,
             u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
             u'APP_SHORT_NAME': COURSE_NAME,
+            u'APP_COPYRIGHT': EXTRA_SETTINGS.get('APP_COPYRIGHT', 'Open Mooc'),
+            u'ENABLE_GREETING_FOR_ANON_USER': False,
+            #u'FEEDBACK_SITE_URL': EXTRA_SETTINGS.get('FEEDBACK_SITE_URL', ''),
+            u'FEEDBACK_SITE_URL': u"AAAAAAA",
             u'APP_URL': '%s' % FULL_ASKBOT_URL,
+        }
+
+        LIVESETTINGS_OPTIONS[1][u'SETTINGS']['LICENSE_SETTINGS'] = {
+            'USE_LICENSE': EXTRA_SETTINGS.get('USE_LICENSE', 'False'),
         }
 
         LOGIN_URL = '%s%s' % (FULL_ASKBOT_URL, 'saml2/login/')
