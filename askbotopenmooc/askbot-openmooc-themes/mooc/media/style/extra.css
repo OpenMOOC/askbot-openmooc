@@ -14,7 +14,6 @@ a.followed, a.follow,
 .section-title,
 #question-list,
 #header,
-#ground,
 .tabBar,
 body {
     font-family: Verdana,'Yanone Kaffeesatz',Arial,sans-serif;
@@ -166,6 +165,10 @@ body.lang-es #searchBar .searchInput,
 #userToolsNav a {
     font-size: 12px;
     font-weight: bold;
+}
+
+#ground {
+    font-size: 12px;
 }
 
 #languageBar {
