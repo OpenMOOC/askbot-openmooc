@@ -358,7 +358,7 @@ LIVESETTINGS_OPTIONS = {
 }
 
 
-SAML2_COOKIE = 'saml2_session'
+SAML2_COOKIE = 'saml2_logged'
 
 try:
     from local_settings import *
