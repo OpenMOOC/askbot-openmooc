@@ -7,6 +7,7 @@ def openmooc_settings(request):
     copy_attrs = ('COURSE_URL',
                   'COURSE_TITLE',
                   'COURSE_NAME',
+                  'FULL_ASKBOT_URL',
                   )
 
     custom_settings = {}

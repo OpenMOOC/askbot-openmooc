@@ -156,6 +156,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'django.middleware.sqlprint.SqlPrintingMiddleware',
 
+    'askbotopenmooc.askbotopenmoocapp.middlewares.Saml2SSORedirect',
+
     #below is askbot stuff for this tuple
     'askbot.middleware.anon_user.ConnectToSessionMessagesMiddleware',
     'askbot.middleware.forum_mode.ForumModeMiddleware',
@@ -354,6 +356,9 @@ LIVESETTINGS_OPTIONS = {
            }
      }
 }
+
+
+SAML2_COOKIE = 'saml2_session'
 
 try:
     from local_settings import *
