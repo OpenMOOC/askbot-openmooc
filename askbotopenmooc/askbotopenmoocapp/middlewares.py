@@ -17,11 +17,6 @@ class Saml2SSORedirect(object):
                 logout(request)
             return None
 
-        if (saml_cookie in request.COOKIES and
-            request.build_absolute_uri(request.path) != settings.LOGIN_URL):
-            return redirect_to_login(request.path)
-
-
         if 'HTTP_REFERER' in request.META:
             url_referer = urlparse(request.META['HTTP_REFERER'])
             for idp in settings.SAML_CONFIG['service']['sp']['idp'].keys():
@@ -29,5 +24,7 @@ class Saml2SSORedirect(object):
                 if idp_url.hostname == url_referer.hostname:
                     return None
 
-
+        if (saml_cookie in request.COOKIES and
+            request.build_absolute_uri(request.path) != settings.LOGIN_URL):
+            return redirect_to_login(request.path)
 
