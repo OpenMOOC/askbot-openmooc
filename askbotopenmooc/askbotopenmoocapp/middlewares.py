@@ -13,7 +13,9 @@ class Saml2SSORedirect(object):
     def process_request(self, request):
         saml_cookie = getattr(settings, 'SAML2_COOKIE', 'saml2_logged')
         if request.user.is_authenticated():
-            if (not saml_cookie in request.COOKIES):
+            if (not saml_cookie in request.COOKIES and
+                settings.SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'][0][0] !=
+                request.build_absolute_uri(request.path)):
                 logout(request)
             return None
 
