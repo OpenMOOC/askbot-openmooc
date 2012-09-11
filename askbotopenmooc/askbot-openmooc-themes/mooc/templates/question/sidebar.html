@@ -34,8 +34,8 @@
         <label for="question-subscribe-sidebar">{% trans %}<strong>Here</strong> (once you log in) you will be able to sign up for the periodic email updates about this question.{% endtrans %}</label>
         {%endif%}
         <p class="rss">
-            <a
-                href="{{settings.APP_URL}}/feeds/question/{{ question.id }}"
+        <a  {# CHANGE settings.APP_URL to openmooc_settings.FULL_ASKBOT_URL because APP_URL doesnt run #}
+                href="{{ openmooc_settings.FULL_ASKBOT_URL}}feeds/question/{{ question.id }}"
                 title="{% trans %}subscribe to this question rss feed{% endtrans %}"
                 >{% trans %}subscribe to rss feed{% endtrans %}</a>
         </p>
