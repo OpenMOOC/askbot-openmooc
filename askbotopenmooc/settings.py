@@ -85,11 +85,9 @@ USE_TZ = True
 
 LANGUAGE_CODE = 'en'
 
-gettext = lambda s: s
-
 LANGUAGES = (
-    ('en', gettext('English')),
-    ('es', gettext('Spanish')),
+    ('en', u'English'),
+    ('es', u'Español'),
 )
 
 # the default value is 'django_language' but changing this

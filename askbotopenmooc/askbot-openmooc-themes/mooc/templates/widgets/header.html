@@ -9,13 +9,13 @@
         </div>
 
         <div id="languageBar">
-        {% for lang, lang_name in LANGUAGES %}
+        {% for (lang, lang_name) in LANGUAGES %}
           <form action="{% url askbotopenmooc.askbotopenmoocapp.views.set_language %}" method="post">
           {% csrf_token %}
           <input type="hidden" value="{{ lang }}" name="language">
           <input class="btn btn-link"
             {% if LANGUAGE_CODE == lang %}disabled="disabled"{% endif %}
-                 type="submit" value="{% trans %}{{ lang_name }}{% endtrans %}">
+                 type="submit" value="{{ lang_name }}">
           </form>
         {% endfor %}
         </div>
