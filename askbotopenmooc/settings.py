@@ -350,6 +350,9 @@ LIVESETTINGS_OPTIONS = {
                 u'QA_SITE_SETTINGS': {u'APP_TITLE': u'Askbot OpenMooc',
                                       u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
                                       u'APP_SHORT_NAME': u'Askbot OpenMooc'
+                                    },
+                u'SOCIAL_SHARING': {'ENABLE_SHARING_LINKEDIN': u'False',
+                                    'ENABLE_SHARING_IDENTICA': u'False',
                                     }
            }
      }
