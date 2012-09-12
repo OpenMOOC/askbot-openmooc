@@ -44,6 +44,8 @@ EXTRA_SETTINGS = {
 
 MOOCNG_URL = 'https://moocng.org/'
 
+LANGUAGE_COOKIE_DOMAIN = '.example.com'
+
 FOOTER_LINKS = (
     ('%slegal' % MOOCNG_URL, {
         'en': u'Legal',

@@ -93,6 +93,7 @@ LANGUAGES = (
 # the default value is 'django_language' but changing this
 # to 'language' makes it easier to integrate with the IdP
 LANGUAGE_COOKIE_NAME = 'language'
+LANGUAGE_COOKIE_DOMAIN = '.example.com'
 
 
 MOOCNG_URL = 'https://moocng.org/'
