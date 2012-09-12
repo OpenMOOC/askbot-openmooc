@@ -1,7 +1,3 @@
-/* Buttons not as verdana
- #askButton,
-.short-summary .counts
- */
 #header,
 #secondaryHeader,
 #ground,
@@ -230,4 +226,14 @@ body.lang-es #searchBar .searchInput,
 
 .footer-links-mooc li a {
   font-size: 14px;
+}
+
+
+
+.question-page .question-content h1 a {
+    line-height: 1.25;
+}
+
+#logo img {
+    height: auto;
 }
