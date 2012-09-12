@@ -4,7 +4,6 @@ from django.conf import settings
 from django.contrib.auth.views import redirect_to_login
 from django.contrib.auth import logout
 
-
 class Saml2SSORedirect(object):
     """ Redirect to idp if saml2 cookie is present
         to make sure that user is logged
@@ -12,10 +11,16 @@ class Saml2SSORedirect(object):
 
     def process_request(self, request):
         saml_cookie = getattr(settings, 'SAML2_COOKIE', 'saml2_logged')
+        exclude_urls = [ item[0] for item in
+            settings.SAML_CONFIG['service']['sp']['endpoints']['single_logout_service']
+        ]
+        exclude_urls.extend(settings.SAML_CONFIG['service']['sp']['idp'].keys())
+        admin_url = '%s/admin/' % settings.COURSE_NAME
+        exclude_urls.append(request.build_absolute_uri(admin_url))
+        exclude_urls.append(settings.LOGIN_URL)
         if request.user.is_authenticated():
             if (not saml_cookie in request.COOKIES and
-                settings.SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'][0][0] !=
-                request.build_absolute_uri(request.path)):
+                request.build_absolute_uri(request.path)) in exclude_urls:
                 logout(request)
             return None
 
@@ -27,6 +32,6 @@ class Saml2SSORedirect(object):
                     return None
 
         if (saml_cookie in request.COOKIES and
-            request.build_absolute_uri(request.path) != settings.LOGIN_URL):
+           request.build_absolute_uri(request.path) not in exclude_urls):
             return redirect_to_login(request.path)
 
