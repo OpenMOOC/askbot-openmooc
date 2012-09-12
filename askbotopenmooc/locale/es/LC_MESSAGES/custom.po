@@ -17,3 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+msgid "<span class=\"strong\">Here</span>(once you log in) you will be able to"
+"sign up for the periodic email updates about this question."
+msgstr "<span class=\"strong\">Aquí</span>(una vez haya hecho login) puedes"
+"solicitar actualizaciones de esta pregunta por correo."
+
+msgid "Comments"
+msgstr "Comentarios"
