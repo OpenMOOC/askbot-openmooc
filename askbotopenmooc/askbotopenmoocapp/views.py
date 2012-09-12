@@ -20,10 +20,16 @@ from django.views import i18n
 def set_language(request):
     response = i18n.set_language(request)
     if request.method == 'POST':
-        
-        site = get_current_site(request)
+
+        if hasattr(settings, 'LANGUAGE_COOKIE_DOMAIN'):
+            cookie_domain = settings.LANGUAGE_COOKIE_DOMAIN
+        else:
+            site = get_current_site(request)
+            cookie_domain = site.domain
+
         lang_code = request.POST.get('language', None)
-        response.set_cookie(settings.LANGUAGE_COOKIE_NAME,
-                            lang_code,
-                            domain=site.domain)
+        if lang_code:
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME,
+                                lang_code,
+                                domain=cookie_domain)
     return response
