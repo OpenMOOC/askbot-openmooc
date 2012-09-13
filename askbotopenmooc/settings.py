@@ -392,7 +392,15 @@ else:
             },
         }
 
-        CACHE_PREFIX = DATABASE_NAME #make this unique
+        #CACHE_PREFIX = DATABASE_NAME #make this unique
+        CACHES = {
+            'default': {
+                'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+                'LOCATION': '127.0.0.1:11211',
+                'KEY_PREFIX': DATABASE_NAME,
+            }
+        }
+
 
         MEDIA_ROOT = path.join(COURSE_DIR, 'upfiles')
         MEDIA_URL = '/%s/upfiles/' % COURSE_NAME
