@@ -14,15 +14,10 @@ class Saml2SSORedirect(object):
         exclude_urls = [ item[0] for item in
             settings.SAML_CONFIG['service']['sp']['endpoints']['single_logout_service']
         ]
-        exclude_urls.extend(settings.SAML_CONFIG['service']['sp']['idp'].keys())
-        admin_url = '%s/admin/' % settings.COURSE_NAME
+        admin_url = '/%s/admin/' % settings.COURSE_NAME
         exclude_urls.append(request.build_absolute_uri(admin_url))
         exclude_urls.append(settings.LOGIN_URL)
-        if request.user.is_authenticated():
-            if (not saml_cookie in request.COOKIES and
-                request.build_absolute_uri(request.path)) in exclude_urls:
-                logout(request)
-            return None
+
 
         if 'HTTP_REFERER' in request.META:
             url_referer = urlparse(request.META['HTTP_REFERER'])
@@ -31,7 +26,12 @@ class Saml2SSORedirect(object):
                 if idp_url.hostname == url_referer.hostname:
                     return None
 
+        if request.user.is_authenticated():
+            if (not saml_cookie in request.COOKIES and
+                not request.build_absolute_uri(request.path)) in exclude_urls:
+                logout(request)
+            return None
+
         if (saml_cookie in request.COOKIES and
            request.build_absolute_uri(request.path) not in exclude_urls):
             return redirect_to_login(request.path)
-
