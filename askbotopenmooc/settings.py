@@ -433,6 +433,11 @@ else:
             'USE_LICENSE': EXTRA_SETTINGS.get('USE_LICENSE', 'False'),
         }
 
+        if 'BOOTSTRAP_MODE' in dir():
+            LIVESETTINGS_OPTIONS[1][u'SETTINGS']['SITE_MODES'] = {
+                    'ACTIVATE_BOOTSTRAP_MODE' : "%s" % BOOTSTRAP_MODE,
+            }
+
         LOGIN_URL = '%s%s' % (FULL_ASKBOT_URL, 'saml2/login/')
         LOGIN_REDIRECT_URL = FULL_ASKBOT_URL #aadjust, if needed
         LOGOUT_URL = "%s%s" % (FULL_ASKBOT_URL, 'saml2/logout/')
