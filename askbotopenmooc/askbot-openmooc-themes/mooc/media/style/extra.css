@@ -40,12 +40,12 @@ body {
 
 .short-summary a,
 .evenMore a,
-.footer-links a,
 #metaNav a,
 #userToolsNav .user-info, #userToolsNav .user-micro-info,
 .tabsA a, .tabsC a,
 #userToolsNav a,
 .question-page h1 a,
+.footer-no-link,
 .btn-link,
 a {
     color: #D7641E;
@@ -55,7 +55,6 @@ a {
 
 .short-summary a:hover,
 .evenMore a:hover,
-.footer-links a:hover,
 #metaNav a:hover,
 #userToolsNav .user-info, #userToolsNav .user-micro-info a:hover,
 #userToolsNav a:hover,
@@ -227,8 +226,6 @@ body.lang-es #searchBar .searchInput,
 .footer-links-mooc li a {
   font-size: 14px;
 }
-
-
 
 .question-page .question-content h1 a {
     line-height: 1.25;

@@ -4,7 +4,11 @@
         <div class="footer-links-mooc">
           <ul>
           {% for link, label in openmooc_settings.FOOTER_LINKS %}
+            {% if link %}
             <li><a href="{{ link }}">{{ label }}</a></li>
+            {% else %}
+            <li class="footer-no-link">{{ label }}</li>
+            {% endif %}
           {% endfor %}
           </ul>
        </div>
