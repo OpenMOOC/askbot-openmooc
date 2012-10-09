@@ -260,9 +260,9 @@ Create a new course
 
 #. Update saml2 metadata entities. Execute this in askbot-openmooc directory:
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-     python manage.py update_entries_metadata
+      python manage.py update_entries_metadata
 
 #. Go to your idp and call update entries, You can go to a url like this:
    https://idp.example.com/simplesaml/module.php/metarefresh/fetch.php
@@ -275,16 +275,16 @@ At first, I recommend you to put COURSE_SKEL path in your .bash_profile file.
 And then, copy askbot-openmooc/courses_example/courses/skel to your selected
 path. ~/course_skel could be good. You must be in a virtualenv loaded.
 
-  .. code-block:: bash
+.. code-block:: bash
 
-     cp -a ~/askbot-openmooc/courses_example/courses/skel/ ~/course_skel
+   cp -a ~/askbot-openmooc/courses_example/courses/skel/ ~/course_skel
 
 Then, you can use the script as follow, remember that root mysql password will
 be asked you, as a teacher user and django admin user:
 
 Remember that database name can't have spaces, slash, dash or diacritical marks
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    ~/askbot-openmooc/utils/create_course.sh course-slug databasename
+   ~/askbot-openmooc/utils/create_course.sh course-slug databasename
 
