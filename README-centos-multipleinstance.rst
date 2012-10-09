@@ -78,16 +78,19 @@ System Dependencies
         FLUSH PRIVILEGES;
 
 #. Download askbot-openmooc package (clone repository or download tar.gz package)
+
    .. warning::
 
       These links are linked to development branch
 
   * Clone repository
+
      .. code-block:: bash
 
          git clone git://github.com/OpenMOOC/askbot-openmooc.git
 
   * Download lastest package
+
      .. code-block:: bash
 
          wget https://github.com/OpenMOOC/askbot-openmooc/tarball/master
@@ -105,6 +108,7 @@ System Dependencies
       source askbot-openmooc-venv/bin/activate
 
 #. Change to askbot-opemooc directory and execute deployment:
+
    .. code-block:: bash
 
       cd askbot-openmooc
@@ -211,9 +215,9 @@ Create a new course
 
 #. If this is your first course, create a course template directory.
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-     cp -R /home/mooc/askbot-openmooc/courses_example/courses/skel \
+      cp -R /home/mooc/askbot-openmooc/courses_example/courses/skel \
          ~/skel_course
 
 
@@ -223,7 +227,7 @@ Create a new course
 
       cp -R ~/skel_course courses/yourcoursename
 
-#. Remeber edit the file course_settings.py and change COURSE_TITLE and another
+#. Remember edit the file course_settings.py and change COURSE_TITLE and another
    settings like COURSE_URL (moocng course url).
 
 #. Create database
@@ -262,4 +266,25 @@ Create a new course
 
 #. Go to your idp and call update entries, You can go to a url like this:
    https://idp.example.com/simplesaml/module.php/metarefresh/fetch.php
+
+
+Create a new course using script create_curse.sh
+************************************************
+
+At first, I recommend you to put COURSE_SKEL path in your .bash_profile file.
+And then, copy askbot-openmooc/courses_example/courses/skel to your selected
+path. ~/course_skel could be good. You must be in a virtualenv loaded.
+
+  .. code-block:: bash
+
+     cp -a ~/askbot-openmooc/courses_example/courses/skel/ ~/course_skel
+
+Then, you can use the script as follow, remember that root mysql password will
+be asked you, as a teacher user and django admin user:
+
+Remember that database name can't have spaces, slash, dash or diacritical marks
+
+  .. code-block:: bash
+
+    ~/askbot-openmooc/utils/create_course.sh course-slug databasename
 
