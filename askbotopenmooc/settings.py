@@ -371,6 +371,8 @@ except ImportError:
 else:
     if EXTERNAL_KEYS:
         LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'EXTERNAL_KEYS'] = EXTERNAL_KEYS
+    DATABASES['default']['USER'] = ASKBOT_DATABASE_USER
+    DATABASES['default']['PASSWORD'] = ASKBOT_DATABASE_PASSWOR
 
 try:
     from course_settings import *
