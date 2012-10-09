@@ -18,6 +18,7 @@ System Dependencies
    - git (for develop only)
    - httpd
    - mod_wsgi
+   - mod_ssl
 
 #. Set memcached and mysql-server to start on system boot.
 
