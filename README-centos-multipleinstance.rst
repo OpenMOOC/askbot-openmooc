@@ -26,14 +26,21 @@ System Dependencies
       Remeber start mysqld and set root password
 
 
-    .. code:: bash
+    .. code-block:: bash
 
        # chkconfig mysqld on
        # chkconfig memcached on
 
+#. Create user mooc
+
+    .. code-block:: bash
+
+        # adduser mooc
+
+
 #. Install virtualenv:
 
-    .. code:: bash
+    .. code-block:: bash
 
        # easy_install virtualenv
 
@@ -42,7 +49,7 @@ System Dependencies
     .. warning::
        This link (ln) is mandatory to run saml2 auth
 
-    .. code:: bash
+    .. code-block:: bash
 
        # yum install http://epel.mirror.mendoza-conicet.gob.ar/6/x86_64/xmlsec1-1.2.16-2.el6.x86_64.rpm  http://epel.mirror.mendoza-conicet.gob.ar/6/x86_64/xmlsec1-openssl-1.2.16-2.el6.x86_64.rpm
        # ln -s /usr/lib64/libxmlsec1-openssl.so.1 /usr/lib64/libxmlsec1-openssl.so
@@ -56,13 +63,13 @@ System Dependencies
 
    #. Create database:
 
-      .. code:: bash
+      .. code-block:: bash
 
         mysqladmin -p -u root create askbot
 
    #. Create user and give permissions to access askbot.
 
-      .. code:: bash
+      .. code-block:: bash
 
         mysql -p -u root
         GRANT ALL PRIVILEGES ON askbot.* TO 'askbot'@'localhost' IDENTIFIED
@@ -74,39 +81,41 @@ System Dependencies
 
       These links are linked to development branch
 
-   * Clone repository
-     .. code:: bash
+  * Clone repository
+     .. code-block:: bash
 
          git clone git://github.com/OpenMOOC/askbot-openmooc.git
 
-   * Download lastest package
-     .. code:: bash
+  * Download lastest package
+     .. code-block:: bash
 
          wget https://github.com/OpenMOOC/askbot-openmooc/tarball/master
 
 #. Create virtualenv:
 
-   .. code:: bash
+   .. code-block:: bash
 
       virtualenv --system-site-packages askbot-openmooc-venv
 
 #. Load virtualenv:
 
-   .. code:: bash
+   .. code-block:: bash
 
       source askbot-openmooc-venv/bin/activate
 
 #. Change to askbot-opemooc directory and execute deployment:
-   .. code:: bash
+   .. code-block:: bash
 
       cd askbot-openmooc
       python setup.py develop
 
-#. Install django-avatar
+#. Install django-avatar *(DISABLED)*
+
+   Django-avatar repository doesn't exits
 
    using this: http://askbot.org/doc/optional-modules.html#uploaded-avatars
 
-   .. code:: bash
+   .. code-block:: bash
 
       pip install -e git+git://github.com/ericflo/django-avatar.git#egg=django-avatar
 
@@ -118,7 +127,7 @@ System Dependencies
    * Copy askbot-openmooc/saml2 to your saml2 directory, like $HOME/saml2
    * Create certs directory
 
-     .. code:: bash
+     .. code-block:: bash
 
         mkdir $HOME/saml2/certs.
 
@@ -126,7 +135,7 @@ System Dependencies
      SAML2DIR in local_settings.py to specify saml2 base dir. You must copy
      askbot-openmooc/asml2/attribute-maps to SAML2DIR directory.
 
-     .. code:: bash
+     .. code-block:: bash
 
         openssl genrsa -des3 -out server.key 1024
         openssl req -new -key server.key -out server.csr
@@ -146,31 +155,45 @@ System Dependencies
 
 #. Recreate statics file directory with collectstatic command:
 
-   .. code:: bash
+   .. code-block:: bash
 
       python manage.py collectstatic
 
 #. Allow apache2 user access to static files and create wsgi socket directory
 
-   .. code:: bash
+   .. code-block:: bash
 
       # gpasswd -a apache mooc
       mkdir /home/mooc/sockets
       chmod g=rx /home/mooc
+      chmod 770 /home/mooc/sockets
       chmod go= /home/mooc/*
       chmod g=rx -R /home/mooc/static_root
 
 
 #. Copy apache example config to apache
 
-   .. code:: bash
+   .. code-block:: bash
 
-      # cp /home/mooc/askboot-openmooc/apache2/questions-site-multipleinstance.conf \
+      # cp /home/mooc/askbot-openmooc/apache2/questions-site-multipleinstance.conf \
       /etc/httpd/conf.d/questions-site-multipleinstance.conf
+      # service httpd reload
 
 
 #. Add metadata entities url to your idp. The url for file generated is like
-   this: http://questions.example.com/m/group-metadata.xml
+   this: http://questions.example.com/m/group-metadata.xml Execute the follow
+   command to genereate it when you have any courses:
+
+   .. code-block:: bash
+
+      python manage.py update_entries_metadata
+
+
+#. Enable cron process:
+
+   .. code-block:: bash
+
+      # cp /home/mooc/askbot-openmooc/crond/* /etc/cron.daily
 
 Create a new course
 *******************
@@ -179,16 +202,15 @@ Create a new course
    You can change this directory modifying setting COURSES_DIR property in
    local_settings.py and apply this change to apache conf.
 
-
-   .. code:: bash
+   .. code-block:: bash
 
       usermod -a -G mooc apache
       mkdir /home/mooc/courses
-      chmod g=rx o= /home/mooc/courses
+      chmod 750 /home/mooc/courses
 
 #. If this is your first course, create a course template directory.
 
-  .. code:: bash
+  .. code-block:: bash
 
      cp -R /home/mooc/askbot-openmooc/courses_example/courses/skel \
          ~/skel_course
@@ -196,7 +218,7 @@ Create a new course
 
 #. Create a new course directory copying your skel_course to yout COURSES_DIR
 
-   .. code:: bash
+   .. code-block:: bash
 
       cp -R ~/skel_course courses/yourcoursename
 
@@ -205,17 +227,19 @@ Create a new course
 
 #. Create database
 
-    .. code:: bash
+   .. code-block:: bash
 
-       mysqladmin -p -u root create askbot_yourcoursename
-       mysql -p -u root
+      mysqladmin -p -u root create askbot_yourcoursename
+      mysql -p -u root
 
-       GRANT ALL PRIVILEGES ON askbot_yourcoursename.* TO 'askbot'@'localhost';
-       FLUSH PRIVILEGES;
+   .. code-block:: sql
+
+      GRANT ALL PRIVILEGES ON askbot_yourcoursename.* TO 'askbot'@'localhost';
+      FLUSH PRIVILEGES;
 
 #. Initialize database. With virtualenv enabled, do this:
 
-   .. code:: bash
+   .. code-block:: bash
 
       cd /home/mooc/courses/yourcoursename
       python manage.py syncdb
@@ -223,7 +247,7 @@ Create a new course
 
 #. Create teacher user and it as moderator:
 
-   .. code:: bash
+   .. code-block:: bash
 
       python manage.py add_askbot_user --user-name=teachername \
             --email='teachermail@example.com'
@@ -231,7 +255,7 @@ Create a new course
 
 #. Update saml2 metadata entities. Execute this in askbot-openmooc directory:
 
-  .. code:: bash
+  .. code-block:: bash
 
      python manage.py update_entries_metadata
 
