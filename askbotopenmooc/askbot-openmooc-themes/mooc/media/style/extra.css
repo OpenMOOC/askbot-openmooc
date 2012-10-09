@@ -12,7 +12,7 @@ a.followed, a.follow,
 #header,
 .tabBar,
 body {
-    font-family: Verdana,Arial,sans-serif;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     background: #F1F1F1;
     color: #333333;
 }
@@ -26,7 +26,7 @@ body {
 .question-page #comment-title,
 .question-page h1 a,
 .short-summary {
-    font-family: Verdana,Arial,sans-serif;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     background: #FFF;
     color: #333333;
 }
@@ -48,7 +48,7 @@ body {
 .footer-no-link,
 .btn-link,
 a {
-    color: #D7641E;
+    color: #0088CC
     text-decoration: none;
 }
 
@@ -61,13 +61,13 @@ a {
 .tabsA a.on, .tabsC a.on, .tabsA a:hover, .tabsC a:hover,
 .question-page h1 a:hover,
 a:hover {
-    color: #944515;
+    color: #005580;
     text-decoration: underline;
 }
 
 
 #metaNav a.on {
-    color: #944515;
+    color: #005580;
 }
 
 #ContentRight {
