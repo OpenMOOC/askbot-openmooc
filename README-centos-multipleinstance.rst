@@ -24,40 +24,41 @@ System Dependencies
 
    .. warning::
 
-      Remeber start mysqld and set root password
+     Remeber start mysqld and set root password
 
+   .. code-block:: bash
 
-    .. code-block:: bash
-
-       # chkconfig mysqld on
-       # chkconfig memcached on
+     # chkconfig mysqld on
+     # chkconfig memcached on
 
 #. Create user mooc
 
-    .. code-block:: bash
+   .. code-block:: bash
 
-        # adduser mooc
+      # adduser mooc
 
 
 #. Install virtualenv:
 
-    .. code-block:: bash
+   .. code-block:: bash
 
-       # easy_install virtualenv
+     # easy_install virtualenv
 
 #. Install xmlsec1 from EPEL repository:
 
-    .. warning::
-       This link (ln) is mandatory to run saml2 auth
+   .. warning::
 
-    .. code-block:: bash
+     This link (ln) is mandatory to run saml2 auth
 
-       # yum install http://epel.mirror.mendoza-conicet.gob.ar/6/x86_64/xmlsec1-1.2.16-2.el6.x86_64.rpm  http://epel.mirror.mendoza-conicet.gob.ar/6/x86_64/xmlsec1-openssl-1.2.16-2.el6.x86_64.rpm
-       # ln -s /usr/lib64/libxmlsec1-openssl.so.1 /usr/lib64/libxmlsec1-openssl.so
+   .. code-block:: bash
+
+     # yum install http://epel.mirror.mendoza-conicet.gob.ar/6/x86_64/xmlsec1-1.2.16-2.el6.x86_64.rpm  http://epel.mirror.mendoza-conicet.gob.ar/6/x86_64/xmlsec1-openssl-1.2.16-2.el6.x86_64.rpm
+     # ln -s /usr/lib64/libxmlsec1-openssl.so.1 /usr/lib64/libxmlsec1-openssl.so
 
 #. Create database:
 
    .. note::
+
       If you have just installed mysqld, you need set a password
       You can get how do this by starting mysql service executing
       service mysqld start
@@ -83,23 +84,23 @@ System Dependencies
 
       These links are linked to development branch
 
-  * Clone repository
+   * Clone repository
 
      .. code-block:: bash
 
-         git clone git://github.com/OpenMOOC/askbot-openmooc.git
+       git clone git://github.com/OpenMOOC/askbot-openmooc.git
 
-  * Download lastest package
+   * Download lastest package
 
      .. code-block:: bash
 
-         wget https://github.com/OpenMOOC/askbot-openmooc/tarball/master
+       wget https://github.com/OpenMOOC/askbot-openmooc/tarball/master
 
 #. Create virtualenv:
 
    .. code-block:: bash
 
-      virtualenv --system-site-packages askbot-openmooc-venv
+     virtualenv --system-site-packages askbot-openmooc-venv
 
 #. Load virtualenv:
 
@@ -111,8 +112,8 @@ System Dependencies
 
    .. code-block:: bash
 
-      cd askbot-openmooc
-      python setup.py develop
+     cd askbot-openmooc
+     python setup.py develop
 
 #. Install django-avatar *(DISABLED)*
 
@@ -122,7 +123,7 @@ System Dependencies
 
    .. code-block:: bash
 
-      pip install -e git+git://github.com/ericflo/django-avatar.git#egg=django-avatar
+     pip install -e git+git://github.com/ericflo/django-avatar.git#egg=django-avatar
 
 #. For testing purposes, you should create your own self-signed certificates.
    For other purposes buy them:
@@ -134,7 +135,7 @@ System Dependencies
 
      .. code-block:: bash
 
-        mkdir $HOME/saml2/certs.
+       mkdir $HOME/saml2/certs.
 
    * Copy server.key and server.crt to askbot-openmooc/saml2/certs or change
      SAML2DIR in local_settings.py to specify saml2 base dir. You must copy
