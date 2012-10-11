@@ -376,6 +376,7 @@ else:
         LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'EXTERNAL_KEYS'] = EXTERNAL_KEYS
     DATABASES['default']['USER'] = ASKBOT_DATABASE_USER
     DATABASES['default']['PASSWORD'] = ASKBOT_DATABASE_PASSWORD
+    DATABASES['default']['ENGINE'] = ASKBOT_DATABASE_ENGINE
 
 try:
     from course_settings import *
