@@ -388,7 +388,6 @@ else:
         if not 'DATABASE_NAME' in dir(course_settings):
             DATABASE_NAME = ('%s%s' % (DATABASE_NAME_PREFIX, COURSE_NAME))
 
-        if
         DATABASES = {
             'default': {
                 'NAME': DATABASE_NAME,
