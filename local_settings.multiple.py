@@ -32,7 +32,7 @@ DATABASE_NAME_PREFIX = 'askbot_'
 
 ASKBOT_DATABASE_USER = 'askbot'
 ASKBOT_DATABASE_PASSWORD = 'askbot'
-
+ASKBOT_DATABASE_ENGINE= 'django.db.backends.mysql'
 
 BOOTSTRAP_MODE = True
 

@@ -30,6 +30,9 @@ BASE_URL = 'http://questions.example.com/'
 # DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 # DATABASE_NAME_PREFIX = 'askbot_'
 
+
+ASKBOT_DATABASE_ENGINE = 'django.db.backends.mysql'
+
 DATABASES = {
     'default': {
         'NAME': 'askbot',
@@ -385,10 +388,11 @@ else:
         if not 'DATABASE_NAME' in dir(course_settings):
             DATABASE_NAME = ('%s%s' % (DATABASE_NAME_PREFIX, COURSE_NAME))
 
+        if
         DATABASES = {
             'default': {
                 'NAME': DATABASE_NAME,
-                'ENGINE': 'django.db.backends.mysql',
+                'ENGINE': ASKBOT_DATABASE_ENGINE,
                 'USER': ASKBOT_DATABASE_USER,
                 'PASSWORD': ASKBOT_DATABASE_PASSWORD,
             },
