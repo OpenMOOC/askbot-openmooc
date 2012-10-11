@@ -201,7 +201,44 @@ System Dependencies
 
       # cp /home/mooc/askbot-openmooc/crond/* /etc/cron.daily
 
-Create a new course
+
+
+create your first course using script create_curse.sh
+*****************************************************
+
+at first, i recommend you to put course_skel path in your .bash_profile file.
+and then, copy askbot-openmooc/courses_example/courses/skel to your selected
+path. ~/course_skel could be good. you must be in a virtualenv loaded.
+
+.. code-block:: bash
+
+   cp -a ~/askbot-openmooc/courses_example/courses/skel/ ~/course_skel
+
+then, you can use the script as follow, remember that root mysql password will
+be asked you, as a teacher user and django admin user:
+
+remember that database name can't have spaces, slash, dash or diacritical marks
+
+.. code-block:: bash
+
+   ~/askbot-openmooc/utils/create_course.sh course-slug databasename
+
+
+Create a new course using script create_curse.sh
+************************************************
+
+With COURSE_SKEL path in your .bash_profile file and virtualenv loaded.  you
+can use the script as follow, remember that root mysql password will be asked
+you, as a teacher user and django admin user:
+
+Remember that database name can't have spaces, slash, dash or diacritical marks
+
+.. code-block:: bash
+
+   ~/askbot-openmooc/utils/create_course.sh course-slug databasename
+
+
+create a new course
 *******************
 
 #. Create courses directory and allow apache2 access to it (upfiles directory).
@@ -267,25 +304,4 @@ Create a new course
 
 #. Go to your idp and call update entries, You can go to a url like this:
    https://idp.example.com/simplesaml/module.php/metarefresh/fetch.php
-
-
-Create a new course using script create_curse.sh
-************************************************
-
-At first, I recommend you to put COURSE_SKEL path in your .bash_profile file.
-And then, copy askbot-openmooc/courses_example/courses/skel to your selected
-path. ~/course_skel could be good. You must be in a virtualenv loaded.
-
-.. code-block:: bash
-
-   cp -a ~/askbot-openmooc/courses_example/courses/skel/ ~/course_skel
-
-Then, you can use the script as follow, remember that root mysql password will
-be asked you, as a teacher user and django admin user:
-
-Remember that database name can't have spaces, slash, dash or diacritical marks
-
-.. code-block:: bash
-
-   ~/askbot-openmooc/utils/create_course.sh course-slug databasename
 
