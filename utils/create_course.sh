@@ -34,7 +34,12 @@ mkdir -p courses/$COURSE/upfiles
 cd courses/$COURSE
 
 sed "s/^DATABASE_NAME.*$/DATABASE_NAME = '$DB_NAME'/g" -i course_settings.py
-python manage.py syncdb --migrate
+if [ -d fixtures ]; then
+        python manage.py syncdb --migrate --noinput
+        find fixtures -type f -exec python manage.py loaddata {} \;
+else
+        python manage.py syncdb --migrate --noinput
+fi
 
 echo "Give user/teacher (email) moderator"
 read -p Email: EMAIL
