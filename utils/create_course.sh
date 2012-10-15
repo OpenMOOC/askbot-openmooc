@@ -45,6 +45,6 @@ python manage.py set_moderator "$EMAIL"
 set +e
 
 echo "Updating SP grouo metadata"
-cd ~/askbot-openbot/
+cd ~/askbot-openmooc/
 python manage.py update_entries_metadata
 
