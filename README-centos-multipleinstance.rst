@@ -44,6 +44,19 @@ System Dependencies
 
      # easy_install virtualenv
 
+
+#. Download spanish translated branch:
+
+   .. code-block: bash
+
+   git clone git://github.com/OpenMOOC/askbot-devel.git
+   git checkout -b spanish-translations origin/spanish-translations
+
+
+   ## Check the last changed author is someone from @yaco.es
+   git log | head
+
+
 #. Install xmlsec1 from EPEL repository:
 
    .. warning::
@@ -77,6 +90,7 @@ System Dependencies
         GRANT ALL PRIVILEGES ON askbot.* TO 'askbot'@'localhost' IDENTIFIED
         BY 'askbot';
         FLUSH PRIVILEGES;
+
 
 #. Download askbot-openmooc package (clone repository or download tar.gz package)
 
@@ -259,7 +273,7 @@ create a new course
          ~/skel_course
 
 
-#. Create a new course directory copying your skel_course to yout COURSES_DIR
+#. Create a new course directory copying your skel_course to your COURSES_DIR
 
    .. code-block:: bash
 
