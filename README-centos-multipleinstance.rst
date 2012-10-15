@@ -49,11 +49,11 @@ System Dependencies
 
    .. code-block: bash
 
-      git clone git://github.com/OpenMOOC/askbot-devel.git
-      git checkout -b spanish-translations origin/spanish-translations
+     git clone git://github.com/OpenMOOC/askbot-devel.git
+     git checkout -b spanish-translations origin/spanish-translations
 
-      ## Check the last changed author is someone from @yaco.es
-      git log | head
+     ## Check the last changed author is someone from @yaco.es
+     git log | head
 
 
 #. Install xmlsec1 from EPEL repository:
