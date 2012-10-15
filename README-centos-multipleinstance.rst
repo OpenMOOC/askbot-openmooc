@@ -47,7 +47,7 @@ System Dependencies
 
 #. Download spanish translated branch:
 
-   .. code-block: bash
+   .. code-block:: bash
 
      git clone git://github.com/OpenMOOC/askbot-devel.git
      git checkout -b spanish-translations origin/spanish-translations
