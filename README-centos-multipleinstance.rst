@@ -45,17 +45,6 @@ System Dependencies
      # easy_install virtualenv
 
 
-#. Download spanish translated branch:
-
-   .. code-block:: bash
-
-     git clone git://github.com/OpenMOOC/askbot-devel.git
-     git checkout -b spanish-translations origin/spanish-translations
-
-     ## Check the last changed author is someone from @yaco.es
-     git log | head
-
-
 #. Install xmlsec1 from EPEL repository:
 
    .. warning::
@@ -66,6 +55,7 @@ System Dependencies
 
      # yum install http://epel.mirror.mendoza-conicet.gob.ar/6/x86_64/xmlsec1-1.2.16-2.el6.x86_64.rpm  http://epel.mirror.mendoza-conicet.gob.ar/6/x86_64/xmlsec1-openssl-1.2.16-2.el6.x86_64.rpm
      # ln -s /usr/lib64/libxmlsec1-openssl.so.1 /usr/lib64/libxmlsec1-openssl.so
+
 
 #. Create database:
 
@@ -89,6 +79,18 @@ System Dependencies
         GRANT ALL PRIVILEGES ON askbot.* TO 'askbot'@'localhost' IDENTIFIED
         BY 'askbot';
         FLUSH PRIVILEGES;
+
+
+#. Download spanish translated branch:
+
+   .. code-block:: bash
+
+     git clone git://github.com/OpenMOOC/askbot-devel.git
+     cd askbot-devel
+     git checkout -b spanish-translations origin/spanish-translations
+
+     ## Check the last changed author is someone from @yaco.es
+     git log | head
 
 
 #. Download askbot-openmooc package (clone repository or download tar.gz package)
@@ -125,7 +127,9 @@ System Dependencies
 
    .. code-block:: bash
 
-     cd askbot-openmooc
+     cd askbot-devel
+     python setup.py develop
+     cd ../askbot-openmooc
      python setup.py develop
 
 #. Install django-avatar *(DISABLED)*
