@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="sprites.svg"
-   inkscape:export-filename="/home/bcorrales/personal/askbot/sprites.png"
+   inkscape:export-filename="/home/aperezaranda/proyectos/mooc/askbot-openmooc/askbotopenmooc/askbot-openmooc-themes/mooc/media/images/sprites.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -222,7 +222,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="4"
      inkscape:cx="89.452071"
-     inkscape:cy="102.3521"
+     inkscape:cy="112.3521"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -239,7 +239,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>

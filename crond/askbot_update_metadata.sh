@@ -3,7 +3,7 @@
 # Askbot Openmooc Script (Update entries metadata)
 #
 
-PYTHON_VIRTUAL_ENV='/home/mooc/venv'
+PYTHON_VIRTUAL_ENV='/home/mooc/askbot-openmooc-env'
 
 PATH_TO_ASKBOT_OPENMOOC='/home/mooc/askbot-openmooc'
 

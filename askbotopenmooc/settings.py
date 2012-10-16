@@ -30,6 +30,9 @@ BASE_URL = 'http://questions.example.com/'
 # DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 # DATABASE_NAME_PREFIX = 'askbot_'
 
+
+ASKBOT_DATABASE_ENGINE = 'django.db.backends.mysql'
+
 DATABASES = {
     'default': {
         'NAME': 'askbot',
@@ -227,7 +230,7 @@ INSTALLED_APPS = (
     # 'djcelery',
     'djkombu',
     'followit',
-    'avatar',#experimental use git clone git://github.com/ericflo/django-avatar.git$
+    #'avatar',#experimental use git clone git://github.com/ericflo/django-avatar.git$
 
     'djangosaml2',
 
@@ -371,6 +374,9 @@ except ImportError:
 else:
     if EXTERNAL_KEYS:
         LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'EXTERNAL_KEYS'] = EXTERNAL_KEYS
+    DATABASES['default']['USER'] = ASKBOT_DATABASE_USER
+    DATABASES['default']['PASSWORD'] = ASKBOT_DATABASE_PASSWORD
+    DATABASES['default']['ENGINE'] = ASKBOT_DATABASE_ENGINE
 
 try:
     from course_settings import *
@@ -386,7 +392,7 @@ else:
         DATABASES = {
             'default': {
                 'NAME': DATABASE_NAME,
-                'ENGINE': 'django.db.backends.mysql',
+                'ENGINE': ASKBOT_DATABASE_ENGINE,
                 'USER': ASKBOT_DATABASE_USER,
                 'PASSWORD': ASKBOT_DATABASE_PASSWORD,
             },
