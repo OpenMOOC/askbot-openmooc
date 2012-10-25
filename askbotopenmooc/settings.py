@@ -309,9 +309,9 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 SAML_CREATE_UNKNOWN_USER = True
 
+SAML_DJANGO_USER_MAIN_ATTRIBUTE = 'email'
 
 SAML_ATTRIBUTE_MAPPING = {
-    'uid': ('email', ),
     'mail': ('email', ),
     'cn': ('first_name', ),
     'sn': ('last_name', ),
