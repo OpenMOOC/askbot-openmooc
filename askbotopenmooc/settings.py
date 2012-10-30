@@ -249,8 +249,7 @@ CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 AUTHENTICATION_BACKENDS = (
-    #'djangosaml2.backends.Saml2Backend',
-    'askbotopenmooc.askbotopenmoocapp.backends.CustomSaml2Backend',
+    'djangosaml2.backends.Saml2Backend',
     'django.contrib.auth.backends.ModelBackend',
 )
 

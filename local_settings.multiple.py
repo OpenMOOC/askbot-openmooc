@@ -7,12 +7,13 @@ BASEDIR = path.dirname(__file__)
 COURSES_BASEDIR = '/home/mooc/courses'
 SAML2DIR = '/home/mooc/saml2'
 
-STATIC_ROOT = path.join(environ.get('HOME'), "static_root")
+#STATIC_ROOT = path.join(environ.get('HOME'), "static_root")
+STATIC_ROOT = "/home/mooc/static_root"
 
 
 LANGUAGE_CODE = 'en'
 
-# DEBUG = False #set to True to enable debugging
+DEBUG = True #set to True to enable debugging
 
 # STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 # STATIC_ROOT = '/home/mooc/static-root'
@@ -70,31 +71,31 @@ FOOTER_LINKS = (
 
 # saml2 logger
 #
-# LOGGING = {
-#     'version': 1,
-#     'formatters': {
-#         'verbose': {
-#             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-#         },
-#         'simple': {
-#             'format': '%(levelname)s %(message)s'
-#         },
-#     },
-#     'handlers': {
-#         'saml2file': {
-#            'level': 'DEBUG',
-#            'class': 'logging.FileHandler',
-#            'filename': 'djangosaml2.log',
-#            'formatter': 'verbose',
-#         }
-#     },
-#     'loggers': {
-#         'djangosaml2': {
-#             'handlers': ['saml2file'],
-#             'level': 'DEBUG',
-#         }
-#     }
-# }
+LOGGING = {
+    'version': 1,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'saml2file': {
+           'level': 'DEBUG',
+           'class': 'logging.FileHandler',
+           'filename': '/tmp/djangosaml2.log',
+           'formatter': 'verbose',
+        }
+    },
+    'loggers': {
+        'djangosaml2': {
+            'handlers': ['saml2file'],
+            'level': 'DEBUG',
+        }
+    }
+}
 
 
 
@@ -116,7 +117,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
 SAML_ATTRIBUTE_MAPPING = {
-    'mail': ('username', 'email', ),
+    'mail': ('email', ),
     'cn': ('first_name', ),
     'sn': ('last_name', ),
 }
