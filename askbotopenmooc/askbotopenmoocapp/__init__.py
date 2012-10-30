@@ -8,6 +8,9 @@ def askbot_pre_user_save(sender, **kwargs):
     realname = realname.strip()
     realname = realname[:75]
     if realname and user.username != realname:
+        if user.username and user.username.startswith(realname):
+            # User already has a unique username
+            return False
         realname = generate_unique_username(realname, 75)
         if user.username != realname:
             user.username = realname
