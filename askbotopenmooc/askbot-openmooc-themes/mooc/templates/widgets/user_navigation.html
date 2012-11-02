@@ -1,10 +1,10 @@
 {%- if request.user.is_authenticated() -%}
-    <a href="{{ request.user.get_absolute_url() }}">{{ request.user.username }}</a> 
+    <a href="{{ request.user.get_absolute_url() }}">{{ request.user.username }}</a>
     <span class="user-info">
     {{ macros.inbox_link(request.user) }}
     {{ macros.moderation_items_link(request.user, moderation_items) }}
     {%-
-        if settings.KARMA_MODE != 'hidden' and settings.BADGES_MODE != 'hidden' 
+        if settings.KARMA_MODE != 'hidden' and settings.BADGES_MODE != 'hidden'
     -%}
         ({{ macros.user_long_score_and_badge_summary(
                                         user,
@@ -21,6 +21,7 @@
     <a href="{% url site_settings %}">{% trans %}settings{% endtrans %}</a>
 {% endif %}
 <a href="{% url "help" %}" title="{% trans %}help{% endtrans %}">{% trans %}help{% endtrans %}</a>
+<a href="{% url faq %}" title="{% trans %}faq{% endtrans %}">{% trans %}faq{% endtrans %}</a>
 
 {% if openmooc_settings.COURSE_URL %}
    <a href="{{ openmooc_settings.COURSE_URL }}">{% trans %}Go to course site{% endtrans %}</a>
