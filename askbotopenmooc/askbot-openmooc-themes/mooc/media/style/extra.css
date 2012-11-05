@@ -234,3 +234,16 @@ body.lang-es #searchBar .searchInput,
 #logo img {
     height: auto;
 }
+
+
+body #searchForm input#keywords,
+body #searchForm input#keywords.searchInputCancelable {
+    width: 125px;
+    font-size: 16px;
+    height: 38px;
+}
+
+body #searchForm input.cancelSearchBtn {
+    height: 38px;
+    font-size: 24px;
+}
