@@ -247,3 +247,8 @@ body #searchForm input.cancelSearchBtn {
     height: 38px;
     font-size: 24px;
 }
+
+.question-page p.rss a,
+#ContentRight .box p {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
