@@ -160,10 +160,19 @@ System Dependencies
 
      .. code-block:: bash
 
-        openssl genrsa -des3 -out server.key 1024
+        openssl genrsa -des3 -out server.key 2048
         openssl req -new -key server.key -out server.csr
         cp server.key server.key.org
         openssl rsa -in server.key.org -out server.key
+        openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+
+
+     .. code-block:: bash
+        # key without password
+
+        openssl genrsa -out server.key 2048
+        openssl req -new -key server.key -out server.csr
+        openssl rsa -in server.key -out server.key
         openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 
 #. Copy local_settings.multiple.py to local_settings.py askbot-openmooc
@@ -189,8 +198,8 @@ System Dependencies
       # gpasswd -a apache mooc
       mkdir /home/mooc/sockets
       chmod g=rx /home/mooc
-      chmod 770 /home/mooc/sockets
       chmod go= /home/mooc/*
+      chmod 770 /home/mooc/sockets
       chmod g=rx -R /home/mooc/static_root
 
 
