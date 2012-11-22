@@ -8,7 +8,7 @@ from askbotopenmooc.askbotopenmoocapp.utils import generate_unique_username
 
 def change_username(user, candidate):
     if User.objects.filter(username=candidate).count() > 0:
-        candidate = generate_unique_username(candidate)
+        candidate = generate_unique_username(candidate, 75)
     user.username = candidate
 
 
