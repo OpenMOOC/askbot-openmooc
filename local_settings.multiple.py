@@ -37,6 +37,18 @@ ASKBOT_DATABASE_ENGINE= 'django.db.backends.mysql'
 
 BOOTSTRAP_MODE = True
 
+
+SERVER_EMAIL = 'smtp.example.com'
+DEFAULT_FROM_EMAIL = 'no-reply@questions.example.com'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_SUBJECT_PREFIX = ''
+EMAIL_HOST='smtp.example.com'
+EMAIL_PORT=''
+EMAIL_USE_TLS=False
+
+
+
 # EXTRA LIVESETTINGS PROPERTIES
 
 EXTRA_SETTINGS = {
