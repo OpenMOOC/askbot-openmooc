@@ -69,7 +69,7 @@ System Dependencies
 
       .. code-block:: bash
 
-        mysqladmin -p -u root create askbot
+        mysqladmin -p -u root create askbot --default-character-set=utf8
 
    #. Create user and give permissions to access askbot.
 
