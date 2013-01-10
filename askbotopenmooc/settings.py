@@ -9,7 +9,7 @@ import site
 ASKBOT_ROOT = os.path.abspath(os.path.dirname(askbot.__file__))
 site.addsitedir(os.path.join(ASKBOT_ROOT, 'deps'))
 
-DEBUG = False #set to True to enable debugging
+DEBUG = True #set to True to enable debugging
 TEMPLATE_DEBUG = False#keep false when debugging jinja2 templates
 INTERNAL_IPS = ('127.0.0.1',)
 
@@ -98,8 +98,8 @@ LANGUAGES = (
 LANGUAGE_COOKIE_NAME = 'language'
 LANGUAGE_COOKIE_DOMAIN = '.example.com'
 
-
 MOOCNG_URL = 'https://moocng.org/'
+
 
 FOOTER_LINKS = (
     ('%slegal' % MOOCNG_URL, {
@@ -135,14 +135,17 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 # Make up some unique string, and don't share it with anybody.
-SECRET_KEY = 'sdljdfjkldsflsdjkhsjkldgjlsdgfs s '
+SECRET_KEY = 'sdljdfjkldsflsdjkhsjkldgjlsdgfs s 1233'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
+    'askbot.skins.loaders.Loader',
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+    # 'django.template.loaders.filesystem.load_template_source',
+    #'django.template.loaders.app_directories.load_template_source',
     #below is askbot stuff for this tuple
-    'askbot.skins.loaders.filesystem_load_template_source',
+    #'askbot.skins.loaders.filesystem_load_template_source',
     #'django.template.loaders.eggs.load_template_source',
 )
 
@@ -192,7 +195,7 @@ DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 #TEMPLATE_DIRS = (,) #template have no effect in askbot, use the variable below
 #ASKBOT_EXTRA_SKINS_DIR = #path to your private skin collection
 #take a look here http://askbot.org/en/question/207/
-TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, 'admin-templates'),)
+# TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, 'admin-templates'),)
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
@@ -208,6 +211,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 
 INSTALLED_APPS = (
+    'longerusername',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -230,7 +234,10 @@ INSTALLED_APPS = (
     # 'djcelery',
     'djkombu',
     'followit',
+    'tinymce',
     #'avatar',#experimental use git clone git://github.com/ericflo/django-avatar.git$
+    'group_messaging', 
+
 
     'djangosaml2',
 
@@ -281,8 +288,12 @@ ASKBOT_USE_STACKEXCHANGE_URLS = False #mimic url scheme of stackexchange
 BROKER_TRANSPORT = "djkombu.transport.DatabaseTransport"
 CELERY_ALWAYS_EAGER = True
 
-import djcelery
-djcelery.setup_loader()
+
+NOTIFICATION_DELAY_TIME = 60*15
+
+
+#import djcelery
+#djcelery.setup_loader()
 DOMAIN_NAME = 'customdomain'
 
 CSRF_COOKIE_NAME = 'customdomain_csrf'
@@ -290,15 +301,26 @@ CSRF_COOKIE_NAME = 'customdomain_csrf'
 #CSRF_COOKIE_DOMAIN = DOMAIN_NAME
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
-STATICFILES_DIRS = (os.path.join(ASKBOT_ROOT, 'skins'),
-                    os.path.join(PROJECT_ROOT, "askbot-openmooc-themes"),
-            )
 
 RECAPTCHA_USE_SSL = True
+
+GROUP_MESSAGING = {
+    'BASE_URL_GETTER_FUNCTION': 'askbot.models.user_get_profile_url',
+    'BASE_URL_PARAMS': {'section': 'messages', 'sort': 'inbox'}
+}
+
+ENABLE_HAYSTACK_SEARCH = False
+HAYSTACK_SITECONF = "askbot.search.haystack"
 
 ## MOOC Settings
 
 ASKBOT_EXTRA_SKINS_DIR =  os.path.join(PROJECT_ROOT, 'askbot-openmooc-themes')
+
+STATICFILES_DIRS = (#os.path.join(ASKBOT_ROOT, 'skins'),
+                    ('default/media', os.path.join(ASKBOT_ROOT, 'media')),
+                    ASKBOT_EXTRA_SKINS_DIR,
+)
+
 
 LOGIN_URL = '/saml2/login/'
 LOGIN_REDIRECT_URL = '/questions/' #aadjust, if needed
@@ -461,3 +483,32 @@ else:
                         saml2.BINDING_HTTP_REDIRECT)]
 
 
+
+
+TINYMCE_COMPRESSOR = True
+TINYMCE_SPELLCHECKER = False
+TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, 'default/media/js/tinymce/')
+TINYMCE_URL = STATIC_URL + 'default/media/js/tinymce/'
+TINYMCE_DEFAULT_CONFIG = {
+    'convert_urls': False,
+    'plugins': 'askbot_imageuploader,askbot_attachment',
+    'theme': 'advanced',
+    'content_css': STATIC_URL + 'default/media/style/tinymce/content.css',
+    'force_br_newlines': True,
+    'force_p_newlines': False,
+    'forced_root_block': '',
+    'mode' : 'textareas',
+    'oninit': "function(){ tinyMCE.activeEditor.setContent(askbot['data']['editorContent'] || ''); }",
+    'plugins': 'askbot_imageuploader,askbot_attachment',
+    'theme_advanced_toolbar_location' : 'top',
+    'theme_advanced_toolbar_align': 'left',
+    'theme_advanced_buttons1': 'bold,italic,underline,|,bullist,numlist,|,undo,redo,|,link,unlink,askbot_imageuploader,askbot_attachment',
+    'theme_advanced_buttons2': '',
+    'theme_advanced_buttons3' : '',
+    'theme_advanced_path': False,
+    'theme_advanced_resizing': True,
+    'theme_advanced_resize_horizontal': False,
+    'theme_advanced_statusbar_location': 'bottom',
+    'width': '723',
+    'height': '250'
+}
