@@ -84,7 +84,7 @@ SITE_ID = 1
 # to load the internationalization machinery.
 USE_I18N = True
 USE_L10N = True
-USE_TZ = True
+USE_TZ = False
 
 LANGUAGE_CODE = 'en'
 
@@ -154,9 +154,11 @@ MIDDLEWARE_CLASSES = (
     #'django.middleware.gzip.GZipMiddleware',
     #'askbot.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
     #'django.middleware.cache.UpdateCacheMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+
     #'django.middleware.cache.FetchFromCacheMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'django.middleware.sqlprint.SqlPrintingMiddleware',
