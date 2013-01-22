@@ -1,0 +1,19 @@
+include manage.py
+include django.wsgi
+include local_settings.example.py
+include local_settings.multiple.py
+include CHANGES*
+include README*
+include utils/*
+include apache2/*
+include crond/*
+recursive-include askbot-openmooc *
+recursive-exclude *.pyc
+recursive-exclude .git
+prune dist
+prune tmp
+prune build
+prune static
+exclude local_settings.py
+exclude urls.py
+recursive-exclude env *
