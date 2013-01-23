@@ -1,22 +1,23 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 %{!?pyver: %global pyver %(%{__python} -c "import sys ; print sys.version[:3]")}
 
-%define oname   BeautifulSoup
+%define oname   beautifulsoup4
+%define libname bs4
 
-Name:           python-BeautifulSoup
+Name:           python-%{oname}
 Epoch:          1
-Version:        3.0.8.1
+Version:        4.1.3
 Release:        1%{?dist}
 Summary:        HTML/XML parser for quick-turnaround applications like screen-scraping
 
 Group:          Development/Languages
 License:        BSD
-URL:            http://www.crummy.com/software/BeautifulSoup/
-Source0:        http://www.crummy.com/software/BeautifulSoup/download/3.x/BeautifulSoup-%{version}.tar.gz
+URL:            http://www.crummy.com/software/BeautifulSoup/bs4/
+Source0:        http://www.crummy.com/software/BeautifulSoup/bs4/download/%{oname}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
-BuildRequires:  python-devel
+BuildRequires:  python-devel, python-nose1.1
 
 %description
 Beautiful Soup is a Python HTML/XML parser designed for quick
@@ -44,8 +45,8 @@ minutes with Beautiful Soup.
 
 %build
 %{__python} setup.py build
-%{__python} -c 'import %{oname} as bs; print bs.__doc__' > COPYING
-touch -r %{oname}.py COPYING
+%{__python} -c 'import %{libname}; print %{libname}.__doc__' > COPYING
+touch -r %{libname} COPYING
 
 
 %install
@@ -61,19 +62,28 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %check
-%{__python} BeautifulSoupTests.py
+nosetests1.1
 
 
 %files
 %defattr(-,root,root,-)
 %doc COPYING
-%{python_sitelib}/%{oname}.py*
-%exclude %{python_sitelib}/%{oname}Tests.py*
+%dir %{python_sitelib}/%{libname}
+%dir %{python_sitelib}/%{libname}/builder
+%dir %{python_sitelib}/%{libname}/tests
+%{python_sitelib}/%{libname}/*.py*
+%{python_sitelib}/%{libname}/builder/*.py*
+%{python_sitelib}/%{libname}/tests/*.py*
 %if 0%{?fedora} >= 9 || 0%{?rhel} >= 6
 %{python_sitelib}/%{oname}-%{version}-py%{pyver}.egg-info
 %endif
 
 %changelog
+* Wed Jan 23 2012 Antonio Perez-Aranda <aperezaranda@yaco.es> - 1:4.1.3-1
+- Upgrade to 4.1.3-1
+- fix source url
+- change tests to nosetests1.1
+
 * Sun Jun 20 2010 Terje Rosten <terje.rosten@ntnu.no> - 1:3.0.8.1-1
 - 3.0.8.1
 
