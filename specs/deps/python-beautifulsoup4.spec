@@ -79,7 +79,7 @@ nosetests1.1
 %endif
 
 %changelog
-* Wed Jan 23 2012 Antonio Perez-Aranda <aperezaranda@yaco.es> - 1:4.1.3-1
+* Wed Jan 23 2013 Antonio Perez-Aranda <aperezaranda@yaco.es> - 1:4.1.3-1
 - Upgrade to 4.1.3-1
 - fix source url
 - change tests to nosetests1.1
