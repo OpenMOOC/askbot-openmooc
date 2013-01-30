@@ -7,6 +7,7 @@ include README*
 include utils/*
 include apache2/*
 include crond/*
+include docs/*
 recursive-include askbot-openmooc *
 recursive-exclude *.pyc
 recursive-exclude .git
@@ -17,3 +18,4 @@ prune static
 exclude local_settings.py
 exclude urls.py
 recursive-exclude env *
+recursive-exclude rpmbuild 
