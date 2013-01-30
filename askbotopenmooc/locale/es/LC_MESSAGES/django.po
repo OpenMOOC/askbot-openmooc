@@ -216,5 +216,13 @@ msgid "oldest"
 msgstr "antigüedad"
 
 
+## faq 
+
+msgid "No, you don't have to. You can login through any service that supports OpenID, e.g. Google, Yahoo, AOL, etc."
+msgstr ""
+"Necesitarás la misma contraseña que usas para acceder a la herramienta de "
+"cursos"
+
+
 #~ msgid "%(lang_name)s"
 #~ msgstr "%(lang_name)s"
