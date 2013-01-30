@@ -10,3 +10,4 @@ askbotopenmooc/static/
 *.pyc
 *.egg-info
 *~
+*.swp
