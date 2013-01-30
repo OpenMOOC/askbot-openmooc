@@ -133,5 +133,88 @@ msgstr "ayuda"
 msgid "Go to course site"
 msgstr "Ir al curso"
 
+
+####### Custom translations
+
+## Index
+
+msgid "Ask Your Question"
+msgstr "Realiza tu pregunta"
+
+msgid "Show only questions from"
+msgstr "Mostrar solo las preguntas con"
+
+msgid "show all tags"
+msgstr "todas las tags"
+
+msgid "exclude ignored tags"
+msgstr "excluir tags ignoradas"
+
+msgid "only interesting tags"
+msgstr "solo tags interesantes"
+
+## Help
+
+msgid "Help"
+msgstr "Ayuda"
+
+msgid "Thank you for using {{app_name}} here is how it works."
+msgstr "Gracias por usar el foro {{app_name}}, así es como funciona."
+
+msgid "How questions, answers and comments work"
+msgstr "Cómo funcionan las preguntas, respuestas y comentarios"
+
+msgid "Please search before asking your questions"
+msgstr "Por favor, usa el buscador antes de preguntar"
+
+msgid ""
+"Type your question in the search bar and see whether a similar question "
+"has been asked before"
+msgstr ""
+"Escribe tu pregunta en la barra de búsqueda y mira si alguna pregunta "
+"similar ya sido respondida"
+
+msgid "Search has advanced capabilities:"
+msgstr "El buscador tiene opciones avanzadas:"
+
+msgid "to search in title - enter [title: your text]"
+msgstr "para buscar en el título, introduce [title: tu texto]"
+
+msgid "to search by tags - enter [tag: sometag] or #sometag"
+msgstr "para buscar por tags, intruduce [tag: nombredetag] o #tag"
+
+msgid "to search by user - enter [user: somename] or @somename or @\"some name\""
+msgstr "para buscar por usuario, introduce [user: usuario] o @usuario o @\"usuario\""
+
+msgid "In addition, it is possible to click on tags to add them to the search query."
+msgstr "Además, es posible hacer click en tags y añadirlas a la consulta de la búsqueda."
+
+msgid ""
+"<em>Important!!!</em> All search terms are combined with a logical \"AND\" "
+"expression - to narrow the search by adding new terms."
+msgstr ""
+"<em>¡¡¡Importante!!!</em> Todos los términos de búsqueda son combinados con "
+"el operador lógico \"AND\" o \"Y\", puedes reducir la búsqueda añadiendo "
+"nuevos términos."
+
+msgid "Voting"
+msgstr "Votaciones"
+
+msgid "Other topics"
+msgstr "Otros temas"
+
+msgid "You can @mention users anywhere in the text to point their attention,"
+"    follow users and conversations and report inappropriate content by flagging it."
+msgstr ""
+"Puedes @mencionar usuarios en cualquier lugar en el texto para llamar "
+"su atención, seguir usuarios y conversaciones y reportar contenido "
+"inapropiado usando el marcador de ofensivo"
+
+## tags / users list
+
+msgid "oldest"
+msgstr "antigüedad"
+
+
 #~ msgid "%(lang_name)s"
 #~ msgstr "%(lang_name)s"
