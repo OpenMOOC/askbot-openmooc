@@ -36,6 +36,11 @@ html body {
     color: #333333;
 }
 
+body .short-summary .counts div {
+    width: auto;
+    padding: 5px 2px;
+}
+
 
 .box h2 {
    text-align: left;
