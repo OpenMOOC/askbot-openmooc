@@ -1,6 +1,5 @@
 @import url('custom.css');
 
-
 #header,
 #secondaryHeader,
 #ground,
@@ -13,14 +12,17 @@ a.followed, a.follow,
 .section-title,
 #question-list,
 #header,
+#ContentLeft,
+#ContentRight,
 .tabBar,
-body {
+html body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     background: #F1F1F1;
     color: #333333;
 }
 
-.question-page .question-body, .question-page .answer-body,
+.question-page .question-body,
+.question-page .answer-body,
 .question-page h1,
 .quesiton-content,
 .box h2, .box h3, .box label,
@@ -33,6 +35,7 @@ body {
     background: #FFF;
     color: #333333;
 }
+
 
 .box h2 {
    text-align: left;
@@ -49,7 +52,7 @@ body {
 #userToolsNav a,
 .question-page h1 a,
 .footer-no-link,
-.btn-link,
+body .btn-link,
 a {
     color: #0088CC;
     text-decoration: none;
@@ -77,10 +80,17 @@ a:hover {
     padding: 5px 10px;
 }
 
+
+div.short-summary {
+     width: 700px;
+}
+
 .user-info-table,
 .user-stats-table table,
-body.question-page #ContentLeft,
+body.question-page div.answer-table,
 div.short-summary,
+body.question-page div.answer-body,
+body.question-page div.question-content,
 #ContentRight .box {
     background-color: #FFF;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
@@ -94,6 +104,34 @@ div.short-summary,
     height: auto;
 }
 
+body.question-page div.question-content,
+body.question-page div#ContentLeft .vote-buttons {
+    margin-top: 20px
+}
+
+
+
+body.question-page div.answer-table,
+
+body.question-page div.question-content {
+   padding: 10px;
+   width: 650px;
+}
+
+
+body.question-page div.answer-body {
+   width: auto;
+}
+body.question-page div#question-table {
+   width: 100%;
+}
+
+body.question-page div#ContentLeft .answer .vote-buttons,
+body.question-page div#ContentLeft .answer .answer-table {
+   margin-top: 5px;
+}
+
+div.question-content,
 .question-page .answered-by-owner {
     background-color: #FFF;
 }
@@ -116,7 +154,8 @@ ul.tags, ul.tags.marked-tags, ul#related-tags {
 }
 
 #header h1 {
-  margin: 5px 0;
+  margin: 0;
+  padding: 10px 0;
   line-height: 28px;
 }
 
@@ -181,7 +220,9 @@ body.lang-es #searchBar .searchInput,
 #languageBar form input {
     font-size: 14px;
 }
-.btn-link {
+
+
+body .btn-link {
     border-color: transparent;
     background-color: transparent;
     border-radius: 0 0 0 0;
@@ -191,8 +232,8 @@ body.lang-es #searchBar .searchInput,
     border-left: 0;
 }
 
-.btn.disabled, .btn[disabled] {
-    background-color: #E6E6E6;
+body .btn.disabled,
+body .btn[disabled] {
     color: #333333;
     background-image: none;
     box-shadow: none;
@@ -200,11 +241,12 @@ body.lang-es #searchBar .searchInput,
     opacity: 0.65;
 }
 
-.btn-link:hover {
+body .btn-link:hover {
     background-color: transparent;
     color: #944515;
     text-decoration: underline;
 }
+
 
 .userList .user ul li {
     float: left;
@@ -254,4 +296,16 @@ body #searchForm input.cancelSearchBtn {
 .question-page p.rss a,
 #ContentRight .box p {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+body .label,
+body .badge {
+    background-color: inherit;
+    color: inherit;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 20px;
+    text-shadow: none;
+    vertical-align: baseline;
+    white-space: nowrap;
 }
