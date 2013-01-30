@@ -314,3 +314,22 @@ body .badge {
     vertical-align: baseline;
     white-space: nowrap;
 }
+
+
+body .paginator .page {
+   -webkit-border-radius: 0;
+   -moz-border-radius: 0;
+   border-radius: 0;
+   border: none;
+   background: transparent;
+   padding: 0;
+}
+
+body .paginator .page a {
+   -webkit-border-radius: 0;
+   -moz-border-radius: 0;
+   border-radius: 0;
+   min-width: 20px;
+   margin: 0;
+   margin-right: 5px;
+}
