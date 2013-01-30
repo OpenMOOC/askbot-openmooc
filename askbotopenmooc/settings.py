@@ -265,7 +265,7 @@ CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 AUTHENTICATION_BACKENDS = (
-    'djangosaml2.backends.Saml2Backend',
+    'askbotopenmooc.askbotopenmoocapp.backends.Saml2RestrictedForumAccess',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -332,6 +332,9 @@ SAML_ATTRIBUTE_MAPPING = {
     'cn': ('first_name', ),
     'sn': ('last_name', ),
 }
+
+SAML_AUTHORIZATION_ATTRIBUTE = None
+SAML_AUTHORIZATION_EXPECTED_VALUE = None
 
 
 EXTERNAL_KEYS = None
@@ -457,15 +460,12 @@ else:
                 'ACTIVATE_BOOTSTRAP_MODE': "%s" % BOOTSTRAP_MODE,
             }
 
-        # if getattr(course_settings, 'COURSE_CLOSED', False):
-        #     LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'ACCESS_CONTROL'] = {
-        #         'ASKBOT_CLOSED_FORUM_MODE': u'True'
-        #     }
-
         LOGIN_URL = '%s%s' % (FULL_ASKBOT_URL, 'saml2/login/')
         LOGIN_REDIRECT_URL = FULL_ASKBOT_URL  # adjust, if needed
         LOGOUT_URL = "%s%s" % (FULL_ASKBOT_URL, 'saml2/logout/')
         LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
+
+        SAML_AUTHORIZATION_EXPECTED_VALUE = COURSE_NAME
 
         SAML_CONFIG['entityid'] = '%s%s' % (FULL_ASKBOT_URL, "saml2/metadata/")
         SAML_CONFIG['service']['sp']['name'] = '%s - Askbot - OpenMOOC SP' % COURSE_NAME

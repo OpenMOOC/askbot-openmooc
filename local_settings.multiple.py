@@ -33,7 +33,7 @@ DATABASE_NAME_PREFIX = 'askbot_'
 
 ASKBOT_DATABASE_USER = 'askbot'
 ASKBOT_DATABASE_PASSWORD = 'askbot'
-ASKBOT_DATABASE_ENGINE= 'django.db.backends.mysql'
+ASKBOT_DATABASE_ENGINE = 'django.db.backends.mysql'
 
 BOOTSTRAP_MODE = True
 
@@ -43,9 +43,9 @@ DEFAULT_FROM_EMAIL = 'no-reply@questions.example.com'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_SUBJECT_PREFIX = ''
-EMAIL_HOST='smtp.example.com'
-EMAIL_PORT=''
-EMAIL_USE_TLS=False
+EMAIL_HOST = 'smtp.example.com'
+EMAIL_PORT = ''
+EMAIL_USE_TLS = False
 
 
 
@@ -134,6 +134,8 @@ SAML_ATTRIBUTE_MAPPING = {
     'sn': ('last_name', ),
 }
 
+SAML_AUTHORIZATION_ATTRIBUTE = None
+SAML_AUTHORIZATION_EXPECTED_VALUE = None
 
 SAML_CONFIG = {
   # full path to the xmlsec1 binary programm
