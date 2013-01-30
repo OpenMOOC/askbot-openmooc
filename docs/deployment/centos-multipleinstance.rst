@@ -51,10 +51,13 @@ System Dependencies
 
      This link (ln) is mandatory to run saml2 auth
 
+   With EPEL repository added do as root:
+
+
    .. code-block:: bash
 
-     # yum install http://epel.mirror.mendoza-conicet.gob.ar/6/x86_64/xmlsec1-1.2.16-2.el6.x86_64.rpm  http://epel.mirror.mendoza-conicet.gob.ar/6/x86_64/xmlsec1-openssl-1.2.16-2.el6.x86_64.rpm
-     # ln -s /usr/lib64/libxmlsec1-openssl.so.1 /usr/lib64/libxmlsec1-openssl.so
+      yum install xmlsec1 xmlsec1-openssl 
+      ln -s /usr/lib64/libxmlsec1-openssl.so.1 /usr/lib64/libxmlsec1-openssl.so
 
 
 #. Create database:
@@ -132,16 +135,6 @@ System Dependencies
      cd ../askbot-openmooc
      python setup.py develop
 
-#. Install django-avatar *(DISABLED)*
-
-   Django-avatar repository doesn't exits
-
-   using this: http://askbot.org/doc/optional-modules.html#uploaded-avatars
-
-   .. code-block:: bash
-
-     pip install -e git+git://github.com/ericflo/django-avatar.git#egg=django-avatar
-
 #. For testing purposes, you should create your own self-signed certificates.
    For other purposes buy them:
 
@@ -176,12 +169,11 @@ System Dependencies
         openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 
 #. Copy local_settings.multiple.py to local_settings.py askbot-openmooc
-   directory
+   directory from askbot-openmooc/docs/conf directory
 
-#. Edit local_settings.py and change this (database, memcached,
-   recaptcha keys ...)
+#. Edit local_settings.py and change as your need (database, memcached,  ...)
 
-#. To config saml2 auth follow djangosaml2 doc at
+#. To set saml2 auth follow djangosaml2 doc at
    http://pypi.python.org/pypi/djangosaml2
    You should set this on local_settings.py file
 
@@ -207,14 +199,14 @@ System Dependencies
 
    .. code-block:: bash
 
-      # cp /home/mooc/askbot-openmooc/apache2/questions-site-multipleinstance.conf \
+      # cp /home/mooc/askbot-openmooc/docs/conf/apache2/questions-site-multipleinstance.conf \
       /etc/httpd/conf.d/questions-site-multipleinstance.conf
       # service httpd reload
 
 
 #. Add metadata entities url to your idp. The url for file generated is like
    this: http://questions.example.com/m/group-metadata.xml Execute the follow
-   command to genereate it when you have any courses:
+   command after create the first course:
 
    .. code-block:: bash
 
@@ -225,7 +217,7 @@ System Dependencies
 
    .. code-block:: bash
 
-      # cp /home/mooc/askbot-openmooc/crond/* /etc/cron.daily
+      # cp /home/mooc/askbot-openmooc/docs/conf/crond/* /etc/cron.daily
 
 
 
@@ -238,7 +230,7 @@ path. ~/course_skel could be good. you must be in a virtualenv loaded.
 
 .. code-block:: bash
 
-   cp -a ~/askbot-openmooc/courses_example/courses/skel/ ~/course_skel
+   cp -a ~/askbot-openmooc/docs/conf/courses_example/courses/skel/ ~/course_skel
 
 then, you can use the script as follow, remember that root mysql password will
 be asked you, as a teacher user and django admin user:
@@ -247,7 +239,7 @@ remember that database name can't have spaces, slash, dash or diacritical marks
 
 .. code-block:: bash
 
-   ~/askbot-openmooc/utils/create_course.sh course-slug databasename
+   ~/askbot-openmooc/docs/utils/create_course.sh course-slug databasename
 
 
 Create a new course using script create_curse.sh
@@ -261,11 +253,11 @@ Remember that database name can't have spaces, slash, dash or diacritical marks
 
 .. code-block:: bash
 
-   ~/askbot-openmooc/utils/create_course.sh course-slug databasename
+   ~/askbot-openmooc/docs/utils/create_course.sh course-slug databasename
 
 
-create a new course
-*******************
+create a new course (manual)
+****************************
 
 #. Create courses directory and allow apache2 access to it (upfiles directory).
    You can change this directory modifying setting COURSES_DIR property in
@@ -281,7 +273,7 @@ create a new course
 
    .. code-block:: bash
 
-      cp -R /home/mooc/askbot-openmooc/courses_example/courses/skel \
+      cp -R /home/mooc/askbot-openmooc/docs/conf/courses_example/courses/skel \
          ~/skel_course
 
 
@@ -328,6 +320,6 @@ create a new course
 
       python manage.py update_entries_metadata
 
-#. Go to your idp and call update entries, You can go to a url like this:
+#. Go to your idp and call update entries, You can go to an url like this:
    https://idp.example.com/simplesaml/module.php/metarefresh/fetch.php
 
