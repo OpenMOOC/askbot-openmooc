@@ -172,18 +172,21 @@ ul.tags, ul.tags.marked-tags, ul#related-tags {
    width: auto;
 }
 
-body.anon #searchBar,
-body.anon.lang-es #searchBar,
-body.lang-es #searchBar,
-#searchBar {
-   width: 220px;
+html body.anon #searchBar,
+html body.anon.lang-es #searchBar,
+html body.lang-es #searchBar,
+html #searchBar {
+   margin-left: 0;
+   margin-right: 0;
+   padding: 0;
+   width: auto;
 }
 
 body.anon #searchBar .searchInput,
 body.anon.lang-es #searchBar .searchInput,
 body.lang-es #searchBar .searchInput,
 #searchBar .searchInput {
-   width: 160px;
+   min-width: 200px;
    font-size: 14px;
 }
 
@@ -288,7 +291,7 @@ body .btn-link:hover {
 
 body #searchForm input#keywords,
 body #searchForm input#keywords.searchInputCancelable {
-    width: 125px;
+    width: auto;
     font-size: 16px;
     height: 38px;
 }
@@ -333,3 +336,5 @@ body .paginator .page a {
    margin: 0;
    margin-right: 5px;
 }
+
+
