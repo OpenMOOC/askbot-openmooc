@@ -1,5 +1,5 @@
-{% from "macros.html" import timeago %}
-{% if settings.SIDEBAR_QUESTION_HEADER|default('') %}
+{% import "macros.html" as macros %}
+{% if settings.SIDEBAR_QUESTION_HEADER %}
 <div class="box">
     {{ settings.SIDEBAR_QUESTION_HEADER }}
 </div>
@@ -7,7 +7,7 @@
 <div class="box vote-buttons">
     <h2 >{% trans %}Question tools{% endtrans %}</h2>
     {% if favorited %}
-        <a class="button followed"
+        <a class="button followed" 
             alt="{% trans %}click to unfollow this question{% endtrans %}">
             <div>{% trans %}Following{% endtrans %}</div>
             <div class='unfollow'>{% trans %}Unfollow{% endtrans %}</div>
@@ -27,29 +27,129 @@
     </div>
     <div class="notify-sidebar">
         {%if request.user.is_authenticated() %}
-        <input type="checkbox" id="question-subscribe-sidebar"/>
+        <input 
+            type="checkbox"
+            id="question-subscribe-sidebar"
+            {% if thread.is_followed_by(request.user) %}
+                checked="checked"
+            {% endif %}
+        />
         <label for="question-subscribe-sidebar">{% trans %}email the updates{% endtrans %}</label>
         {%else%}
         <input type="checkbox" id="question-subscribe-sidebar"/>
         <label for="question-subscribe-sidebar">{% trans %}<strong>Here</strong> (once you log in) you will be able to sign up for the periodic email updates about this question.{% endtrans %}</label>
         {%endif%}
+        {% if settings.RSS_ENABLED %}
         <p class="rss">
-        <a  {# CHANGE settings.APP_URL to openmooc_settings.FULL_ASKBOT_URL because APP_URL doesnt run #}
-                href="{{ openmooc_settings.FULL_ASKBOT_URL}}feeds/question/{{ question.id }}"
+            <a
+                href="{{settings.APP_URL}}/feeds/question/{{ question.id }}"
                 title="{% trans %}subscribe to this question rss feed{% endtrans %}"
                 >{% trans %}subscribe to rss feed{% endtrans %}</a>
         </p>
-    </div>
+        {% endif %}
+    </div> 
 </div>
+
+<div class="clearfix"></div>
+{% if settings.GROUPS_ENABLED %}
+<div class="box sharing-widget">
+    {% if thread.is_private() %}
+        <h2>{% trans %}Invite{% endtrans %}</h2>
+        <p style="margin: 16px 0"
+        >Invite others to help answer this question</p>
+        <form action="{% url share_question_with_user %}" method="post">{% csrf_token %}
+            <input id="share_user_name" type="text" class="groups-input" name="recipient_name" />
+            <input type="hidden" name="thread_id" value="{{ thread.id }}"/>
+            <input type="submit" class="add-groups" value="{% trans %}add{% endtrans %}"/>
+        </form>
+        <p class="share-input-col">{% trans %}- or -{% endtrans %}</p>
+        <form action="{% url share_question_with_group %}" method="post">{% csrf_token %}
+            <input id="share_group_name" type="text" class="groups-input" name="recipient_name" />
+            <input type="hidden" name="thread_id" value="{{ thread.id }}"/>
+            <input type="submit" class="add-groups" value="{% trans %}add{% endtrans %}"/>
+        </form>
+        <p class="share-input-col">{% trans %}- or -{% endtrans %}</p>
+        <form action="{% url share_question_with_group %}" method="post">{% csrf_token %}
+            <input
+                type="hidden"
+                name="recipient_name"
+                value="{{ settings.GLOBAL_GROUP_NAME }}"
+            />
+            <input type="hidden" name="thread_id" value="{{ thread.id }}"/>
+            <p class="share-input-col">
+            <input 
+                type="submit"
+                class="add-groups add-everyone-group"
+                value="{% trans %}share with everyone{% endtrans %}"
+            />
+            </p>
+        </form>
+
+        {% set shared_users_count = sharing_info['users'].count() %}
+        {% set shared_groups_count = sharing_info['groups'].count() %}
+
+        {% if shared_users_count or shared_groups_count %}
+            <p 
+                style="margin:16px 0 4px 0"
+            >{% trans %}This question is currently shared only with:{% endtrans %}</p>
+        {% endif %}
+        <h3>{% trans %}Individual users{% endtrans %}</h3>
+            {% set comma = joiner(',') %}
+            {{ comma() }}
+        <p>
+        <a href="{{ request.user.get_profile_url() }}">
+            {% trans %}You{% endtrans -%}
+        </a>{%- if shared_users_count -%}
+                {%- for user in sharing_info['users'] %}{{ comma() }}
+                    {{ user.get_profile_link() }}
+                {%- endfor -%}
+            {% endif -%}
+            {%- if sharing_info['more_users_count'] > 0 %}
+                {% trans %}and{% endtrans %}
+                <a 
+                    class="see-related-users"
+                    data-url="{% url get_thread_shared_users %}"
+                    data-thread-id="{{ thread.id }}"
+                >{% trans 
+                        more_count=sharing_info['more_users_count'] 
+                    %}{{ more_count }} more{% endtrans %}
+                </a>
+            {% endif %}
+        </p>
+
+        {% if shared_groups_count %}
+            <h3>{% trans %}Groups{% endtrans %}</h3>
+            <p>
+                {% set comma = joiner(',') %}
+                {%- for group in sharing_info['groups'] -%}{{ comma() }}
+                    {{ macros.user_group_link(group) }}
+                {%- endfor -%}
+                {% if sharing_info['more_groups_count'] > 0 %}
+                    {% trans %}and{% endtrans %}
+                    <a 
+                        class="see-related-groups"
+                        data-url="{% url get_thread_shared_groups %}"
+                        data-thread-id="{{ thread.id }}"
+                    >{% trans more_count=sharing_info['more_groups_count'] %}{{ more_count }} more{% endtrans %}
+                    </a>
+                {% endif %}
+            </p>
+        {% endif %}
+    {% else %}
+        <h2>{% trans %}Public thread{% endtrans %}</h2>
+        <p>{% trans site_name=settings.APP_SHORT_NAME %}This thread is public, all members of {{ site_name }} can read this page.{% endtrans %}</p>
+    {% endif %}
+</div>
+{% endif %}
 
 {% if settings.SIDEBAR_QUESTION_SHOW_META %}
 <div class="box statsWidget">
     <div class="clearfix"></div>
     <h2>{% trans %}Stats{% endtrans %}</h2>
     <p>
-        {% trans %}Asked{% endtrans %}: {{ timeago(question.added_at) }}
+        {% trans %}Asked{% endtrans %}: <strong>{{ macros.timeago(question.added_at) }}</strong>
     </p>
-    <p>
+    <p> 
         {% trans %}Seen{% endtrans %}: <strong>{{ thread.view_count|intcomma }} {% trans %}times{% endtrans %}</strong>
     </p>
     <p>
@@ -58,7 +158,7 @@
 </div>
 {% endif %}
 
-{% if similar_threads.data and settings.SIDEBAR_QUESTION_SHOW_RELATED %}
+{% if similar_threads.data() and settings.SIDEBAR_QUESTION_SHOW_RELATED %}
     {#% cache 1800 "related_questions" related_questions question.id language_code %#}
     <div class="box">
         <h2>{% trans %}Related questions{% endtrans %}</h2>
@@ -74,7 +174,7 @@
 {% endif %}
 
 
-{% if settings.SIDEBAR_QUESTION_FOOTER|default('') %}
+{% if settings.SIDEBAR_QUESTION_FOOTER %}
 <div class="box">
     {{ settings.SIDEBAR_QUESTION_FOOTER }}
 </div>
