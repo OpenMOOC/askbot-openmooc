@@ -2,7 +2,7 @@ include manage.py
 include CHANGES*
 include README*
 include utils/*
-include docs/*
+recursive-include docs *
 recursive-include askbot-openmooc *
 recursive-exclude *.pyc
 recursive-exclude .git
