@@ -1,5 +1,6 @@
 %define platform openmooc
 %define name askbot-%{platform}
+%define libname askbot%{platform}
 %define version 0.0dev
 %define unmangled_version 0.0dev
 %define release 1
@@ -32,11 +33,11 @@ Askbot customizations for OpenMOOC
 %setup -n %{name}-%{unmangled_version} -n %{name}-%{unmangled_version}
 
 %build
-python setup.py build
+%{__python} setup.py build
 
 %install
 #python setup.py install --single-version-externally-managed -O1 --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES
-python setup.py install --root=$RPM_BUILD_ROOT
+%{__python} setup.py install --root=$RPM_BUILD_ROOT
 
 
 # Create directories
@@ -67,6 +68,7 @@ install -d -m 755 %{buildroot}/%{_sharedstatedir}/%{name}/instances
 
 
 
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -82,3 +84,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}
 %dir %{_sharedstatedir}/%{name}
 %dir %{_sharedstatedir}/%{name}/instances
+
+%dir %{python_sitelib}/%{libname}/
+%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/
+%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/management/
+%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/management/commands/
+%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/migrations/
+%dir %{python_sitelib}/askbot_%{platform}-%{version}-*.egg-info/
+
+
