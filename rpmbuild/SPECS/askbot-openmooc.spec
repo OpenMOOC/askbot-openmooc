@@ -52,7 +52,7 @@ install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{name}
  
 # /etc/openmooc/askbot/instances
-install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{name}/%{instances}
+install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{name}/instances
 
 # /usr/libexexec/openmooc
 install -d -m 755 %{buildroot}/%{_libexecdir}/%{platform}
@@ -79,7 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_defaultdocdir}/
 %dir %{_sysconfdir}/%{platform}
 %dir %{_sysconfdir}/%{platform}/%{name}
-%dir %{_sysconfdir}/%{platform}/%{name}/%{instances}
+%dir %{_sysconfdir}/%{platform}/%{name}/instances
 %dir %{_libexecdir}/%{platform}
 %dir %{_datadir}/%{name}
 %dir %{_sharedstatedir}/%{name}
@@ -93,3 +93,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{python_sitelib}/askbot_%{platform}-%{version}-*.egg-info/
 
 
+%{python_sitelib}/%{libname}/*.py*
+%{python_sitelib}/%{libname}/askbotopenmoocapp/*.py*
+%{python_sitelib}/%{libname}/askbotopenmoocapp/management/*.py*
+%{python_sitelib}/%{libname}/askbotopenmoocapp/management/commands/*.py*
+%{python_sitelib}/%{libname}/askbotopenmoocapp/migrations/*.py*
+%{python_sitelib}/askbot_%{platform}-%{version}-*.egg-info/*
