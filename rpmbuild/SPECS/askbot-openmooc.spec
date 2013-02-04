@@ -26,7 +26,6 @@ Askbot customizations for OpenMOOC
  * OpenMOOC theme
  * Specific Settings
  * SAML2 integration
- * Required API views to integrate with moocng
 
 
 %prep
@@ -36,21 +35,20 @@ Askbot customizations for OpenMOOC
 %{__python} setup.py build
 
 %install
-#python setup.py install --single-version-externally-managed -O1 --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES
-%{__python} setup.py install --root=$RPM_BUILD_ROOT
+%{__python} setup.py install --single-version-externally-managed -O1 --root=$RPM_BUILD_ROOT
 
 
 # Create directories
- 
+
 # /usr/share/doc
 install -d -m 755 %{buildroot}/%{_defaultdocdir}/
- 
+
 # /etc/openmooc
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}
- 
+
 # /etc/openmooc/askbot
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{name}
- 
+
 # /etc/openmooc/askbot/instances
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{name}/instances
 
@@ -72,7 +70,6 @@ install -d -m 755 %{buildroot}/%{_sharedstatedir}/%{name}/instances
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-#%files -f INSTALLED_FILES
 %files
 %defattr(-,root,root)
 
@@ -86,10 +83,28 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sharedstatedir}/%{name}/instances
 
 %dir %{python_sitelib}/%{libname}/
-%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/
-%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/management/
-%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/management/commands/
-%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/migrations/
+%dir %{python_sitelib}/%{libname}/askbotopenmoocapp
+%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/management
+%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/management/commands
+%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/migrations
+%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/templates
+%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/templates/mooc
+%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/
+%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media
+%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media/images
+%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media/bootstrap/css
+%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media/style
+%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates
+%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates/widgets
+%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates/meta
+%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates/question
+%dir %{python_sitelib}/%{libname}/admin-templates
+%dir %{python_sitelib}/%{libname}/admin-templates/admin
+%dir %{python_sitelib}/%{libname}/locale/en/LC_MESSAGES/
+%dir %{python_sitelib}/%{libname}/locale/es/LC_MESSAGES/
+%dir %{python_sitelib}/%{libname}/saml2
+%dir %{python_sitelib}/%{libname}/saml2/attribute-maps
+
 %dir %{python_sitelib}/askbot_%{platform}-%{version}-*.egg-info/
 
 
@@ -98,4 +113,20 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/%{libname}/askbotopenmoocapp/management/*.py*
 %{python_sitelib}/%{libname}/askbotopenmoocapp/management/commands/*.py*
 %{python_sitelib}/%{libname}/askbotopenmoocapp/migrations/*.py*
+%{python_sitelib}/%{libname}/askbotopenmoocapp/templates/mooc/*.html
+%{python_sitelib}/%{libname}/admin-templates/admin/*.html
+%{python_sitelib}/%{libname}/saml2/attribute-maps/*py*
+
+
+%{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media/images/*
+%{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media/bootstrap/css/bootstrap.css
+%{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media/style/*.css
+%{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates/widgets/*.html
+%{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates/meta/*.html
+%{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates/question/*.html
+
+
+%{python_sitelib}/%{libname}/locale/en/LC_MESSAGES/*
+%{python_sitelib}/%{libname}/locale/es/LC_MESSAGES/*
+
 %{python_sitelib}/askbot_%{platform}-%{version}-*.egg-info/*

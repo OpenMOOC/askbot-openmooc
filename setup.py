@@ -39,6 +39,9 @@ setup(name='askbot-openmooc',
       license='Apache Software License',
       packages=find_packages('.'),
       include_package_data=True,
+      package_data={
+          'docs': recursive_include('docs', '*'),
+      },
       zip_safe=False,
       install_requires=[
           'askbot==0.7.44-openmooc',

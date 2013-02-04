@@ -2,15 +2,17 @@ include manage.py
 include CHANGES*
 include README*
 include utils/*
+include docs/*
 recursive-include docs *
-recursive-include askbot-openmooc *
-recursive-exclude *.pyc
-recursive-exclude .git
+recursive-include askbotopenmooc *
+recursive-exclude . *.pyc
+recursive-exclude .git *
 prune dist
 prune tmp
 prune build
 prune static
 exclude local_settings.py
+exclude .gitignore
 exclude urls.py
 recursive-exclude env *
-recursive-exclude rpmbuild 
+recursive-exclude rpmbuild *
