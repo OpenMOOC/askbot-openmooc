@@ -25,7 +25,8 @@ Prefix: %{_prefix}
 BuildArch: noarch
 Vendor: Rooter <info@rooter.es>
 URL: https://github.com/OpenMOOC/askbot-openmooc
-Requires: askbot=0.7.44, python-memcached, djangosaml2=0.9.0, httpd, mod_wsgi
+Requires: askbot = 0.7.44, python-djangosaml2 = 0.9.0, python-memcached
+Requires: httpd, mod_wsgi
 
 %description
 Askbot customizations for OpenMOOC
@@ -87,7 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 
-%doc README.rst COPYING
+%doc docs/ README.rst COPYING
 
 %dir %{_defaultdocdir}/
 %dir %{_sysconfdir}/%{platform}
