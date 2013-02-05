@@ -37,7 +37,7 @@ Askbot customizations for OpenMOOC
 
 
 %prep
-%setup -n %{name}-%{unmangled_version} -n %{name}-%{unmangled_version}
+%setup -n %{name}-%{unmangled_version}
 
 %build
 %{__python} setup.py build
