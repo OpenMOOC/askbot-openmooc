@@ -101,7 +101,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %config(noreplace) %{_sysconfdir}/%{platform}/%{name}/certs/server.key
 %config(noreplace) %{_sysconfdir}/%{platform}/%{name}/certs/server.crt
-%config(noreplace) %{_sysconfdir}/%{platform}/%{name}/local_settings.py
+%config(noreplace) %{_sysconfdir}/%{platform}/%{name}/local_settings.py*
 
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/askbot-openmooc.conf
 
