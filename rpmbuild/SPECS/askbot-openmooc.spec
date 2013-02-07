@@ -1,15 +1,14 @@
 %define platform openmooc
-%define name askbot-%{platform}
+%define component askbot
 %define libname askbot%{platform}
 %define version 0.0dev
-%define unmangled_version 0.0dev
 %define release 1
 
 Summary: Askbot openmooc integration like theme and saml2
-Name: %{name}
+Name: %{component}-%{platform}
 Version: %{version}
 Release: %{release}
-Source0: %{name}-%{unmangled_version}.tar.gz
+Source0: %{name}-%{version}.tar.gz
 
 Source1: askbot-openmooc.wsgi
 Source2: askbot-openmooc.conf
@@ -38,7 +37,7 @@ Askbot customizations for OpenMOOC
 
 
 %prep
-%setup -n %{name}-%{unmangled_version}
+%setup -n %{name}-%{version}
 
 %build
 %{__python} setup.py build
@@ -53,16 +52,16 @@ Askbot customizations for OpenMOOC
 install -d -m 755 %{buildroot}/%{_defaultdocdir}/%{platform}/askbot
 
 # /etc/openmooc/askbot
-install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{name}
-install -m 644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/%{platform}/%{name}
+install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}
+install -m 644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}
 
 # /etc/openmooc/askbot/instances
-install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{name}/instances
+install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/instances
 
-# /etc/openmooc/certs/askbot
-install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{name}/certs/
-install -m 440 %{SOURCE4} %{buildroot}/%{_sysconfdir}/%{platform}/%{name}/certs/
-install -m 440 %{SOURCE5} %{buildroot}/%{_sysconfdir}/%{platform}/%{name}/certs/
+# /etc/openmooc/askbot/certs
+install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/
+install -m 440 %{SOURCE4} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/
+install -m 440 %{SOURCE5} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/
 
 # /usr/libexexec/openmooc
 install -d -m 755 %{buildroot}/%{_libexecdir}/%{platform}
@@ -79,7 +78,7 @@ install -d -m 770 %{_var}/run/openmooc
 
 # apache conf
 install -d -m 755 %{buildroot}/%{_sysconfdir}/httpd/conf.d
-install -m 755 %{SOURCE2} %{buildroot}/%{_sysconfdir}/httpd/conf.d/askbot-openmooc.conf
+install -m 755 %{SOURCE2} %{buildroot}/%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 # xmlsec1 link
 
@@ -97,9 +96,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %dir %{_defaultdocdir}/
 %dir %{_sysconfdir}/%{platform}
-%dir %{_sysconfdir}/%{platform}/%{name}
-%dir %{_sysconfdir}/%{platform}/%{name}/instances
-%dir %{_sysconfdir}/%{platform}/%{name}/certs
+%dir %{_sysconfdir}/%{platform}/%{component}
+%dir %{_sysconfdir}/%{platform}/%{component}/instances
+%dir %{_sysconfdir}/%{platform}/%{component}/certs
 %dir %{_libexecdir}/%{platform}
 %dir %{_sharedstatedir}/%{name}
 %dir %{_sharedstatedir}/%{name}/instances
@@ -109,11 +108,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/lib64/libxmlsec1-openssl.so
 
 
-%config(noreplace) %{_sysconfdir}/%{platform}/%{name}/certs/server.key
-%config(noreplace) %{_sysconfdir}/%{platform}/%{name}/certs/server.crt
-%config(noreplace) %{_sysconfdir}/%{platform}/%{name}/local_settings.py*
+%config(noreplace) %{_sysconfdir}/%{platform}/%{component}/certs/server.key
+%config(noreplace) %{_sysconfdir}/%{platform}/%{component}/certs/server.crt
+%config(noreplace) %{_sysconfdir}/%{platform}/%{component}/local_settings.py*
 
-%config(noreplace) %{_sysconfdir}/httpd/conf.d/askbot-openmooc.conf
+%config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 %{_libexecdir}/%{platform}/askbot-openmooc.wsgi
 
