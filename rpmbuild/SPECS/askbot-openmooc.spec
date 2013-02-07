@@ -26,7 +26,7 @@ BuildArch: noarch
 Vendor: Rooter <info@rooter.es>
 URL: https://github.com/OpenMOOC/askbot-openmooc
 Requires: askbot = 0.7.44, python-djangosaml2 = 0.9.0, python-memcached
-Requires: httpd, mod_wsgi
+Requires: httpd, mod_wsgi, mod_ssl
 
 %description
 Askbot customizations for OpenMOOC
@@ -59,7 +59,6 @@ install -m 644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/%{platform}/%{name}
 # /etc/openmooc/askbot/instances
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{name}/instances
 
-
 # /etc/openmooc/certs/askbot
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{name}/certs/
 install -m 440 %{SOURCE4} %{buildroot}/%{_sysconfdir}/%{platform}/%{name}/certs/
@@ -82,6 +81,12 @@ install -d -m 770 %{_var}/run/openmooc
 install -d -m 755 %{buildroot}/%{_sysconfdir}/httpd/conf.d
 install -m 755 %{SOURCE2} %{buildroot}/%{_sysconfdir}/httpd/conf.d/askbot-openmooc.conf
 
+# xmlsec1 link
+
+install -d -m 755 %{buildroot}/usr/lib64
+ln -s /usr/lib64/libxmlsec1-openssl.so.1 %{buildroot}%{_prefix}/lib64/libxmlsec1-openssl.so
+
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -98,6 +103,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/%{platform}
 %dir %{_sharedstatedir}/%{name}
 %dir %{_sharedstatedir}/%{name}/instances
+
+%dir %{_prefix}/lib64/
+
+%{_prefix}/lib64/libxmlsec1-openssl.so
 
 
 %config(noreplace) %{_sysconfdir}/%{platform}/%{name}/certs/server.key
