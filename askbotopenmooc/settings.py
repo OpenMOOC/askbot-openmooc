@@ -238,7 +238,7 @@ INSTALLED_APPS = (
     'followit',
     'tinymce',
     #'avatar',#experimental use git clone git://github.com/ericflo/django-avatar.git$
-    'group_messaging', 
+    'group_messaging',
 
 
     'djangosaml2',
@@ -452,15 +452,9 @@ else:
             u'APP_TITLE': COURSE_NAME,
             u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
             u'APP_SHORT_NAME': COURSE_NAME,
-            u'APP_COPYRIGHT': EXTRA_SETTINGS.get('APP_COPYRIGHT', 'Open Mooc'),
             u'ENABLE_GREETING_FOR_ANON_USER': False,
-            #u'FEEDBACK_SITE_URL': EXTRA_SETTINGS.get('FEEDBACK_SITE_URL', ''),
             u'FEEDBACK_SITE_URL': u"AAAAAAA",
             u'APP_URL': '%s' % FULL_ASKBOT_URL,
-        }
-
-        LIVESETTINGS_OPTIONS[1][u'SETTINGS']['LICENSE_SETTINGS'] = {
-            'USE_LICENSE': EXTRA_SETTINGS.get('USE_LICENSE', 'False'),
         }
 
         if 'BOOTSTRAP_MODE' in dir():
