@@ -2,6 +2,8 @@
 
 from optparse import OptionParser
 
+COURSES_PATH="/home/mooc/courses"
+
 
 if __name__ == '__main__':
     parser = OptionParser()
@@ -31,7 +33,7 @@ if __name__ == '__main__':
     # .format does not run because templates are very complex
     render = template.replace("{name}", options.name)
     render = render.replace("{port}", options.port)
-
+    render = render.replace("{coursespath}", COURSES_PATH)
 
     with open(options.filename, "w") as conffile:
         conffile.write(render)
