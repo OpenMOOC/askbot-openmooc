@@ -59,7 +59,7 @@ $opciones =  array(
         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
         PDO::ATTR_PERSISTENT => true
     );
-$sql = 'UPDATE auth_user SET first_name = :first_name, last_name = :last_name WHERE email = :mail';
+$sql = 'UPDATE auth_user SET first_name = :first_name, last_name = :last_name, username = :combined WHERE email = :mail';
 foreach ($dbs as $db) {
     try {
         $conn = new PDO(
@@ -78,6 +78,7 @@ foreach ($dbs as $db) {
         $result = $sth->execute(array(
             ':first_name' => $data['first_name'],
             ':last_name' => $data['last_name'],
+            ':combined' => $data['first_name'] . ' ' . $data['last_name'],
             ':mail' => $mail,
         ));
     }
