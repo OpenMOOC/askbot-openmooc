@@ -18,6 +18,7 @@
     askbot['urls']['follow_user'] = '/{{ openmooc_settings.COURSE_NAME }}/followit/follow/user/{{'{{'}}userId{{'}}'}}/';
     askbot['urls']['unfollow_user'] = '/{{ openmooc_settings.COURSE_NAME }}/followit/unfollow/user/{{'{{'}}userId{{'}}'}}/';
     askbot['urls']['user_signin'] = '{{ settings.LOGIN_URL }}';
+    askbot['urls']['questions'] = '{% url "questions" %}';
     askbot['settings']['static_url'] = '{{ settings.STATIC_URL }}';
 </script>
 <script
