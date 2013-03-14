@@ -18,6 +18,7 @@
     askbot['urls']['follow_user'] = '/{{ openmooc_settings.COURSE_NAME }}/followit/follow/user/{{'{{'}}userId{{'}}'}}/';
     askbot['urls']['unfollow_user'] = '/{{ openmooc_settings.COURSE_NAME }}/followit/unfollow/user/{{'{{'}}userId{{'}}'}}/';
     askbot['urls']['user_signin'] = '{{ settings.LOGIN_URL }}';
+    askbot['urls']['questions'] = '{% url "questions" %}';
     askbot['settings']['static_url'] = '{{ settings.STATIC_URL }}';
 </script>
 <script
@@ -44,22 +45,6 @@
 <script type="text/javascript">
 {% if active_tab != "tags" and active_tab != "users" %}
     $(document).ready(function(){
-        if (Modernizr.history) {
-          // history management works!
-        } else {
-          // no history support :(
-          //hash = unescape(window.location.hash).replace('#','').split("?")[0]
-          hash = History.unescapeHash(window.location.hash).replace('#','').split("?")[0]
-          if (hash.substring(0,11)==askbot['urls']['questions']){
-            url = hash
-          }else{
-            url = askbot['urls']['questions']+hash
-          }
-          if (hash !== ''){
-              window.location = 'http://'+window.location.host+url
-          }
-        }
-
         // focus input on the search bar endcomment
         {% if active_tab != "ask" %}
             $('#keywords').focus();
