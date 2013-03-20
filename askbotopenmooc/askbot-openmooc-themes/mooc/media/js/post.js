@@ -1821,7 +1821,7 @@ var socialSharing = function(){
             var url = SERVICE_DATA[service_name]['url'];
             $.ajax({
                 async: false,
-                url: "http://urltinyfy.appspot.com/?&callback=?",
+                url: "//urltinyfy.appspot.com/?&callback=?",
                 dataType: "json",
                 data: {'url':URL},
                 success: function(data){
