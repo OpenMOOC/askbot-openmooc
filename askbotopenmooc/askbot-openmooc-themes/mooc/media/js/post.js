@@ -1845,7 +1845,7 @@ var socialSharing = function(){
     return {
         init: function(){
             URL = window.location.href;
-            TEXT = escape($('h1 > a').html());
+            TEXT = encodeURIComponent($('h1 > a').html());
             var fb = $('a.facebook-share')
             var tw = $('a.twitter-share');
             var ln = $('a.linkedin-share');
@@ -1901,7 +1901,6 @@ QASwapper.prototype.startSwapping = function(){
                         '{{questionSlug}}',
                         data['slug']
                     );
-		    alert("Ahora te voy a mandar a " + new_question_url);
                     window.location.href = new_question_url;
                 }
             });
