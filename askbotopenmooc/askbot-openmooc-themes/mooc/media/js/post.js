@@ -1797,19 +1797,19 @@ var socialSharing = function(){
     var SERVICE_DATA = {
         //url - template for the sharing service url, params are for the popup
         identica: {
-            url: "http://identi.ca/notice/new?status_textarea={TEXT}%20{URL}",
+            url: "//identi.ca/notice/new?status_textarea={TEXT}%20{URL}",
             params: "width=820, height=526,toolbar=1,status=1,resizable=1,scrollbars=1"
         },
         twitter: {
-            url: "http://twitter.com/share?url={URL}&ref=twitbtn&text={TEXT}",
+            url: "//twitter.com/share?url={URL}&ref=twitbtn&text={TEXT}",
             params: "width=820,height=526,toolbar=1,status=1,resizable=1,scrollbars=1"
         },
         facebook: {
-            url: "http://www.facebook.com/sharer.php?u={URL}&ref=fbshare&t={TEXT}",
+            url: "//www.facebook.com/sharer.php?u={URL}&ref=fbshare&t={TEXT}",
             params: "width=630,height=436,toolbar=1,status=1,resizable=1,scrollbars=1"
         },
         linkedin: {
-            url: "http://www.linkedin.com/shareArticle?mini=true&amp;url={URL}&amp;source={TEXT}",
+            url: "//www.linkedin.com/shareArticle?mini=true&amp;url={URL}&amp;source={TEXT}",
             params: "width=630,height=436,toolbar=1,status=1,resizable=1,scrollbars=1"
         }
     };
