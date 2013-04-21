@@ -137,6 +137,19 @@ SAML_ATTRIBUTE_MAPPING = {
 SAML_AUTHORIZATION_ATTRIBUTE = None
 SAML_AUTHORIZATION_EXPECTED_VALUE = None
 
+# Closed Forums configuration
+#
+# SAML_AUTHORIZATION_ATTRIBUTE = "shacUserStatus"
+# SAML_AUTHORIZATION_ATTRIBUTE = "schacUserStatus"
+# SAML_AUTHORIZATION_EXPECTED_VALUE = "course_name"
+# SAML_AUTHORIZATION_URL = "https://idp.example.com/module.php/userregistrationApi/api.php/users/%s?apikey=123456789"
+#
+# Remember add this to every closed forums or to your skel course_settings
+#
+# COURSE_CLOSED = True
+# SAML_AUTHORIZATION_EXPECTED_VALUE = COURSE_NAME
+
+
 SAML_CONFIG = {
   # full path to the xmlsec1 binary programm
   'xmlsec_binary': '/usr/bin/xmlsec1',
