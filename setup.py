@@ -42,13 +42,14 @@ setup(name='askbot-openmooc',
       zip_safe=False,
       install_requires=[
           'askbot==0.7.43-openmooc',
-          'djangosaml2==0.9.0',
-          'python-memcached==1.48',
+          'djangosaml2==0.9.1',
+          'python-memcached',
+          'requests==1.2.0',
           'supervisor',
           'gunicorn',
-          
-          # Fixed version of relates requires"    
+          # Fixed version of relates requires"
           'django_robots==0.8.1',
+          # 'django-sphinx', this doesn't run with askbot
       ],
       entry_points="""
       # -*- Entry points: -*-
