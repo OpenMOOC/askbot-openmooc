@@ -36,7 +36,8 @@ def check_remote_attribute(attributes, attribute_name, expected_value):
         rjson = response.json()
     except:
         logger.debug("SAML_AUTORIZATION_URL response for %s is not json" % (
-                     requests.url))
+                     response.url))
+        return False
 
     if expected_value in rjson.get(attribute_name, []):
         logger.debug("Permission Verified - list type, after attributes "
