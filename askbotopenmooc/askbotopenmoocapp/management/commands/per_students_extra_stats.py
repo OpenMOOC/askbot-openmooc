@@ -102,6 +102,7 @@ class Command(BaseCommand):
                 total_votes_received_in_questions = 0
                 for voted_question in voted_questions:
                     total_votes_received_in_questions += voted_question.score
+                row.append(total_votes_received_in_questions)
 
                 answers = user.posts.get_answers().all()
                 row.append(answers.count())
@@ -111,6 +112,7 @@ class Command(BaseCommand):
                 total_votes_received_in_answers = 0
                 for voted_answer in voted_answers:
                     total_votes_received_in_answers += voted_answer.score
+                row.append(total_votes_received_in_answers)
 
                 row.append(int(user.reputation))
                 row.append(user.gold)
