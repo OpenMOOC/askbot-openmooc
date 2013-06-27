@@ -9,8 +9,13 @@ import site
 ASKBOT_ROOT = os.path.abspath(os.path.dirname(askbot.__file__))
 site.addsitedir(os.path.join(ASKBOT_ROOT, 'deps'))
 
+<<<<<<< HEAD
 DEBUG = True #set to True to enable debugging
 TEMPLATE_DEBUG = False#keep false when debugging jinja2 templates
+=======
+DEBUG = False  # set to True to enable debugging
+TEMPLATE_DEBUG = False  # keep false when debugging jinja2 templates
+>>>>>>> origin/master
 INTERNAL_IPS = ('127.0.0.1',)
 
 ADMINS = (
@@ -49,9 +54,9 @@ DEFAULT_FROM_EMAIL = ''
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_SUBJECT_PREFIX = ''
-EMAIL_HOST=''
-EMAIL_PORT=''
-EMAIL_USE_TLS=False
+EMAIL_HOST = ''
+EMAIL_PORT = ''
+EMAIL_USE_TLS = False
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 #incoming mail settings
@@ -124,7 +129,7 @@ FOOTER_LINKS = (
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'askbot', 'upfiles')
 MEDIA_URL = '/upfiles/'
-STATIC_URL = '/m/'#this must be different from MEDIA_URL
+STATIC_URL = '/m/'  # this must be different from MEDIA_URL
 
 PROJECT_ROOT = os.path.dirname(__file__)
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
@@ -168,6 +173,7 @@ MIDDLEWARE_CLASSES = (
     #below is askbot stuff for this tuple
     'askbot.middleware.anon_user.ConnectToSessionMessagesMiddleware',
     'askbot.middleware.forum_mode.ForumModeMiddleware',
+    'askbotopenmooc.askbotopenmoocapp.middlewares.ForumModeMiddleware',
     'askbot.middleware.cancel.CancelActionMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -180,17 +186,32 @@ ROOT_URLCONF = 'askbotopenmooc.urls'
 
 
 #UPLOAD SETTINGS
-FILE_UPLOAD_TEMP_DIR = os.path.join(
-                                os.path.dirname(__file__),
-                                'tmp'
-                            ).replace('\\','/')
+FILE_UPLOAD_TEMP_DIR = "/tmp"
 
 FILE_UPLOAD_HANDLERS = (
     'django.core.files.uploadhandler.MemoryFileUploadHandler',
     'django.core.files.uploadhandler.TemporaryFileUploadHandler',
 )
-ASKBOT_ALLOWED_UPLOAD_FILE_TYPES = ('.jpg', '.jpeg', '.gif', '.bmp', '.png', '.tiff')
-ASKBOT_MAX_UPLOAD_FILE_SIZE = 1024 * 1024 #result in bytes
+ASKBOT_ALLOWED_UPLOAD_FILE_TYPES = (
+    '.jpg',
+    '.jpeg',
+    '.gif',
+    '.png',
+    '.tiff',
+    '.pdf',
+    '.doc',
+    '.docx',
+    '.docm',
+    '.xls',
+    '.xlsx',
+    '.xlsm',
+    '.odt',
+    '.ppt',
+    '.pptx',
+    '.pptm',
+)
+
+ASKBOT_MAX_UPLOAD_FILE_SIZE = 2 * 1024 * 1024  # result in bytes
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 
@@ -205,10 +226,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'askbotopenmooc.context.openmooc_settings',
     'django.core.context_processors.i18n',
     #'django.core.context_processors.tz',
-    'askbot.user_messages.context_processors.user_messages',#must be before auth
+    'askbot.user_messages.context_processors.user_messages',  # must be before auth
     #'django.core.context_processors.auth', #this is required for admin
     'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.csrf', #necessary for csrf protection
+    'django.core.context_processors.csrf', # necessary for csrf protection
 )
 
 
@@ -252,13 +273,13 @@ INSTALLED_APPS = (
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 #needed for django-keyedcache
 CACHE_TIMEOUT = 6000
-CACHE_PREFIX = 'askbot' #make this unique
+CACHE_PREFIX = 'askbot'  # make this unique
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 #If you use memcache you may want to uncomment the following line to enable memcached based sessions
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 AUTHENTICATION_BACKENDS = (
-    'djangosaml2.backends.Saml2Backend',
+    'askbotopenmooc.askbotopenmoocapp.backends.Saml2RestrictedForumAccess',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -276,15 +297,15 @@ AUTHENTICATION_BACKENDS = (
 #
 #   ASKBOT_URL = 'forum/'
 #
-ASKBOT_URL = '' #no leading slash, default = '' empty string
-ASKBOT_TRANSLATE_URL = False #translate specific URLs
+ASKBOT_URL = ''  # no leading slash, default = '' empty string
+ASKBOT_TRANSLATE_URL = False  # translate specific URLs
 #_ = lambda v:v #fake translation function for the login url
 #LOGIN_URL = '/%s%s%s' % (ASKBOT_URL,_('account/'),_('signin/'))
 
 #note - it is important that upload dir url is NOT translated!!!
 #also, this url must not have the leading slash
 ALLOW_UNICODE_SLUGS = False
-ASKBOT_USE_STACKEXCHANGE_URLS = False #mimic url scheme of stackexchange
+ASKBOT_USE_STACKEXCHANGE_URLS = False  # mimic url scheme of stackexchange
 
 #Celery Settings
 BROKER_TRANSPORT = "djkombu.transport.DatabaseTransport"
@@ -303,6 +324,13 @@ CSRF_COOKIE_NAME = 'customdomain_csrf'
 #CSRF_COOKIE_DOMAIN = DOMAIN_NAME
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
+<<<<<<< HEAD
+=======
+STATICFILES_DIRS = (
+    os.path.join(ASKBOT_ROOT, 'skins'),
+    os.path.join(PROJECT_ROOT, "askbot-openmooc-themes"),
+)
+>>>>>>> origin/master
 
 RECAPTCHA_USE_SSL = True
 
@@ -340,19 +368,22 @@ SAML_ATTRIBUTE_MAPPING = {
     'sn': ('last_name', ),
 }
 
+SAML_AUTHORIZATION_ATTRIBUTE = None
+SAML_AUTHORIZATION_EXPECTED_VALUE = None
+
 
 EXTERNAL_KEYS = None
 
 
 LIVESETTINGS_OPTIONS = {
     1: {u'DB': True,
-            u'SETTINGS': {
+        u'SETTINGS': {
                 u'FORUM_DATA_RULES': {u'ALLOW_POSTING_BEFORE_LOGGING_IN': u'False',
                                       u'WIKI_ON': u'False'},
                 u'GENERAL_SKIN_SETTINGS': {u'ASKBOT_DEFAULT_SKIN': u'mooc',
                                            u'SHOW_LOGO': u'True',
                                            u'SITE_LOGO_URL': u'images/logo.png'},
-                u'GROUP_SETTINGS': {u'GROUPS_ENABLED': u'False',},
+                u'GROUP_SETTINGS': {u'GROUPS_ENABLED': u'False'},
                 u'LOGIN_PROVIDERS': {u'SIGNIN_AOL_ENABLED': u'False',
                                      u'SIGNIN_BLOGGER_ENABLED': u'False',
                                      u'SIGNIN_CLAIMID_ENABLED': u'False',
@@ -378,12 +409,13 @@ LIVESETTINGS_OPTIONS = {
                 u'QA_SITE_SETTINGS': {u'APP_TITLE': u'Askbot OpenMooc',
                                       u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
                                       u'APP_SHORT_NAME': u'Askbot OpenMooc'
-                                    },
+                                      },
                 u'SOCIAL_SHARING': {'ENABLE_SHARING_LINKEDIN': u'False',
                                     'ENABLE_SHARING_IDENTICA': u'False',
-                                    }
-           }
-     }
+                                    },
+                u'ACCESS_CONTROL': {'ASKBOT_CLOSED_FORUM_MODE': u'False'},
+                }
+        }
 }
 
 
@@ -431,50 +463,52 @@ else:
             }
         }
 
-
         MEDIA_ROOT = path.join(COURSE_DIR, 'upfiles')
         MEDIA_URL = '/%s/upfiles/' % COURSE_NAME
 
-        #ASKBOT_URL = ('%s/') % COURSE_NAME
+        # ASKBOT_URL = ('%s/') % COURSE_NAME
         ASKBOT_URL = ''
         FULL_ASKBOT_URL = '%s%s/' % (BASE_URL, COURSE_NAME)
 
         CSRF_COOKIE_NAME = '%s_csrf' % COURSE_NAME
         SESSION_COOKIE_NAME = '%s_sessionid' % COURSE_NAME
 
-
         LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'MARKUP'] = {
             u'AUTO_LINK_URLS': u'http://%s/\\1/\\2' % (FULL_ASKBOT_URL),
         }
-
 
         LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'QA_SITE_SETTINGS'] = {
             u'APP_TITLE': COURSE_NAME,
             u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
             u'APP_SHORT_NAME': COURSE_NAME,
             u'ENABLE_GREETING_FOR_ANON_USER': False,
+<<<<<<< HEAD
             u'FEEDBACK_SITE_URL': u"AAAAAAA",
+=======
+>>>>>>> origin/master
             u'APP_URL': '%s' % FULL_ASKBOT_URL,
         }
 
         if 'BOOTSTRAP_MODE' in dir():
             LIVESETTINGS_OPTIONS[1][u'SETTINGS']['SITE_MODES'] = {
-                    'ACTIVATE_BOOTSTRAP_MODE' : "%s" % BOOTSTRAP_MODE,
+                'ACTIVATE_BOOTSTRAP_MODE': "%s" % BOOTSTRAP_MODE,
             }
 
         LOGIN_URL = '%s%s' % (FULL_ASKBOT_URL, 'saml2/login/')
-        LOGIN_REDIRECT_URL = FULL_ASKBOT_URL #aadjust, if needed
+        LOGIN_REDIRECT_URL = FULL_ASKBOT_URL  # adjust, if needed
         LOGOUT_URL = "%s%s" % (FULL_ASKBOT_URL, 'saml2/logout/')
         LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
+
+        SAML_AUTHORIZATION_EXPECTED_VALUE = COURSE_NAME
 
         SAML_CONFIG['entityid'] = '%s%s' % (FULL_ASKBOT_URL, "saml2/metadata/")
         SAML_CONFIG['service']['sp']['name'] = '%s - Askbot - OpenMOOC SP' % COURSE_NAME
         SAML_CONFIG['service']['sp']['endpoints']['assertion_consumer_service'] = [(
-                        "%s%s" % (FULL_ASKBOT_URL, 'saml2/acs/'),
-                        saml2.BINDING_HTTP_POST)]
-
+            "%s%s" % (FULL_ASKBOT_URL, 'saml2/acs/'),
+            saml2.BINDING_HTTP_POST)]
 
         SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'] = [(
+<<<<<<< HEAD
                         "%s%s" % (FULL_ASKBOT_URL, 'saml2/ls/'),
                         saml2.BINDING_HTTP_REDIRECT)]
 
@@ -508,3 +542,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'width': '723',
     'height': '250'
 }
+=======
+            "%s%s" % (FULL_ASKBOT_URL, 'saml2/ls/'),
+            saml2.BINDING_HTTP_REDIRECT)]
+>>>>>>> origin/master

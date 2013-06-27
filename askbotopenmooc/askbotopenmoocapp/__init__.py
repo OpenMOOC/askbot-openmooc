@@ -1,1 +1,3 @@
+from askbotopenmooc.askbotopenmoocapp.backends import backend_setting_verification
 
+backend_setting_verification()

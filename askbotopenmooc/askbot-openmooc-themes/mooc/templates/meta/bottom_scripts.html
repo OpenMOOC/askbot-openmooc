@@ -24,6 +24,7 @@
     askbot['urls']['follow_user'] = '{{ openmooc_settings.COURSE_NAME }}/followit/follow/user/{{'{{'}}userId{{'}}'}}/';
     askbot['urls']['unfollow_user'] = '{{ openmooc_settings.COURSE_NAME }}/followit/unfollow/user/{{'{{'}}userId{{'}}'}}/';
     askbot['urls']['user_signin'] = '{{ settings.LOGIN_URL }}';
+    askbot['urls']['questions'] = '{% url "questions" %}';
     askbot['settings']['static_url'] = '{{ settings.STATIC_URL }}';
     askbot['urls']['getEditor'] = '{% url "get_editor" %}';
 </script>
@@ -32,7 +33,11 @@
     {% if settings.DEBUG %}
         src="{{"/js/jquery-1.7.2.min.js"|media}}"
     {% else %}
+<<<<<<< HEAD
         src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"
+=======
+        src="//ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"
+>>>>>>> origin/master
     {% endif %}
 ></script>
 <script type="text/javascript" src='{{"/bootstrap/js/bootstrap.js"|media}}'></script>

@@ -207,6 +207,11 @@ body.lang-es #searchBar .searchInput,
     float: none;
 }
 
+#userToolsNav {
+    width: 770px;
+    text-align: right;
+}
+
 #userToolsNav a {
     font-size: 14px;
     font-weight: bold;
