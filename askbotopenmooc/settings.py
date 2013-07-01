@@ -9,13 +9,8 @@ import site
 ASKBOT_ROOT = os.path.abspath(os.path.dirname(askbot.__file__))
 site.addsitedir(os.path.join(ASKBOT_ROOT, 'deps'))
 
-<<<<<<< HEAD
-DEBUG = True #set to True to enable debugging
-TEMPLATE_DEBUG = False#keep false when debugging jinja2 templates
-=======
 DEBUG = False  # set to True to enable debugging
 TEMPLATE_DEBUG = False  # keep false when debugging jinja2 templates
->>>>>>> origin/master
 INTERNAL_IPS = ('127.0.0.1',)
 
 ADMINS = (
@@ -259,7 +254,7 @@ INSTALLED_APPS = (
     'followit',
     'tinymce',
     #'avatar',#experimental use git clone git://github.com/ericflo/django-avatar.git$
-    'group_messaging',
+    #'group_messaging',
 
 
     'djangosaml2',
@@ -324,13 +319,10 @@ CSRF_COOKIE_NAME = 'customdomain_csrf'
 #CSRF_COOKIE_DOMAIN = DOMAIN_NAME
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
-<<<<<<< HEAD
-=======
 STATICFILES_DIRS = (
     os.path.join(ASKBOT_ROOT, 'skins'),
     os.path.join(PROJECT_ROOT, "askbot-openmooc-themes"),
 )
->>>>>>> origin/master
 
 RECAPTCHA_USE_SSL = True
 
@@ -482,10 +474,7 @@ else:
             u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
             u'APP_SHORT_NAME': COURSE_NAME,
             u'ENABLE_GREETING_FOR_ANON_USER': False,
-<<<<<<< HEAD
             u'FEEDBACK_SITE_URL': u"AAAAAAA",
-=======
->>>>>>> origin/master
             u'APP_URL': '%s' % FULL_ASKBOT_URL,
         }
 
@@ -508,12 +497,8 @@ else:
             saml2.BINDING_HTTP_POST)]
 
         SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'] = [(
-<<<<<<< HEAD
                         "%s%s" % (FULL_ASKBOT_URL, 'saml2/ls/'),
                         saml2.BINDING_HTTP_REDIRECT)]
-
-
-
 
 TINYMCE_COMPRESSOR = True
 TINYMCE_SPELLCHECKER = False
@@ -542,7 +527,3 @@ TINYMCE_DEFAULT_CONFIG = {
     'width': '723',
     'height': '250'
 }
-=======
-            "%s%s" % (FULL_ASKBOT_URL, 'saml2/ls/'),
-            saml2.BINDING_HTTP_REDIRECT)]
->>>>>>> origin/master
