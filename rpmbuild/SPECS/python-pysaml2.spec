@@ -34,7 +34,7 @@ frameworks.
 
  
 %files
-%doc doc/ INSTALL README PKG-INFO TODO example
+%doc doc/ INSTALL README TODO example
 
 %{python_sitelib}/%{mod_name}-%{version}-*.egg-info/
 %{python_sitelib}/s2repoze
