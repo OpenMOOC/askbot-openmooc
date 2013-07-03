@@ -1,11 +1,11 @@
 %define platform openmooc
-%define component askbot
-%define libname askbot%{platform}
-%define version 0.0dev
+%define component askbot-customs
+%define libname %{platform}openmooc
+%define version 0.1
 %define release 1
 
 Summary: Askbot openmooc integration like theme and saml2
-Name: %{component}-%{platform}
+Name: %{platform}-%{component}
 Version: %{version}
 Release: %{release}
 Source0: %{name}-%{version}.tar.gz
@@ -24,7 +24,7 @@ Prefix: %{_prefix}
 BuildArch: noarch
 Vendor: Rooter <info@rooter.es>
 URL: https://github.com/OpenMOOC/askbot-openmooc
-Requires: askbot = 0.7.44, python-djangosaml2 = 0.9.0, python-memcached
+Requires: openmooc-askbot = 0.7.44, python-djangosaml2 = 0.10.0, python-memcached = 1.48
 Requires: httpd, mod_wsgi, mod_ssl
 
 %description

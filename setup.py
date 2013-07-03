@@ -18,7 +18,7 @@ def recursive_include(directory, patterns):
     return result
 
 
-version = '0.0'
+version = '0.1'
 
 setup(name='askbot-openmooc',
       version=version,
@@ -44,8 +44,7 @@ setup(name='askbot-openmooc',
       zip_safe=False,
       install_requires=[
           'askbot==0.7.44-openmooc',
-          'djangosaml2==0.9.1',
-          'python-memcached',
+          'djangosaml2==0.10.0',
           'python-memcached==1.48',
           'requests==1.2.0',
           'supervisor',
