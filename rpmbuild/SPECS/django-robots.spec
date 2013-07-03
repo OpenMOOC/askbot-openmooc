@@ -18,8 +18,7 @@ protocol, complementing the Django Sitemap contrib app.
 
 %prep
 %setup -q
-# remove AppleDouble encoded Macintosh file. Informed upstream
-rm docs/._overview.txt
+
 %build
 %{__python} setup.py build
 
