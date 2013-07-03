@@ -14,7 +14,7 @@ Source0:        http://pypi.python.org/packages/source/d/%{component}/%{componen
 BuildArch:      noarch
 BuildRequires:  python-devel python-setuptools
 Requires:       Django
-Requires:       python-pysaml2 python-memcached1
+Requires:       python-pysaml2 = 0.4.3, python-memcached1
 Requires:       xmlsec1 xmlsec1-openssl
 
 
