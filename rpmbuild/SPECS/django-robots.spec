@@ -40,8 +40,8 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/django_robots*.egg-info
 
 %changelog
-* Thu Jul 03 2013 Oscar Carballal <ocarballal@yaco.es> - 0.8.1-1
-- Created spec for 0.8.1
+* Thu Jul 03 2013 Oscar Carballal Prego <ocarballal@yaco.es> - 0.8.1-1
+- Updated spec for 0.8.1
 
 * Thu Apr 14 2011 Rahul Sundaram <sundaram@fedoraproject.org> - 0.8.0-1
 - initial spec

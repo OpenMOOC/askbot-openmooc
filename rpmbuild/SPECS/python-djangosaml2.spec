@@ -1,7 +1,7 @@
 %define mod_name djangosaml2
 
 Name:           python-%{mod_name}
-Version:        0.9.0
+Version:        0.10.0
 Release:        1%{?dist}
 Summary:        pysaml2 integration in Django
 
@@ -11,9 +11,9 @@ URL:            http://pypi.python.org/pypi/%{mod_name}
 Source0:        http://pypi.python.org/packages/source/d/%{mod_name}/%{mod_name}-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python-devel
-BuildRequires:  python-setuptools
-Requires:       python-pysaml2 python-memcached
+BuildRequires:  python-devel python-setuptools
+Requires:       Django
+Requires:       python-pysaml2 python-memcached1
 Requires:       xmlsec1 xmlsec1-openssl
 
 
@@ -43,5 +43,8 @@ rm -rf tests
 %{python_sitelib}/%{mod_name}-%{version}-*.egg-info/
 
 %changelog
+* Thu Jul 3 2013 Oscar Carballal Prego <ocarballal@yaco.es> - 0.10.0-1
+- Updated spec for version 0.10
+
 * Tue Feb 5 2013 Antonio Perez-Aranda Alcaide <aperezaranda@yaco.es> - 0.9.0-1
 - Initial RPM release
