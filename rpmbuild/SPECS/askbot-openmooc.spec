@@ -1,6 +1,6 @@
 %define platform openmooc
 %define component askbot-customs
-%define libname %{platform}openmooc
+%define libname %{platform}
 %define version 0.1
 %define release 1
 
@@ -21,7 +21,6 @@ License: Apache Software License
 Group: Development/Libraries
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Prefix: %{_prefix}
-BuildArch: noarch
 Vendor: Rooter <info@rooter.es>
 URL: https://github.com/OpenMOOC/askbot-openmooc
 Requires: openmooc-askbot = 0.7.44, python-djangosaml2 = 0.10.0, python-memcached = 1.48
