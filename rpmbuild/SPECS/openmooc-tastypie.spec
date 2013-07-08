@@ -14,21 +14,23 @@ Source:         http://github.com/OpenMOOC/django-tastypie/archive/0.9.11_no_rel
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildRequires:  python-devel
 BuildRequires:  python-distribute
+BuildRequires:  make
+BuildRequires:  python-sphinx
 Requires:       python-mimeparse >= 0.1.3
 Requires:       python-dateutil >= 1.5
 Requires:       python-django >= 1.2
-Requires:       python-sphinx
 BuildArch:      noarch
 
 %description
 Creating delicious APIs for Django apps since 2010.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n django-tastypie-0.9.11_no_related_saved
 
 %build
 python setup.py build
 # Build documentation
+cd docs
 make html
 
 %install
