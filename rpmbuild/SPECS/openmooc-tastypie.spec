@@ -17,20 +17,19 @@ BuildRequires:  python-distribute
 Requires:       python-mimeparse >= 0.1.3
 Requires:       python-dateutil >= 1.5
 Requires:       python-django >= 1.2
-Recommends:     python-lxml
-Recommends:     python-PyYAML
-Recommends:     python-biplist
-Recommends:     python-python-digest
+Requires:       python-sphinx
 BuildArch:      noarch
 
 %description
 Creating delicious APIs for Django apps since 2010.
 
 %prep
-%setup -q -n django-tastypie-%{version}
+%setup -q -n %{name}-%{version}
 
 %build
 python setup.py build
+# Build documentation
+make html
 
 %install
 python setup.py install --prefix=%{_prefix} --root=%{buildroot}
