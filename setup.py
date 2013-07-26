@@ -20,7 +20,7 @@ def recursive_include(directory, patterns):
 
 version = '0.1'
 
-setup(name='askbot-openmooc',
+setup(name='openmooc-askbot',
       version=version,
       description=("Askbot openmooc integration (theme, saml2, tags api)"),
       long_description=(read('README.rst') + '\n\n' + read('CHANGES.rst')),

@@ -4,6 +4,10 @@ local_settings.py
 docs/build
 saml2/remote_metadata.xml
 askbotopenmooc/static/
+rpmbuild/SOURCES/askbot-openmooc-*.tar.gz
+rpmbuild/BUIDLROOT/
+rpmbuild/RPMS/
+rpmbuild/SRPMS/
 
 *.key
 *.crt
