@@ -1,6 +1,21 @@
 # -*- coding: utf-8 -*-
-## Django settings for ASKBOT enabled project.
+# Copyright 2012-2013 Rooter Analysis S.L.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Deafult settings for an Askbot project inside OpenMOOC
 import os.path
+import logging
 import sys
 import askbot
 import site
@@ -9,8 +24,8 @@ import site
 ASKBOT_ROOT = os.path.abspath(os.path.dirname(askbot.__file__))
 site.addsitedir(os.path.join(ASKBOT_ROOT, 'deps'))
 
-DEBUG = False  # set to True to enable debugging
-TEMPLATE_DEBUG = False  # keep false when debugging jinja2 templates
+DEBUG = False #set to True to enable debugging
+TEMPLATE_DEBUG = False# keep false when debugging jinja2 templates
 INTERNAL_IPS = ('127.0.0.1',)
 
 ADMINS = (
@@ -19,29 +34,16 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-BASE_URL = 'http://questions.example.com/'
-
-## Deprecated
-# DATABASE_ENGINE = 'django.db.backends.mysql' # only postgres (>8.3) and mysql are supported so far others have not been tested yet
-# DATABASE_NAME = 'askbot'             # Or path to database file if using sqlite3.
-# DATABASE_USER = 'askbot'             # Not used with sqlite3.
-# DATABASE_PASSWORD = 'askbot'         # Not used with sqlite3.
-# DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-# DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
-# DATABASE_NAME_PREFIX = 'askbot_'
-
-
-ASKBOT_DATABASE_ENGINE = 'django.db.backends.mysql'
-
 DATABASES = {
     'default': {
-        'NAME': 'askbot',
-        'ENGINE': 'django.db.backends.mysql',
-        'USER': 'askbot',
-        'PASSWORD': 'askbot'
-    },
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'askbot',                      # Or path to database file if using sqlite3.
+        'USER': 'askbot',                      # Not used with sqlite3.
+        'PASSWORD': 'askbot',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    }
 }
-
 
 #outgoing mail server settings
 SERVER_EMAIL = ''
@@ -49,9 +51,9 @@ DEFAULT_FROM_EMAIL = ''
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_SUBJECT_PREFIX = ''
-EMAIL_HOST = ''
-EMAIL_PORT = ''
-EMAIL_USE_TLS = False
+EMAIL_HOST=''
+EMAIL_PORT=''
+EMAIL_USE_TLS=False
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 #incoming mail settings
@@ -93,38 +95,11 @@ LANGUAGES = (
     ('es', u'Español'),
 )
 
-# the default value is 'django_language' but changing this
-# to 'language' makes it easier to integrate with the IdP
-LANGUAGE_COOKIE_NAME = 'language'
-LANGUAGE_COOKIE_DOMAIN = '.example.com'
-
-MOOCNG_URL = 'https://moocng.org/'
-
-
-FOOTER_LINKS = (
-    ('%slegal' % MOOCNG_URL, {
-        'en': u'Legal',
-        'es': u'Condiciones legales',
-    }),
-    ('%scopyright' % MOOCNG_URL, {
-        'en': u'Moocng Copyright 2012',
-        'es': u'Moocng Copyright 2012',
-    }),
-    ('%stos' % MOOCNG_URL, {
-        'en': u'Terms of Use',
-        'es': u'Términos de uso',
-    }),
-    ('%scontact' % MOOCNG_URL, {
-        'en': u'Contact',
-        'es': u'Contacto',
-    }),
-)
-
 # Absolute path to the directory that holds uploaded media
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'askbot', 'upfiles')
 MEDIA_URL = '/upfiles/'
-STATIC_URL = '/m/'  # this must be different from MEDIA_URL
+STATIC_URL = '/m/'#this must be different from MEDIA_URL
 
 PROJECT_ROOT = os.path.dirname(__file__)
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
@@ -135,30 +110,24 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 # Make up some unique string, and don't share it with anybody.
-SECRET_KEY = 'sdljdfjkldsflsdjkhsjkldgjlsdgfs s 1233'
+SECRET_KEY = 'prf@a0)7jdbjm@*#$$%*ex1#3=ltvl$ojp%y+2g3t#p7sp!w3b'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'askbot.skins.loaders.Loader',
-    'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-    # 'django.template.loaders.filesystem.load_template_source',
-    #'django.template.loaders.app_directories.load_template_source',
-    #below is askbot stuff for this tuple
-    #'askbot.skins.loaders.filesystem_load_template_source',
+    'django.template.loaders.filesystem.Loader',
     #'django.template.loaders.eggs.load_template_source',
 )
 
 
 MIDDLEWARE_CLASSES = (
     #'django.middleware.gzip.GZipMiddleware',
+    # On 2013/07/01 this feature wasn't ready and gives errors. The creator encourages to comment it.
     #'askbot.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-
     #'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-
     #'django.middleware.cache.FetchFromCacheMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'django.middleware.sqlprint.SqlPrintingMiddleware',
@@ -206,25 +175,29 @@ ASKBOT_ALLOWED_UPLOAD_FILE_TYPES = (
     '.pptm',
 )
 
-ASKBOT_MAX_UPLOAD_FILE_SIZE = 2 * 1024 * 1024  # result in bytes
+ASKBOT_MAX_UPLOAD_FILE_SIZE = 2 * 1024 * 1024 #result in bytes
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 
 #TEMPLATE_DIRS = (,) #template have no effect in askbot, use the variable below
-#ASKBOT_EXTRA_SKINS_DIR = #path to your private skin collection
+try:
+    import openmoocaskbot
+    # This variable is meant to be overwritten in the course_settings file if
+    # necessary, but by default we load the default extra themes.
+    ASKBOT_EXTRA_SKINS_DIR = openmoocaskbot.__path__[0] + '/themes/'
+else:
+    if DEBUG:
+        sys.stderr.write("Couldn't import openmoocaskbot.\n")
 #take a look here http://askbot.org/en/question/207/
-# TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, 'admin-templates'),)
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'askbot.context.application_settings',
     'askbotopenmooc.context.openmooc_settings',
     'django.core.context_processors.i18n',
-    #'django.core.context_processors.tz',
-    'askbot.user_messages.context_processors.user_messages',  # must be before auth
-    #'django.core.context_processors.auth', #this is required for admin
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.csrf', # necessary for csrf protection
+    'askbot.user_messages.context_processors.user_messages',#must be before auth
+    'django.contrib.auth.context_processors.auth', #this is required for the admin app
+    'django.core.context_processors.csrf', #necessary for csrf protection
 )
 
 
@@ -241,6 +214,8 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'django.contrib.sitemaps',
     #'debug_toolbar',
+    #Optional, to enable haystack search
+    #'haystack',
     'askbot',
     #'askbot.deps.django_authopenid',
     #'askbot.importers.stackexchange', #se loader
@@ -249,16 +224,13 @@ INSTALLED_APPS = (
     'keyedcache',
     'robots',
     'django_countries',
-    # 'djcelery',
+    #'djcelery',
     'djkombu',
     'followit',
     'tinymce',
+    'group_messaging', # manage.py runtime testing needs it
     #'avatar',#experimental use git clone git://github.com/ericflo/django-avatar.git$
-    #'group_messaging',
-
-
     'djangosaml2',
-
     'askbotopenmooc.askbotopenmoocapp',
 )
 
@@ -268,7 +240,9 @@ INSTALLED_APPS = (
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 #needed for django-keyedcache
 CACHE_TIMEOUT = 6000
-CACHE_PREFIX = 'askbot'  # make this unique
+#sets a special timeout for livesettings if you want to make them different
+LIVESETTINGS_CACHE_TIMEOUT = CACHE_TIMEOUT
+CACHE_PREFIX = 'askbot' #make this unique
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 #If you use memcache you may want to uncomment the following line to enable memcached based sessions
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
@@ -276,15 +250,16 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 AUTHENTICATION_BACKENDS = (
     'askbotopenmooc.askbotopenmoocapp.backends.Saml2RestrictedForumAccess',
     'django.contrib.auth.backends.ModelBackend',
+    #'askbot.deps.django_authopenid.backends.AuthBackend',
 )
 
 #logging settings
-#LOG_FILENAME = 'askbot.log'
-#logging.basicConfig(
-#    filename=os.path.join(os.path.dirname(__file__), 'log', LOG_FILENAME),
-#    level=logging.CRITICAL,
-#    format='%(pathname)s TIME: %(asctime)s MSG: %(filename)s:%(funcName)s:%(lineno)d %(message)s',
-#)
+# LOG_FILENAME = 'askbot.log'
+# logging.basicConfig(
+#     filename=os.path.join(os.path.dirname(__file__), 'log', LOG_FILENAME),
+#     level=logging.CRITICAL,
+#     format='%(pathname)s TIME: %(asctime)s MSG: %(filename)s:%(funcName)s:%(lineno)d %(message)s',
+# )
 
 ###########################
 #
@@ -292,57 +267,187 @@ AUTHENTICATION_BACKENDS = (
 #
 #   ASKBOT_URL = 'forum/'
 #
-ASKBOT_URL = ''  # no leading slash, default = '' empty string
-ASKBOT_TRANSLATE_URL = False  # translate specific URLs
-#_ = lambda v:v #fake translation function for the login url
-#LOGIN_URL = '/%s%s%s' % (ASKBOT_URL,_('account/'),_('signin/'))
-
+ASKBOT_URL = '' #no leading slash, default = '' empty string
+ASKBOT_TRANSLATE_URL = True #translate specific URLs
+_ = lambda v:v #fake translation function for the login url
+LOGIN_URL = '/%s%s%s' % (ASKBOT_URL,_('account/'),_('signin/'))
+LOGIN_REDIRECT_URL = ASKBOT_URL #adjust, if needed
 #note - it is important that upload dir url is NOT translated!!!
 #also, this url must not have the leading slash
 ALLOW_UNICODE_SLUGS = False
-ASKBOT_USE_STACKEXCHANGE_URLS = False  # mimic url scheme of stackexchange
+ASKBOT_USE_STACKEXCHANGE_URLS = False #mimic url scheme of stackexchange
 
 #Celery Settings
 BROKER_TRANSPORT = "djkombu.transport.DatabaseTransport"
 CELERY_ALWAYS_EAGER = True
 
+import djcelery
+djcelery.setup_loader()
+DOMAIN_NAME = ''
 
-NOTIFICATION_DELAY_TIME = 60*15
-
-
-#import djcelery
-#djcelery.setup_loader()
-DOMAIN_NAME = 'customdomain'
-
-CSRF_COOKIE_NAME = 'customdomain_csrf'
+CSRF_COOKIE_NAME = '_csrf'
 #https://docs.djangoproject.com/en/1.3/ref/contrib/csrf/
 #CSRF_COOKIE_DOMAIN = DOMAIN_NAME
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
-STATICFILES_DIRS = (
-    os.path.join(ASKBOT_ROOT, 'skins'),
-    os.path.join(PROJECT_ROOT, "askbot-openmooc-themes"),
-)
+
+# Runtime testing forces this to be removed
+# STATICFILES_DIRS = (
+#     os.path.join(ASKBOT_ROOT, 'skins'),
+#     os.path.join(PROJECT_ROOT, "askbot-openmooc-themes"),
+#     ('default/media', os.path.join(ASKBOT_ROOT, 'media')),
+# )
 
 RECAPTCHA_USE_SSL = True
+
+#HAYSTACK_SETTINGS
+ENABLE_HAYSTACK_SEARCH = False
+HAYSTACK_SITECONF = 'askbot.search.haystack'
+#more information
+#http://django-haystack.readthedocs.org/en/v1.2.7/settings.html
+HAYSTACK_SEARCH_ENGINE = 'simple'
+
+TINYMCE_COMPRESSOR = True
+TINYMCE_SPELLCHECKER = False
+TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, 'default/media/js/tinymce/')
+TINYMCE_URL = STATIC_URL + 'default/media/js/tinymce/'
+TINYMCE_DEFAULT_CONFIG = {
+    'plugins': 'askbot_imageuploader,askbot_attachment',
+    'convert_urls': False,
+    'theme': 'advanced',
+    'content_css': STATIC_URL + 'default/media/style/tinymce/content.css',
+    'force_br_newlines': True,
+    'force_p_newlines': False,
+    'forced_root_block': '',
+    'mode' : 'textareas',
+    'oninit': "function(){ tinyMCE.activeEditor.setContent(askbot['data']['editorContent'] || ''); }",
+    'plugins': 'askbot_imageuploader,askbot_attachment',
+    'theme_advanced_toolbar_location' : 'top',
+    'theme_advanced_toolbar_align': 'left',
+    'theme_advanced_buttons1': 'bold,italic,underline,|,bullist,numlist,|,undo,redo,|,link,unlink,askbot_imageuploader,askbot_attachment',
+    'theme_advanced_buttons2': '',
+    'theme_advanced_buttons3' : '',
+    'theme_advanced_path': False,
+    'theme_advanced_resizing': True,
+    'theme_advanced_resize_horizontal': False,
+    'theme_advanced_statusbar_location': 'bottom',
+    'width': '723',
+    'height': '250'
+}
+
+#delayed notifications, time in seconds, 15 mins by default
+NOTIFICATION_DELAY_TIME = 60 * 15
 
 GROUP_MESSAGING = {
     'BASE_URL_GETTER_FUNCTION': 'askbot.models.user_get_profile_url',
     'BASE_URL_PARAMS': {'section': 'messages', 'sort': 'inbox'}
 }
 
-ENABLE_HAYSTACK_SEARCH = False
-HAYSTACK_SITECONF = "askbot.search.haystack"
+ASKBOT_INTERNAL_IPS=('127.0.0.1',)
+ASKBOT_USE_LOCAL_FONTS=True
 
-## MOOC Settings
+  ######################################################
+ ########################################################
+##########################################################
+#                                                        #
+#      THIS PART IS SPECIFIC FOR OPENMOOC-ASKBOT         #
+#                                                        #
+# It rewrites the configuration settings to have a fully #
+# automated askbot farm.                                 #
+##########################################################
 
-ASKBOT_EXTRA_SKINS_DIR =  os.path.join(PROJECT_ROOT, 'askbot-openmooc-themes')
+# Language settings
+# the default value is 'django_language' but changing this
+# to 'language' makes it easier to integrate with the IdP
+LANGUAGE_COOKIE_NAME = 'language'
+LANGUAGE_COOKIE_DOMAIN = '.example.com'
 
-STATICFILES_DIRS = (#os.path.join(ASKBOT_ROOT, 'skins'),
-                    ('default/media', os.path.join(ASKBOT_ROOT, 'media')),
-                    ASKBOT_EXTRA_SKINS_DIR,
+MOOCNG_URL = 'https://moocng.org/'
+
+
+FOOTER_LINKS = (
+    ('%slegal' % MOOCNG_URL, {
+        'en': u'Legal',
+        'es': u'Condiciones legales',
+    }),
+    ('%scopyright' % MOOCNG_URL, {
+        'en': u'Moocng Copyright 2012-2013',
+        'es': u'Moocng Copyright 2012-2013',
+    }),
+    ('%stos' % MOOCNG_URL, {
+        'en': u'Terms of Use',
+        'es': u'Términos de uso',
+    }),
+    ('%scontact' % MOOCNG_URL, {
+        'en': u'Contact',
+        'es': u'Contacto',
+    }),
 )
 
+# Deactivate all login providers, groups, recaptcha and change some minor
+# settings.
+LIVESETTINGS_OPTIONS = {
+    1: {
+        u'DB': True,
+        u'SETTINGS': {
+            u'FORUM_DATA_RULES': {
+                u'ALLOW_POSTING_BEFORE_LOGGING_IN': u'False',
+                u'WIKI_ON': u'False'
+            },
+            u'GENERAL_SKIN_SETTINGS': {
+                u'ASKBOT_DEFAULT_SKIN': u'mooc',
+                u'SHOW_LOGO': u'True',
+                u'SITE_LOGO_URL': u'images/logo.png'
+            },
+            u'GROUP_SETTINGS': {
+                u'GROUPS_ENABLED': u'False'
+            },
+            u'LOGIN_PROVIDERS': {
+                u'SIGNIN_AOL_ENABLED': u'False',
+                u'SIGNIN_BLOGGER_ENABLED': u'False',
+                u'SIGNIN_CLAIMID_ENABLED': u'False',
+                u'SIGNIN_FACEBOOK_ENABLED': u'False',
+                u'SIGNIN_FLICKR_ENABLED': u'False',
+                u'SIGNIN_GOOGLE_ENABLED': u'False',
+                u'SIGNIN_IDENTI.CA_ENABLED': u'False',
+                u'SIGNIN_LINKEDIN_ENABLED': u'False',
+                u'SIGNIN_LIVEJOURNAL_ENABLED': u'False',
+                u'SIGNIN_LOCAL_ENABLED': u'False',
+                u'SIGNIN_OPENID_ENABLED': u'False',
+                u'SIGNIN_TECHNORATI_ENABLED': u'False',
+                u'SIGNIN_TWITTER_ENABLED': u'False',
+                u'SIGNIN_VERISIGN_ENABLED': u'False',
+                u'SIGNIN_VIDOOP_ENABLED': u'False',
+                u'SIGNIN_WORDPRESS_ENABLED': u'False',
+                u'SIGNIN_YAHOO_ENABLED': u'False'
+            },
+            u'MARKUP': {
+                u'AUTO_LINK_PATTERNS': u'#course/(\\w+)/(\\d+)',
+                u'AUTO_LINK_URLS': u'http://example.com/\\1/\\2',
+                u'ENABLE_AUTO_LINKING': u'True',
+                u'MARKUP_CODE_FRIENDLY': u'True'
+            },
+            u'EXTERNAL_KEYS': {
+                u'USE_RECAPTCHA': u'False'
+            },
+            u'QA_SITE_SETTINGS': {
+                u'APP_TITLE': u'Askbot OpenMooc',
+                u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
+                u'APP_SHORT_NAME': u'Askbot OpenMooc'
+            },
+            u'SOCIAL_SHARING': {
+                'ENABLE_SHARING_LINKEDIN': u'False',
+                'ENABLE_SHARING_IDENTICA': u'False',
+            },
+            u'ACCESS_CONTROL': {
+                'ASKBOT_CLOSED_FORUM_MODE': u'False'
+            },
+        }
+    }
+}
+
+# SAML2 specific settings to allow federation in openmooc-askbot and integration
+# withe the IdP
 
 LOGIN_URL = '/saml2/login/'
 LOGIN_REDIRECT_URL = '/questions/' #aadjust, if needed
@@ -363,53 +468,7 @@ SAML_ATTRIBUTE_MAPPING = {
 SAML_AUTHORIZATION_ATTRIBUTE = None
 SAML_AUTHORIZATION_EXPECTED_VALUE = None
 
-
 EXTERNAL_KEYS = None
-
-
-LIVESETTINGS_OPTIONS = {
-    1: {u'DB': True,
-        u'SETTINGS': {
-                u'FORUM_DATA_RULES': {u'ALLOW_POSTING_BEFORE_LOGGING_IN': u'False',
-                                      u'WIKI_ON': u'False'},
-                u'GENERAL_SKIN_SETTINGS': {u'ASKBOT_DEFAULT_SKIN': u'mooc',
-                                           u'SHOW_LOGO': u'True',
-                                           u'SITE_LOGO_URL': u'images/logo.png'},
-                u'GROUP_SETTINGS': {u'GROUPS_ENABLED': u'False'},
-                u'LOGIN_PROVIDERS': {u'SIGNIN_AOL_ENABLED': u'False',
-                                     u'SIGNIN_BLOGGER_ENABLED': u'False',
-                                     u'SIGNIN_CLAIMID_ENABLED': u'False',
-                                     u'SIGNIN_FACEBOOK_ENABLED': u'False',
-                                     u'SIGNIN_FLICKR_ENABLED': u'False',
-                                     u'SIGNIN_GOOGLE_ENABLED': u'False',
-                                     u'SIGNIN_IDENTI.CA_ENABLED': u'False',
-                                     u'SIGNIN_LINKEDIN_ENABLED': u'False',
-                                     u'SIGNIN_LIVEJOURNAL_ENABLED': u'False',
-                                     u'SIGNIN_LOCAL_ENABLED': u'False',
-                                     u'SIGNIN_OPENID_ENABLED': u'False',
-                                     u'SIGNIN_TECHNORATI_ENABLED': u'False',
-                                     u'SIGNIN_TWITTER_ENABLED': u'False',
-                                     u'SIGNIN_VERISIGN_ENABLED': u'False',
-                                     u'SIGNIN_VIDOOP_ENABLED': u'False',
-                                     u'SIGNIN_WORDPRESS_ENABLED': u'False',
-                                     u'SIGNIN_YAHOO_ENABLED': u'False'},
-                u'MARKUP': {u'AUTO_LINK_PATTERNS': u'#course/(\\w+)/(\\d+)',
-                            u'AUTO_LINK_URLS': u'http://example.com/\\1/\\2',
-                            u'ENABLE_AUTO_LINKING': u'True',
-                            u'MARKUP_CODE_FRIENDLY': u'True'},
-                u'EXTERNAL_KEYS': {u'USE_RECAPTCHA': u'False'},
-                u'QA_SITE_SETTINGS': {u'APP_TITLE': u'Askbot OpenMooc',
-                                      u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
-                                      u'APP_SHORT_NAME': u'Askbot OpenMooc'
-                                      },
-                u'SOCIAL_SHARING': {'ENABLE_SHARING_LINKEDIN': u'False',
-                                    'ENABLE_SHARING_IDENTICA': u'False',
-                                    },
-                u'ACCESS_CONTROL': {'ASKBOT_CLOSED_FORUM_MODE': u'False'},
-                }
-        }
-}
-
 
 SAML2_COOKIE = 'saml2_logged'
 
@@ -499,31 +558,3 @@ else:
         SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'] = [(
                         "%s%s" % (FULL_ASKBOT_URL, 'saml2/ls/'),
                         saml2.BINDING_HTTP_REDIRECT)]
-
-TINYMCE_COMPRESSOR = True
-TINYMCE_SPELLCHECKER = False
-TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, 'default/media/js/tinymce/')
-TINYMCE_URL = STATIC_URL + 'default/media/js/tinymce/'
-TINYMCE_DEFAULT_CONFIG = {
-    'convert_urls': False,
-    'plugins': 'askbot_imageuploader,askbot_attachment',
-    'theme': 'advanced',
-    'content_css': STATIC_URL + 'default/media/style/tinymce/content.css',
-    'force_br_newlines': True,
-    'force_p_newlines': False,
-    'forced_root_block': '',
-    'mode' : 'textareas',
-    'oninit': "function(){ tinyMCE.activeEditor.setContent(askbot['data']['editorContent'] || ''); }",
-    'plugins': 'askbot_imageuploader,askbot_attachment',
-    'theme_advanced_toolbar_location' : 'top',
-    'theme_advanced_toolbar_align': 'left',
-    'theme_advanced_buttons1': 'bold,italic,underline,|,bullist,numlist,|,undo,redo,|,link,unlink,askbot_imageuploader,askbot_attachment',
-    'theme_advanced_buttons2': '',
-    'theme_advanced_buttons3' : '',
-    'theme_advanced_path': False,
-    'theme_advanced_resizing': True,
-    'theme_advanced_resize_horizontal': False,
-    'theme_advanced_statusbar_location': 'bottom',
-    'width': '723',
-    'height': '250'
-}
