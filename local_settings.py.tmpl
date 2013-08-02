@@ -3,14 +3,20 @@ import saml2
 from os import path, environ
 
 BASEDIR = path.dirname(__file__)
-COURSES_BASEDIR = '/home/askbot/courses'
-SAML2DIR = '/home/askbot/saml2'
-STATIC_ROOT = "/home/askbot/static_root"
+#SAML2DIR = path.join(BASEDIR, 'saml2')
+COURSES_BASEDIR = '/home/mooc/courses'
+SAML2DIR = '/home/mooc/saml2'
+
+#STATIC_ROOT = path.join(environ.get('HOME'), "static_root")
+STATIC_ROOT = "/home/mooc/static_root"
 
 
 LANGUAGE_CODE = 'en'
 
-DEBUG = False #set to True to enable debugging
+DEBUG = True #set to True to enable debugging
+
+# STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+# STATIC_ROOT = '/home/mooc/static-root'
 
 # STATIC_URL = '/m/'#this must be different from MEDIA_URL
 
@@ -27,19 +33,19 @@ DATABASE_NAME_PREFIX = 'askbot_'
 
 ASKBOT_DATABASE_USER = 'askbot'
 ASKBOT_DATABASE_PASSWORD = 'askbot'
-ASKBOT_DATABASE_ENGINE= 'django.db.backends.mysql'
+ASKBOT_DATABASE_ENGINE = 'django.db.backends.mysql'
 
 BOOTSTRAP_MODE = True
 
 
-SERVER_EMAIL = 'OpenMOOC'
+SERVER_EMAIL = 'smtp.example.com'
 DEFAULT_FROM_EMAIL = 'no-reply@questions.example.com'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_SUBJECT_PREFIX = ''
-EMAIL_HOST='127.0.0.1'
-EMAIL_PORT=''
-EMAIL_USE_TLS=False
+EMAIL_HOST = 'smtp.example.com'
+EMAIL_PORT = ''
+EMAIL_USE_TLS = False
 
 
 
@@ -48,12 +54,12 @@ EMAIL_USE_TLS=False
 EXTRA_SETTINGS = {
     u'APP_COPYRIGHT':'Open Mooc',
     u'USE_LICENSE':'False',
-    u'FEEDBACK_SITE_URL': '@MOOCNG_URL@/contact/'
+    u'FEEDBACK_SITE_URL': 'https://moocng.org/complaints/'
 }
 
-MOOCNG_URL = '@MOOCNG_URL@'
+MOOCNG_URL = 'https://moocng.org/'
 
-LANGUAGE_COOKIE_DOMAIN = '@LANGUAGE_COOKIE_DOMAIN@'
+LANGUAGE_COOKIE_DOMAIN = '.example.com'
 
 FOOTER_LINKS = (
     ('%slegal' % MOOCNG_URL, {
@@ -91,7 +97,7 @@ LOGGING = {
         'saml2file': {
            'level': 'DEBUG',
            'class': 'logging.FileHandler',
-           'filename': '/tmp/askbot-djangosaml2.log',
+           'filename': '/tmp/djangosaml2.log',
            'formatter': 'verbose',
         }
     },
@@ -111,8 +117,13 @@ CACHE_PREFIX = 'askbot' #make this unique
 SECRET_KEY = 'sdljdfjkldsflsdjkhsjkldgjlsdgfs s '
 
 ASKBOT_URL = ''
-BASE_URL = '@ASKBOT_URL@'
+BASE_URL = 'http://questions.example.com/'
 FULL_ASKBOT_URL = '%s%s' % (BASE_URL, ASKBOT_URL)
+
+
+# EXTERNAL_KEYS = {u'USE_RECAPTCHA',
+#                  u'RECAPTCHA_SECRET':u'6LeJCNYSAAAAAHTzqr4fPu_KsAS4hNXAzlymh8So',
+#                  u'RECAPTCHA_KEY':u'asdfasdfasfuiquasui349248951dsi230113411'}
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
@@ -122,6 +133,21 @@ SAML_ATTRIBUTE_MAPPING = {
     'cn': ('first_name', ),
     'sn': ('last_name', ),
 }
+
+SAML_AUTHORIZATION_ATTRIBUTE = None
+SAML_AUTHORIZATION_EXPECTED_VALUE = None
+
+# Closed Forums configuration
+#
+# SAML_AUTHORIZATION_ATTRIBUTE = "shacUserStatus"
+# SAML_AUTHORIZATION_ATTRIBUTE = "schacUserStatus"
+# SAML_AUTHORIZATION_EXPECTED_VALUE = "course_name"
+# SAML_AUTHORIZATION_URL = "https://idp.example.com/module.php/userregistrationApi/api.php/users/%s?apikey=123456789"
+#
+# Remember add this to every closed forums or to your skel course_settings
+#
+# COURSE_CLOSED = True
+# SAML_AUTHORIZATION_EXPECTED_VALUE = COURSE_NAME
 
 
 SAML_CONFIG = {
@@ -167,12 +193,12 @@ SAML_CONFIG = {
               # present in our metadata
 
               # the keys of this dictionary are entity ids
-              '@IDP_URL@simplesaml/saml2/idp/metadata.php': {
+              'https://idp.example.com/simplesaml/saml2/idp/metadata.php': {
                   'single_sign_on_service': {
-                      saml2.BINDING_HTTP_REDIRECT: '@IDP_URL@simplesaml/saml2/idp/SSOService.php',
+                      saml2.BINDING_HTTP_REDIRECT: 'https://idp.example.com/simplesaml/saml2/idp/SSOService.php',
                       },
                   'single_logout_service': {
-                      saml2.BINDING_HTTP_REDIRECT: '@IDP_URL@simplesaml/saml2/idp/SingleLogoutService.php',
+                      saml2.BINDING_HTTP_REDIRECT: 'https://idp.example.com/simplesaml/saml2/idp/SingleLogoutService.php',
                       },
                   },
               },
@@ -188,8 +214,8 @@ SAML_CONFIG = {
   'debug': 1,
 
   # certificate
-  'key_file': '/etc/ssl/askbot/server.key',  # private part
-  'cert_file': '/etc/ssl/askbot/server.crt',  # public part
+  'key_file': path.join("%s%s" % (SAML2DIR, "/certs"), 'server.key'),  # private part
+  'cert_file': path.join("%s%s" % (SAML2DIR, "/certs"), 'server.crt'),  # public part
 
 
   # own metadata settings
@@ -212,4 +238,3 @@ SAML_CONFIG = {
       'url': [('http://www.example.com', 'es'), ('http://www.example.com', 'en')],
       },
   }
-
