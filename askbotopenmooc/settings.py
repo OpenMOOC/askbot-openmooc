@@ -13,7 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Deafult settings for an Askbot project inside OpenMOOC
+
+"""
+This is the default settings for an OpenMOOC Askbot project. This is not meant
+to be used by the user.
+"""
+
 import os.path
 import logging
 import sys
@@ -476,7 +481,7 @@ try:
     from local_settings import *
 except ImportError:
     if DEBUG:
-        sys.stderr.write("Error in local_settings\n")
+        sys.stderr.write("\033[91m\n#################################\n#\n# local_settings.py not found!!\n#\n#################################\n\033[0m")
 
 else:
     if EXTERNAL_KEYS:
@@ -490,7 +495,7 @@ try:
     import course_settings
 except ImportError:
     if DEBUG:
-        sys.stderr.write("Error in course_settings\n")
+        sys.stderr.write("\033[91m\n#################################\n#\n# course_settings.py not found!!\n#\n#################################\n\033[0m")
 else:
     if 'COURSE_NAME' in dir():
         if not 'DATABASE_NAME' in dir(course_settings):

@@ -1,43 +1,63 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf8 -*-
+# Copyright 2013 Yaco Sistemas S.L.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+"""
+This are the specific settings for the local environment. This provides an
+extra configuration layer for all the common configuration parameters of the
+courses, p.e. the database.
+
+Configuration levels: openmooc-askbot, local_settings, course_settings
+"""
+
 import saml2
 from os import path, environ
 
+
+# Debug setting. Set this to True to have feedback. Default: False
+DEBUG = True #set to True to enable debugging
+
 BASEDIR = path.dirname(__file__)
 #SAML2DIR = path.join(BASEDIR, 'saml2')
-COURSES_BASEDIR = '/home/mooc/courses'
-SAML2DIR = '/home/mooc/saml2'
 
+# Set the base directory for the courses. Usually you should create a new user
+# and create the courses inside his home folder.
+COURSES_BASEDIR = '/home/exampleuser/courses'
+SAML2DIR = '/home/exampleuser/saml2'
+
+# Static files directory. You should put here the directory where you want to
+# keep the static files. Default: $HOME/static_root
 #STATIC_ROOT = path.join(environ.get('HOME'), "static_root")
-STATIC_ROOT = "/home/mooc/static_root"
+STATIC_ROOT = "/home/exampleuser/static_root"
+# STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+# STATIC_ROOT = '/home/exampleuser/static-root'
+# STATIC_URL = '/m/'#this must be different from MEDIA_URL
 
 
 LANGUAGE_CODE = 'en'
 
-DEBUG = True #set to True to enable debugging
-
-# STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-# STATIC_ROOT = '/home/mooc/static-root'
-
-# STATIC_URL = '/m/'#this must be different from MEDIA_URL
-
+# Database settings. This settings are common for all the courses.
 DATABASE_NAME_PREFIX = 'askbot_'
-
-
-
-#DATABASE_ENGINE = 'mysql' # only postgres (>8.3) and mysql are supported so far others have not been tested yet
-#DATABASE_NAME = 'askbot'             # Or path to database file if using sqlite3.
-#DATABASE_USER = 'askbot'             # Not used with sqlite3.
-#DATABASE_PASSWORD = 'askbot'         # Not used with sqlite3.
-#DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-#DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
-
 ASKBOT_DATABASE_USER = 'askbot'
 ASKBOT_DATABASE_PASSWORD = 'askbot'
 ASKBOT_DATABASE_ENGINE = 'django.db.backends.mysql'
 
+# Activate Twitter Bootstrap
 BOOTSTRAP_MODE = True
 
-
+# E-Mail configuration
 SERVER_EMAIL = 'smtp.example.com'
 DEFAULT_FROM_EMAIL = 'no-reply@questions.example.com'
 EMAIL_HOST_USER = ''
@@ -47,17 +67,20 @@ EMAIL_HOST = 'smtp.example.com'
 EMAIL_PORT = ''
 EMAIL_USE_TLS = False
 
+# Secret key for Askbot. Please make this private and secure!.
+SECRET_KEY = 'askbot_#-d(!f1z878n@6luytxz8$az5e(b@ctqgnxalyqoj&moep@^^2_random'
 
-
-# EXTRA LIVESETTINGS PROPERTIES
-
+# Askbot LiveSettings overrides. This section configures the Askbot LiveSettings
+# to match the OpenMOOC platform needs. Please don't modify this unless you know
+# what you're doing. You can find documentation about this section on:
+# http://askbot.org/doc/live-settings.html
 EXTRA_SETTINGS = {
     u'APP_COPYRIGHT':'Open Mooc',
     u'USE_LICENSE':'False',
-    u'FEEDBACK_SITE_URL': 'https://moocng.org/complaints/'
+    u'FEEDBACK_SITE_URL': 'https://moocng.example.com/complaints/'
 }
 
-MOOCNG_URL = 'https://moocng.org/'
+MOOCNG_URL = 'https://moocng.example.com/'
 
 LANGUAGE_COOKIE_DOMAIN = '.example.com'
 
@@ -67,8 +90,8 @@ FOOTER_LINKS = (
         'es': u'Condiciones legales',
     }),
     ('%scopyright' % MOOCNG_URL, {
-        'en': u'Moocng Copyright 2012',
-        'es': u'Moocng Copyright 2012',
+        'en': u'Moocng Copyright 2013',
+        'es': u'Moocng Copyright 2013',
     }),
     ('%stos' % MOOCNG_URL, {
         'en': u'Terms of Use',
@@ -80,9 +103,23 @@ FOOTER_LINKS = (
     }),
 )
 
+# Caching settings. OpenMOOC is configured by default to use memcached. Please
+# don't edit this unless you know what you're doing.
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
+CACHE_PREFIX = 'askbot' #make this unique
 
-# saml2 logger
-#
+# Base URLs. These are some basic URLs needed by openmooc-askbot to determine
+# the redirects in Askbot.
+ASKBOT_URL = ''
+BASE_URL = 'http://questions.example.com/'
+FULL_ASKBOT_URL = '%s%s' % (BASE_URL, ASKBOT_URL)
+
+
+# EXTERNAL_KEYS = {u'USE_RECAPTCHA',
+#                  u'RECAPTCHA_SECRET':u'6LeJCNYSAAAAAHTzqr4fPu_KsAS4hNXAzlymh8So',
+#                  u'RECAPTCHA_KEY':u'asdfasdfasfuiquasui349248951dsi230113411'}
+
+# SAML2 logger. This will log any strange activity within your IdP
 LOGGING = {
     'version': 1,
     'formatters': {
@@ -109,24 +146,8 @@ LOGGING = {
     }
 }
 
-
-
-CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
-CACHE_PREFIX = 'askbot' #make this unique
-
-SECRET_KEY = 'sdljdfjkldsflsdjkhsjkldgjlsdgfs s '
-
-ASKBOT_URL = ''
-BASE_URL = 'http://questions.example.com/'
-FULL_ASKBOT_URL = '%s%s' % (BASE_URL, ASKBOT_URL)
-
-
-# EXTERNAL_KEYS = {u'USE_RECAPTCHA',
-#                  u'RECAPTCHA_SECRET':u'6LeJCNYSAAAAAHTzqr4fPu_KsAS4hNXAzlymh8So',
-#                  u'RECAPTCHA_KEY':u'asdfasdfasfuiquasui349248951dsi230113411'}
-
+# SAML2/IdP settings. You must configure here your IdP settings
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
 
 SAML_ATTRIBUTE_MAPPING = {
     'mail': ('email', ),
@@ -148,7 +169,6 @@ SAML_AUTHORIZATION_EXPECTED_VALUE = None
 #
 # COURSE_CLOSED = True
 # SAML_AUTHORIZATION_EXPECTED_VALUE = COURSE_NAME
-
 
 SAML_CONFIG = {
   # full path to the xmlsec1 binary programm

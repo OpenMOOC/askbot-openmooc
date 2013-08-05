@@ -15,14 +15,13 @@
 
 from os import path
 
+
+# Course details section. You must edit this section according to your needs.
 COURSE_NAME = path.basename(path.dirname(__file__))
 COURSE_DIR = path.dirname(__file__)
 COURSE_URL = 'http://courses.example.com/course/%s/' % (COURSE_NAME)
 COURSE_TITLE = COURSE_NAME.capitalize()
 DATABASE_NAME = COURSE_NAME
-
-# This course won't be open to non-registered users. Default: False
-COURSE_CLOSED = False
 
 # If the course doesn't use the default Askbot theme or the extra themes provided
 # by OpenMOOC, uncomment this line and redirect to your skins directory
@@ -32,7 +31,10 @@ COURSE_CLOSED = False
 # to use another theme set it here.
 #ASKBOT_DEFAULT_SKIN = 'skinName'
 
-# SAML2 related settings.
+# This course won't be open to non-registered users. Default: False
+COURSE_CLOSED = False
+
+# SAML2 related settings. This settings are related to the closed courses setting
 # SAML_AUTHORIZATION_EXPECTED_VALUE = COURSE_NAME
 # SAML_AUTHORIZATION_ATTRIBUTE = "schacUserStatus"
 # SAML_AUTHORIZATION_URL='https://idp.difundi.com/module.php/userregistrationApi/api.php/users/%s?apikey=k7dnfya8hs54sjfak8a5lmcha8dksh6smbtai'
