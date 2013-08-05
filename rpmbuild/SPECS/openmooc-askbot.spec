@@ -4,7 +4,7 @@
 %define release 1
 %define libname %{component}%{platform}
 
-Summary: Askbot openmooc integration like theme and saml2
+Summary: Askbot OpenMOOC integration. Default theme and SAML2 authentication
 Name: %{platform}-%{component}
 Version: %{version}
 Release: %{release}
@@ -13,10 +13,10 @@ Source0: %{name}-%{version}.tar.gz
 
 Source1: openmooc-askbot.wsgi
 Source2: openmooc-askbot.conf
-Source3: local_settings.py
+Source3: openmooc-askbot-local_settings.py
 Source4: openmooc-askbot-admin.py
-Source5: server.key
-Source6: server.crt
+Source5: openmooc-askbot-server.key
+Source6: openmooc-askbot-server.crt
 
 
 License: Apache Software License
@@ -53,7 +53,7 @@ Askbot customizations for OpenMOOC
 # Create directories
 
 # /usr/share/doc/openmooc/askbot
-install -d -m 755 %{buildroot}/%{_defaultdocdir}/%{platform}/askbot
+install -d -m 755 %{buildroot}/%{_defaultdocdir}/%{platform}/%{component}
 
 # /etc/openmooc/askbot
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}
@@ -74,7 +74,7 @@ cp -a askbotopenmooc/saml2/attribute-maps %{buildroot}/%{_sysconfdir}/%{platform
 
 # /usr/libexexec/
 install -d -m 755 %{buildroot}/%{_libexecdir}/
-install -m 755 %{SOURCE1} %{buildroot}/%{_libexecdir}/
+install -m 755 %{SOURCE1} %{buildroot}/%{_libexecdir}/openmooc-askbot
 
 # /usr/bin/openmooc-askbot-admin.py
 install -d -m 755 %{buildroot}/%{_bindir}/
