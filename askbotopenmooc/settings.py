@@ -19,7 +19,7 @@ This is the default settings for an OpenMOOC Askbot project. This is not meant
 to be used by the user.
 """
 
-import os.path
+import os
 import logging
 import sys
 import askbot
@@ -183,16 +183,15 @@ ASKBOT_ALLOWED_UPLOAD_FILE_TYPES = (
 ASKBOT_MAX_UPLOAD_FILE_SIZE = 2 * 1024 * 1024 #result in bytes
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
-
 #TEMPLATE_DIRS = (,) #template have no effect in askbot, use the variable below
 try:
-    import openmoocaskbot
+    import askbotopenmooc
     # This variable is meant to be overwritten in the course_settings file if
     # necessary, but by default we load the default extra themes.
-    ASKBOT_EXTRA_SKINS_DIR = openmoocaskbot.__path__[0] + '/themes/'
-else:
+    ASKBOT_EXTRA_SKINS_DIR = askbotopenmooc.__path__[0] + '/themes/'
+except ImportError:
     if DEBUG:
-        sys.stderr.write("Couldn't import openmoocaskbot.\n")
+        sys.stderr.write("\033[91m\n#################################\n#\n# askbotopenmooc not found!!\n#\n#################################\n\033[0m")
 #take a look here http://askbot.org/en/question/207/
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -238,7 +237,6 @@ INSTALLED_APPS = (
     'djangosaml2',
     'askbotopenmooc.app',
 )
-
 
 #setup memcached for production use!
 #see http://docs.djangoproject.com/en/1.1/topics/cache/ for details
@@ -311,34 +309,6 @@ HAYSTACK_SITECONF = 'askbot.search.haystack'
 #more information
 #http://django-haystack.readthedocs.org/en/v1.2.7/settings.html
 HAYSTACK_SEARCH_ENGINE = 'simple'
-
-TINYMCE_COMPRESSOR = True
-TINYMCE_SPELLCHECKER = False
-TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, 'default/media/js/tinymce/')
-TINYMCE_URL = STATIC_URL + 'default/media/js/tinymce/'
-TINYMCE_DEFAULT_CONFIG = {
-    'plugins': 'askbot_imageuploader,askbot_attachment',
-    'convert_urls': False,
-    'theme': 'advanced',
-    'content_css': STATIC_URL + 'default/media/style/tinymce/content.css',
-    'force_br_newlines': True,
-    'force_p_newlines': False,
-    'forced_root_block': '',
-    'mode' : 'textareas',
-    'oninit': "function(){ tinyMCE.activeEditor.setContent(askbot['data']['editorContent'] || ''); }",
-    'plugins': 'askbot_imageuploader,askbot_attachment',
-    'theme_advanced_toolbar_location' : 'top',
-    'theme_advanced_toolbar_align': 'left',
-    'theme_advanced_buttons1': 'bold,italic,underline,|,bullist,numlist,|,undo,redo,|,link,unlink,askbot_imageuploader,askbot_attachment',
-    'theme_advanced_buttons2': '',
-    'theme_advanced_buttons3' : '',
-    'theme_advanced_path': False,
-    'theme_advanced_resizing': True,
-    'theme_advanced_resize_horizontal': False,
-    'theme_advanced_statusbar_location': 'bottom',
-    'width': '723',
-    'height': '250'
-}
 
 #delayed notifications, time in seconds, 15 mins by default
 NOTIFICATION_DELAY_TIME = 60 * 15
@@ -519,7 +489,7 @@ else:
             }
         }
 
-        MEDIA_ROOT = path.join(COURSE_DIR, 'upfiles')
+        MEDIA_ROOT = os.path.join(COURSE_DIR, 'upfiles')
         MEDIA_URL = '/%s/upfiles/' % COURSE_NAME
 
         # ASKBOT_URL = ('%s/') % COURSE_NAME
@@ -563,3 +533,5 @@ else:
         SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'] = [(
                         "%s%s" % (FULL_ASKBOT_URL, 'saml2/ls/'),
                         saml2.BINDING_HTTP_REDIRECT)]
+
+print "IM GOING TO CRASH!"
