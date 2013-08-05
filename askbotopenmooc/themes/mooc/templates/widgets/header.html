@@ -10,7 +10,7 @@
 
         <div id="languageBar">
         {% for (lang, lang_name) in LANGUAGES %}
-          <form action="{% url askbotopenmooc.askbotopenmoocapp.views.set_language %}" method="post">
+          <form action="{% url askbotopenmooc.app.views.set_language %}" method="post">
           {% csrf_token %}
           <input type="hidden" value="{{ lang }}" name="language">
           <input class="btn btn-link"

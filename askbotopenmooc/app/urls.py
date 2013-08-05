@@ -13,6 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from askbotopenmooc.askbotopenmoocapp.backends import backend_setting_verification
+from django.conf.urls.defaults import patterns, url
 
-backend_setting_verification()
+
+urlpatterns = patterns('',
+    url(r'^setlang/$', 'askbotopenmooc.app.views.set_language'),
+)

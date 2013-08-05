@@ -9,6 +9,6 @@ execfile(activate_this, dict(__file__=activate_this))
 
 sys.path.append(current_directory)
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'askbotopenmooc.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'askbotopenmooc.app.settings'
 import django.core.handlers.wsgi
 application = django.core.handlers.wsgi.WSGIHandler()

@@ -43,7 +43,7 @@ setup(name='openmooc-askbot',
       },
       zip_safe=False,
       install_requires=[
-          'askbot==0.7.44-openmooc',
+          'askbot==0.7.48',
           'djangosaml2==0.10.0',
           'python-memcached==1.48',
           'requests==1.2.0',

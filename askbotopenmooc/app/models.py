@@ -17,7 +17,7 @@ from django.contrib.auth.models import User
 
 from djangosaml2.signals import pre_user_save
 
-from askbotopenmooc.askbotopenmoocapp.utils import generate_unique_username
+from askbotopenmooc.app.utils import generate_unique_username
 
 
 def change_username(user, candidate):

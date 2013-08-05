@@ -154,12 +154,12 @@ echo "INFO: You must execute openmooc-askbot-admin.py collectstatic"
 %attr(0755,root,%name) %{_bindir}/%{name}-admin.py*
 
 %dir %{python_sitelib}/%{libname}/
-%dir %{python_sitelib}/%{libname}/askbotopenmoocapp
-%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/management
-%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/management/commands
-%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/migrations
-%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/templates
-%dir %{python_sitelib}/%{libname}/askbotopenmoocapp/templates/mooc
+%dir %{python_sitelib}/%{libname}/app
+%dir %{python_sitelib}/%{libname}/app/management
+%dir %{python_sitelib}/%{libname}/app/management/commands
+%dir %{python_sitelib}/%{libname}/app/migrations
+%dir %{python_sitelib}/%{libname}/app/templates
+%dir %{python_sitelib}/%{libname}/app/templates/mooc
 %dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/
 %dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media
 %dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media/images
@@ -181,11 +181,11 @@ echo "INFO: You must execute openmooc-askbot-admin.py collectstatic"
 %attr(0770,root,%name) %dir %{_localstatedir}/log/openmooc
 
 %{python_sitelib}/%{libname}/*.py*
-%{python_sitelib}/%{libname}/askbotopenmoocapp/*.py*
-%{python_sitelib}/%{libname}/askbotopenmoocapp/management/*.py*
-%{python_sitelib}/%{libname}/askbotopenmoocapp/management/commands/*.py*
-%{python_sitelib}/%{libname}/askbotopenmoocapp/migrations/*.py*
-%{python_sitelib}/%{libname}/askbotopenmoocapp/templates/mooc/*.html
+%{python_sitelib}/%{libname}/app/*.py*
+%{python_sitelib}/%{libname}/app/management/*.py*
+%{python_sitelib}/%{libname}/app/management/commands/*.py*
+%{python_sitelib}/%{libname}/app/migrations/*.py*
+%{python_sitelib}/%{libname}/app/templates/mooc/*.html
 %{python_sitelib}/%{libname}/admin-templates/admin/*.html
 %{python_sitelib}/%{libname}/saml2/attribute-maps/*py*
 

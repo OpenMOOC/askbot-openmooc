@@ -49,7 +49,7 @@ urlpatterns = patterns('',
     (r'^samltest/', 'djangosaml2.views.echo_attributes'),
 
     #Mooc App
-    (r'^mooc/', include('askbotopenmooc.askbotopenmoocapp.urls')),
+    (r'^mooc/', include('askbotopenmooc.app.urls')),
     #(r'^i18n/', include('django.conf.urls.i18n')),
 
 )

@@ -132,12 +132,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'django.middleware.sqlprint.SqlPrintingMiddleware',
 
-    'askbotopenmooc.askbotopenmoocapp.middlewares.Saml2SSORedirect',
+    'askbotopenmooc.app.middlewares.Saml2SSORedirect',
 
     #below is askbot stuff for this tuple
     'askbot.middleware.anon_user.ConnectToSessionMessagesMiddleware',
     'askbot.middleware.forum_mode.ForumModeMiddleware',
-    'askbotopenmooc.askbotopenmoocapp.middlewares.ForumModeMiddleware',
+    'askbotopenmooc.app.middlewares.ForumModeMiddleware',
     'askbot.middleware.cancel.CancelActionMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -231,7 +231,7 @@ INSTALLED_APPS = (
     'group_messaging', # manage.py runtime testing needs it
     #'avatar',#experimental use git clone git://github.com/ericflo/django-avatar.git$
     'djangosaml2',
-    'askbotopenmooc.askbotopenmoocapp',
+    'askbotopenmooc.app',
 )
 
 
@@ -248,7 +248,7 @@ CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 AUTHENTICATION_BACKENDS = (
-    'askbotopenmooc.askbotopenmoocapp.backends.Saml2RestrictedForumAccess',
+    'askbotopenmooc.app.backends.Saml2RestrictedForumAccess',
     'django.contrib.auth.backends.ModelBackend',
     #'askbot.deps.django_authopenid.backends.AuthBackend',
 )
