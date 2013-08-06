@@ -172,24 +172,6 @@ ul.tags, ul.tags.marked-tags, ul#related-tags {
    width: auto;
 }
 
-html body.anon #searchBar,
-html body.anon.lang-es #searchBar,
-html body.lang-es #searchBar,
-html #searchBar {
-   margin-left: 0;
-   margin-right: 0;
-   padding: 0;
-   width: auto;
-}
-
-body.anon #searchBar .searchInput,
-body.anon.lang-es #searchBar .searchInput,
-body.lang-es #searchBar .searchInput,
-#searchBar .searchInput {
-   min-width: 200px;
-   font-size: 14px;
-}
-
 #metaNav #navTags {
     background: url("/m/mooc/media/images/sprites.png") no-repeat scroll 0 -90px transparent;
 }
@@ -293,19 +275,6 @@ body .btn-link:hover {
     height: auto;
 }
 
-
-body #searchForm input#keywords,
-body #searchForm input#keywords.searchInputCancelable {
-    width: auto;
-    font-size: 16px;
-    height: 38px;
-}
-
-body #searchForm input.cancelSearchBtn {
-    height: 38px;
-    font-size: 24px;
-}
-
 .question-page p.rss a,
 #ContentRight .box p {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -342,4 +311,10 @@ body .paginator .page a {
    margin-right: 5px;
 }
 
+#searchBar {
+    margin: -49px 228px 0 397px;
+}
 
+body.anon #searchBar {
+    margin-left: 397px;
+}
