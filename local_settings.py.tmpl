@@ -22,29 +22,44 @@ courses, p.e. the database.
 Configuration levels: openmooc-askbot, local_settings, course_settings
 """
 
+import askbot
 import saml2
 from os import path, environ
 
-
 # Debug setting. Set this to True to have feedback. Default: False
-DEBUG = True #set to True to enable debugging
+DEBUG = False
 
-BASEDIR = path.dirname(__file__)
-#SAML2DIR = path.join(BASEDIR, 'saml2')
-
-# Set the base directory for the courses. Usually you should create a new user
+# Set the base directories for everything. Usually you should create a new user
 # and create the courses inside his home folder.
 COURSES_BASEDIR = '/home/exampleuser/courses'
 SAML2DIR = '/home/exampleuser/saml2'
+BASEDIR = path.dirname(__file__)
+PROJECT_ROOT = path.dirname(__file__)
+ASKBOT_ROOT = path.dirname(askbot.__file__)
+
+if DEBUG:
+    print "\nBASEDIR: %s\nSAML2DIR: %s\nCOURSES_BASEDIR: %s\nPROJECT_ROOT: %s\n" % (BASEDIR, SAML2DIR, COURSES_BASEDIR, PROJECT_ROOT)
+
+# Skin settings, this has to be declared before media and static roots
+ASKBOT_EXTRA_SKINS_DIR = PROJECT_ROOT + '/themes/'
 
 # Static files directory. You should put here the directory where you want to
 # keep the static files. Default: $HOME/static_root
-#STATIC_ROOT = path.join(environ.get('HOME'), "static_root")
-STATIC_ROOT = "/home/exampleuser/static_root"
-# STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-# STATIC_ROOT = '/home/exampleuser/static-root'
-# STATIC_URL = '/m/'#this must be different from MEDIA_URL
+MEDIA_ROOT = path.join(path.dirname(__file__), 'askbot', 'upfiles')
+MEDIA_URL = '/upfiles/'
 
+STATIC_ROOT = "/home/exampleuser/static_root"
+STATIC_URL = '/m/'
+
+if DEBUG:
+    print 'MEDIA_ROOT: %s\nSTATIC_ROOT: %s' % (MEDIA_ROOT, STATIC_ROOT)
+
+STATICFILES_DIRS = (
+    ASKBOT_EXTRA_SKINS_DIR,
+#    os.path.join(ASKBOT_ROOT, 'skins'),
+#    os.path.join(PROJECT_ROOT, "askbot-openmooc-themes"),
+    ('default/media', os.path.join(ASKBOT_ROOT, 'media')),
+)
 
 LANGUAGE_CODE = 'en'
 
@@ -84,7 +99,7 @@ EXTRA_SETTINGS = {
 # tests of Askbot. Please don't touch this section unless STRICTLY NECESSARY.
 TINYMCE_COMPRESSOR = True
 TINYMCE_SPELLCHECKER = False
-TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, 'default/media/js/tinymce/')
+TINYMCE_JS_ROOT = path.join(STATIC_ROOT, 'default/media/js/tinymce/')
 TINYMCE_URL = STATIC_URL + 'default/media/js/tinymce/'
 TINYMCE_DEFAULT_CONFIG = {
     'plugins': 'askbot_imageuploader,askbot_attachment',

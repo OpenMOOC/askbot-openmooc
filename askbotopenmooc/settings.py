@@ -370,7 +370,7 @@ LIVESETTINGS_OPTIONS = {
                 u'WIKI_ON': u'False'
             },
             u'GENERAL_SKIN_SETTINGS': {
-                u'ASKBOT_DEFAULT_SKIN': u'mooc',
+                #u'ASKBOT_DEFAULT_SKIN': u'mooc',
                 u'SHOW_LOGO': u'True',
                 u'SITE_LOGO_URL': u'images/logo.png'
             },
@@ -533,5 +533,3 @@ else:
         SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'] = [(
                         "%s%s" % (FULL_ASKBOT_URL, 'saml2/ls/'),
                         saml2.BINDING_HTTP_REDIRECT)]
-
-print "IM GOING TO CRASH!"
