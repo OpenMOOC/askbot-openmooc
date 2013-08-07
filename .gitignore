@@ -9,8 +9,6 @@ rpmbuild/BUIDLROOT/
 rpmbuild/RPMS/
 rpmbuild/SRPMS/
 
-*.key
-*.crt
 *.pyc
 *.egg-info
 *~
