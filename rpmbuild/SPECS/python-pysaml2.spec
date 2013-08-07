@@ -8,7 +8,7 @@ Summary:        Python implementation of SAML Version 2 to for instance be used 
 Group:          Development/Libraries
 License:        Apache 2.0
 URL:            http://pypi.python.org/pypi/%{mod_name}
-Source0:        https://github.com/rohe/%{mod_name}/archive/%{version}.tar.gz
+Source0:        %{mod_name}-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  python-devel python-setuptools
