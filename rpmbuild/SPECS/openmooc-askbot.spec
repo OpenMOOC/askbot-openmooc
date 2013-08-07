@@ -11,24 +11,31 @@ Release: %{release}
 
 Source0: %{name}-%{version}.tar.gz
 
-Source1: openmooc-askbot.wsgi
-Source2: openmooc-askbot.conf
-Source3: openmooc-askbot-local_settings.py
-Source4: openmooc-askbot-admin.py
-Source5: openmooc-askbot-server.key
-Source6: openmooc-askbot-server.crt
+Source1: %{platform}-%{component}.wsgi
+Source2: %{platform}-%{component}.conf
+Source3: %{platform}-%{component}-local_settings.py
+Source4: %{platform}-%{component}-admin.py
+Source5: %{platform}-%{component}-server.key
+Source6: %{platform}-%{component}-server.crt
 
 
-License: Apache Software License
+License: Apache Software License 2.0
 Group: Development/Libraries
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Prefix: %{_prefix}
 Vendor: Rooter <info@rooter.es>
-URL: https://github.com/OpenMOOC/askbot-openmooc
-Requires: askbot = 0.7.48, python-djangosaml2 = 0.10.0, python-memcached = 1.48
-Requires: python-gunicorn >= 0.14.6, python-requests >= 1.1.0
-Requires: nginx, supervisor >= 2.1.8
-Requires: xmlsec1 >= 1.2.16, xmlsec1-ssl >= 1.2.16
+URL: https://github.com/OpenMOOC/%{platform}-%{component}
+Requires: askbot = 0.7.48
+
+Requires: python-djangosaml2 = 0.10.0
+Requires: python-memcached = 1.48
+Requires: python-gunicorn >= 0.14.6
+Requires: python-requests >= 1.1.0
+Requires: nginx
+Requires: supervisor >= 2.1
+Requires: xmlsec1 >= 1.2.16
+Requires: xmlsec1-openssl >= 1.2.16
+
 
 %description
 Askbot customizations for OpenMOOC
@@ -43,8 +50,10 @@ Askbot customizations for OpenMOOC
 %prep
 %setup -n %{name}-%{version}
 
+
 %build
 %{__python} setup.py build
+
 
 %install
 %{__python} setup.py install -O1 --skip-build --root %{buildroot}
@@ -57,20 +66,19 @@ install -d -m 755 %{buildroot}/%{_defaultdocdir}/%{platform}/%{component}
 
 # /etc/openmooc/askbot
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}
-install -m 644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}
+install -m 644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/local_settings.py
 
 # /etc/openmooc/askbot/instances
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/instances
 
 # /etc/openmooc/askbot/certs
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/
-install -m 440 %{SOURCE5} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/
-install -m 440 %{SOURCE6} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/
+install -m 440 %{SOURCE5} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/server.key
+install -m 440 %{SOURCE6} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/server.crt
 
 # saml2 attribute-maps
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/saml2/
 cp -a askbotopenmooc/saml2/attribute-maps %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/saml2/
-
 
 # /usr/libexexec/
 install -d -m 755 %{buildroot}/%{_libexecdir}/
@@ -78,7 +86,7 @@ install -m 755 %{SOURCE1} %{buildroot}/%{_libexecdir}/openmooc-askbot
 
 # /usr/bin/openmooc-askbot-admin.py
 install -d -m 755 %{buildroot}/%{_bindir}/
-install -m 755 %{SOURCE4} %{buildroot}/%{_bindir}/
+install -m 755 %{SOURCE4} %{buildroot}/%{_bindir}/openmooc-askbot-admin
 
 # /var/lib/openmooc/askbot
 install -d -m 755 %{buildroot}/%{_sharedstatedir}/%{platform}/%{component}
@@ -97,23 +105,7 @@ install -d -m 755 %{buildroot}/%{_sysconfdir}/nginx/conf.d
 install -m 755 %{SOURCE2} %{buildroot}/%{_sysconfdir}/nginx/conf.d/%{name}.conf
 
 
-
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-%post
-
-## Preconfigure supervisor
-if ! grep "^# OPENMOOC" /etc/supervisord.conf > /dev/null ; then
-    cat /etc/supervisord.conf << EOF
-
-# OPENMOOC - Don't delete this line, this section is generate by openmooc rpms
-[include]
-files = /etc/openmooc/*/supervisord.conf
-
-EOF
-fi
-
+%pre
 ## Create group openmooc-askbot
 if ! getent group %name > /dev/null ; then
     groupadd %name
@@ -125,8 +117,26 @@ if ! [ -e /lib64/libxmlsec1-openssl.so ]; then
     ln -s /usr/lib64/libxmlsec1-openssl.so.1 %{_prefix}/lib64/libxmlsec1-openssl.so
 fi
 
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+
+%post
+## Preconfigure supervisor
+if ! grep "^# OPENMOOC" /etc/supervisord.conf > /dev/null ; then
+    cat /etc/supervisord.conf << EOF
+
+# OPENMOOC - Don't delete this line, this section is generate by openmooc rpms
+[include]
+files = /etc/openmooc/*/supervisord.conf
+
+EOF
+fi
+
 ## Message to notice about collectstatic
 echo "INFO: You must execute openmooc-askbot-admin.py collectstatic"
+
 
 %files
 %defattr(-,root,root)
@@ -141,7 +151,6 @@ echo "INFO: You must execute openmooc-askbot-admin.py collectstatic"
 %dir %{_sharedstatedir}/%{platform}/%{component}
 %dir %{_sharedstatedir}/%{platform}/%{component}/instances
 
-
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/certs/server.key
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/certs/server.crt
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/local_settings.py*
@@ -150,8 +159,8 @@ echo "INFO: You must execute openmooc-askbot-admin.py collectstatic"
 
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/saml2/attribute-maps/*py*
 
-%attr(0755,root,%name) %{_libexecdir}/%{name}.wsgi
-%attr(0755,root,%name) %{_bindir}/%{name}-admin.py*
+%attr(0755,root,%name) %{_libexecdir}/%{name}
+%attr(0755,root,%name) %{_bindir}/%{name}-admin
 
 %dir %{python_sitelib}/%{libname}/
 %dir %{python_sitelib}/%{libname}/app
@@ -160,15 +169,15 @@ echo "INFO: You must execute openmooc-askbot-admin.py collectstatic"
 %dir %{python_sitelib}/%{libname}/app/migrations
 %dir %{python_sitelib}/%{libname}/app/templates
 %dir %{python_sitelib}/%{libname}/app/templates/mooc
-%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/
-%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media
-%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media/images
-%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media/bootstrap/css
-%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media/style
-%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates
-%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates/widgets
-%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates/meta
-%dir %{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates/question
+%dir %{python_sitelib}/%{libname}/themes/mooc/
+%dir %{python_sitelib}/%{libname}/themes/mooc/media
+%dir %{python_sitelib}/%{libname}/themes/mooc/media/images
+%dir %{python_sitelib}/%{libname}/themes/mooc/media/bootstrap/css
+%dir %{python_sitelib}/%{libname}/themes/mooc/media/style
+%dir %{python_sitelib}/%{libname}/themes/mooc/templates
+%dir %{python_sitelib}/%{libname}/themes/mooc/templates/widgets
+%dir %{python_sitelib}/%{libname}/themes/mooc/templates/meta
+%dir %{python_sitelib}/%{libname}/themes/mooc/templates/question
 %dir %{python_sitelib}/%{libname}/admin-templates
 %dir %{python_sitelib}/%{libname}/admin-templates/admin
 %dir %{python_sitelib}/%{libname}/locale/en/LC_MESSAGES/
@@ -189,16 +198,20 @@ echo "INFO: You must execute openmooc-askbot-admin.py collectstatic"
 %{python_sitelib}/%{libname}/admin-templates/admin/*.html
 %{python_sitelib}/%{libname}/saml2/attribute-maps/*py*
 
-%{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media/images/*
-%{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media/bootstrap/css/bootstrap.css
-%{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media/style/*.css
-%{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/media/js/*.js
-%{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates/widgets/*.html
-%{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates/meta/*.html
-%{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates/question/*.html
-%{python_sitelib}/%{libname}/askbot-openmooc-themes/mooc/templates/main_page/*.html
+%{python_sitelib}/%{libname}/themes/mooc/media/images/*
+%{python_sitelib}/%{libname}/themes/mooc/media/bootstrap/css/bootstrap.css
+%{python_sitelib}/%{libname}/themes/mooc/media/style/*.css
+%{python_sitelib}/%{libname}/themes/mooc/media/js/*.js
+%{python_sitelib}/%{libname}/themes/mooc/templates/widgets/*.html
+%{python_sitelib}/%{libname}/themes/mooc/templates/meta/*.html
+%{python_sitelib}/%{libname}/themes/mooc/templates/question/*.html
+%{python_sitelib}/%{libname}/themes/mooc/templates/main_page/*.html
 
 %{python_sitelib}/%{libname}/locale/en/LC_MESSAGES/*
 %{python_sitelib}/%{libname}/locale/es/LC_MESSAGES/*
 
 %{python_sitelib}/%{platform}_%{component}-%{version}-*.egg-info/*
+
+%changelog
+* Thu Aug 7 2013 Oscar Carballal Prego <ocarballal@yaco.es> - 0.1-1
+- Create spec for openmooc-askbot
