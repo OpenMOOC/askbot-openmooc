@@ -23,32 +23,35 @@ Configuration levels: openmooc-askbot, local_settings, course_settings
 """
 
 import askbot
+import askbotopenmooc
 import saml2
 from os import path, environ
+
 
 # Debug setting. Set this to True to have feedback. Default: False
 DEBUG = False
 
 # Set the base directories for everything. Usually you should create a new user
 # and create the courses inside his home folder.
-COURSES_BASEDIR = '/home/exampleuser/courses'
-SAML2DIR = '/home/exampleuser/saml2'
+COURSES_BASEDIR = '/etc/openmooc/askbot/instances/'
+SAML2DIR = '/etc/openmooc/askbot/saml2'
 BASEDIR = path.dirname(__file__)
 PROJECT_ROOT = path.dirname(__file__)
 ASKBOT_ROOT = path.dirname(askbot.__file__)
+ASKBOTOPENMOOC_ROOT = path.dirname(askbotopenmooc.__file__)
 
 if DEBUG:
-    print "\nBASEDIR: %s\nSAML2DIR: %s\nCOURSES_BASEDIR: %s\nPROJECT_ROOT: %s\n" % (BASEDIR, SAML2DIR, COURSES_BASEDIR, PROJECT_ROOT)
+    print "\nASKBOT_ROOT: %s\nASKBOTOPENMOOC_ROOT: %s\nBASEDIR: %s\nSAML2DIR: %s\nCOURSES_BASEDIR: %s\nPROJECT_ROOT: %s\n" % (ASKBOT_ROOT, ASKBOTOPENMOOC_ROOT, BASEDIR, SAML2DIR, COURSES_BASEDIR, PROJECT_ROOT)
 
 # Skin settings, this has to be declared before media and static roots
-ASKBOT_EXTRA_SKINS_DIR = PROJECT_ROOT + '/themes/'
+ASKBOT_EXTRA_SKINS_DIR = ASKBOTOPENMOOC_ROOT + '/themes/'
 
 # Static files directory. You should put here the directory where you want to
 # keep the static files. Default: $HOME/static_root
 MEDIA_ROOT = path.join(path.dirname(__file__), 'askbot', 'upfiles')
 MEDIA_URL = '/upfiles/'
 
-STATIC_ROOT = "/home/exampleuser/static_root"
+STATIC_ROOT = "/var/lib/openmooc/askbot/static"
 STATIC_URL = '/m/'
 
 if DEBUG:
@@ -67,7 +70,7 @@ LANGUAGE_CODE = 'en'
 DATABASE_NAME_PREFIX = 'askbot_'
 ASKBOT_DATABASE_USER = 'askbot'
 ASKBOT_DATABASE_PASSWORD = 'askbot'
-ASKBOT_DATABASE_ENGINE = 'django.db.backends.mysql'
+ASKBOT_DATABASE_ENGINE = 'django.db.backends.postgresql_psycopg2'
 
 # Activate Twitter Bootstrap
 BOOTSTRAP_MODE = True

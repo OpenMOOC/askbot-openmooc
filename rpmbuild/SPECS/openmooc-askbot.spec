@@ -104,6 +104,8 @@ install -d -m 775 %{buildroot}%{_localstatedir}/log/openmooc
 install -d -m 755 %{buildroot}/%{_sysconfdir}/nginx/conf.d
 install -m 755 %{SOURCE2} %{buildroot}/%{_sysconfdir}/nginx/conf.d/%{name}.conf
 
+# /var/lib/openmooc/askbot/media | static
+install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{platform}/%{component}/static
 
 %pre
 ## Create group openmooc-askbot
