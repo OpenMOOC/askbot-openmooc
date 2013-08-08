@@ -132,6 +132,9 @@ fi
 ## Message to notice about collectstatic
 echo "INFO: You must execute openmooc-askbot-admin.py collectstatic"
 
+%postun
+## Remove the .so link
+rm /usr/lib64/libxmlsec1-openssl.so
 
 %files
 %defattr(-,root,root)
@@ -141,7 +144,6 @@ echo "INFO: You must execute openmooc-askbot-admin.py collectstatic"
 %dir %{_defaultdocdir}/
 %dir %{_sysconfdir}/%{platform}
 %dir %{_sysconfdir}/%{platform}/%{component}
-%dir %{_sysconfdir}/%{platform}/%{component}/instances
 %dir %{_sysconfdir}/%{platform}/%{component}/certs
 %dir %{_sharedstatedir}/%{platform}/%{component}
 %dir %{_sharedstatedir}/%{platform}/%{component}/instances
@@ -149,12 +151,11 @@ echo "INFO: You must execute openmooc-askbot-admin.py collectstatic"
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/certs/server.key
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/certs/server.crt
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/local_settings.py*
-
+%config(noreplace) %{_sysconfdir}/%{platform}/%{component}/instances/*
 %config(noreplace) %{_sysconfdir}/nginx/conf.d/%{name}.conf
 
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/saml2/attribute-maps/*py*
 
-%attr(0755,root,%name) %{_libexecdir}/%{name}
 %attr(0755,root,%name) %{_bindir}/%{name}-admin
 
 %dir %{python_sitelib}/%{libname}/
