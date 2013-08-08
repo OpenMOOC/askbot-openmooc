@@ -10,14 +10,11 @@ Version: %{version}
 Release: %{release}
 
 Source0: %{name}-%{version}.tar.gz
-
-Source1: %{platform}-%{component}.wsgi
-Source2: %{platform}-%{component}.conf
-Source3: %{platform}-%{component}-local_settings.py
-Source4: %{platform}-%{component}-admin.py
-Source5: %{platform}-%{component}-server.key
-Source6: %{platform}-%{component}-server.crt
-
+Source1: %{platform}-%{component}.conf
+Source2: %{platform}-%{component}-local_settings.py
+Source3: %{platform}-%{component}-admin.py
+Source4: %{platform}-%{component}-server.key
+Source5: %{platform}-%{component}-server.crt
 
 License: Apache Software License 2.0
 Group: Development/Libraries
@@ -66,27 +63,23 @@ install -d -m 755 %{buildroot}/%{_defaultdocdir}/%{platform}/%{component}
 
 # /etc/openmooc/askbot
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}
-install -m 644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/local_settings.py
+install -m 644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/local_settings.py
 
 # /etc/openmooc/askbot/instances
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/instances
 
 # /etc/openmooc/askbot/certs
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/
-install -m 440 %{SOURCE5} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/server.key
-install -m 440 %{SOURCE6} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/server.crt
+install -m 440 %{SOURCE4} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/server.key
+install -m 440 %{SOURCE5} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/server.crt
 
 # saml2 attribute-maps
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/saml2/
 cp -a askbotopenmooc/saml2/attribute-maps %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/saml2/
 
-# /usr/libexexec/
-install -d -m 755 %{buildroot}/%{_libexecdir}/
-install -m 755 %{SOURCE1} %{buildroot}/%{_libexecdir}/openmooc-askbot
-
 # /usr/bin/openmooc-askbot-admin.py
 install -d -m 755 %{buildroot}/%{_bindir}/
-install -m 755 %{SOURCE4} %{buildroot}/%{_bindir}/openmooc-askbot-admin
+install -m 755 %{SOURCE3} %{buildroot}/%{_bindir}/openmooc-askbot-admin
 
 # /var/lib/openmooc/askbot
 install -d -m 755 %{buildroot}/%{_sharedstatedir}/%{platform}/%{component}
@@ -102,7 +95,7 @@ install -d -m 775 %{buildroot}%{_localstatedir}/log/openmooc
 
 # nginx conf
 install -d -m 755 %{buildroot}/%{_sysconfdir}/nginx/conf.d
-install -m 755 %{SOURCE2} %{buildroot}/%{_sysconfdir}/nginx/conf.d/%{name}.conf
+install -m 755 %{SOURCE1} %{buildroot}/%{_sysconfdir}/nginx/conf.d/%{name}.conf
 
 # /var/lib/openmooc/askbot/media | static
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{platform}/%{component}/static
