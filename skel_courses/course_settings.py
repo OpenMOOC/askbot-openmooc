@@ -25,11 +25,11 @@ DATABASE_NAME = COURSE_NAME
 
 # If the course doesn't use the default Askbot theme or the extra themes provided
 # by OpenMOOC, uncomment this line and redirect to your skins directory
-#ASKBOT_EXTRA_SKINS_DIR = '/path/to/your/skins/'
+# ASKBOT_EXTRA_SKINS_DIR = '/path/to/your/skins/'
 
 # By default, OpenMOOC-Askbot will load the 'openmooc_default' theme. If you need
 # to use another theme set it here.
-#ASKBOT_DEFAULT_SKIN = 'skinName'
+# ASKBOT_DEFAULT_SKIN = 'skinName'
 
 # This course won't be open to non-registered users. Default: False
 COURSE_CLOSED = False
