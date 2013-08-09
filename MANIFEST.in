@@ -1,15 +1,13 @@
 include CHANGES*
 include COPYING
 include README*
-recursive-include docs *
-recursive-include utils *
 recursive-include askbotopenmooc *
-exclude local_settings.py
-exclude .gitignore
-exclude urls.py
+recursive-include docs *
+recursive-include skel_courses *.py
+recursive-include skel_courses *.conf
+recursive-include utils *
 recursive-exclude .git *
 recursive-exclude . *.pyc
-recursive-exclude env *
 recursive-exclude rpmbuild *
 prune dist
 prune tmp
