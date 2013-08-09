@@ -88,10 +88,10 @@ install -d -m 755 %{buildroot}/%{_sharedstatedir}/%{platform}/%{component}
 install -d -m 755 %{buildroot}/%{_sharedstatedir}/%{platform}/%{component}/instances
 
 # /var/run/openmooc [gunicorn sockets]
-install -d -m 770 %{buildroot}%{_localstatedir}/run/openmooc
+install -d -m 770 %{buildroot}%{_localstatedir}/run/openmooc/askbot
 
 # /var/log/openmooc
-install -d -m 775 %{buildroot}%{_localstatedir}/log/openmooc
+install -d -m 775 %{buildroot}%{_localstatedir}/log/openmooc/askbot
 
 # nginx conf
 install -d -m 755 %{buildroot}/%{_sysconfdir}/nginx/conf.d
@@ -209,5 +209,5 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %{python_sitelib}/%{platform}_%{component}-%{version}-*.egg-info/*
 
 %changelog
-* Thu Aug 7 2013 Oscar Carballal Prego <ocarballal@yaco.es> - 0.1-1
+* Fri Aug 9 2013 Oscar Carballal Prego <ocarballal@yaco.es> - 0.1-1
 - Create spec for openmooc-askbot
