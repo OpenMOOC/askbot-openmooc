@@ -8,6 +8,7 @@ try:
     sys.path.insert(0, localsettings)
 except:
     sys.path.insert(0, '/etc/openmooc/askbot')
+    sys.path.insert(0, os.getcwd())
 
 def application(environ, start_response):
     from django.core.wsgi import get_wsgi_application

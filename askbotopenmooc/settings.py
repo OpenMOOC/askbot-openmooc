@@ -186,7 +186,7 @@ DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 #TEMPLATE_DIRS = (,) #template have no effect in askbot, use the variable below
 try:
     import askbotopenmooc
-    # This variable is meant to be overwritten in the course_settings file if
+    # This variable is meant to be overwritten in the instance_settings file if
     # necessary, but by default we load the default extra themes.
     ASKBOT_EXTRA_SKINS_DIR = askbotopenmooc.__path__[0] + '/themes/'
 except ImportError:
@@ -370,7 +370,7 @@ LIVESETTINGS_OPTIONS = {
                 u'WIKI_ON': u'False'
             },
             u'GENERAL_SKIN_SETTINGS': {
-                #u'ASKBOT_DEFAULT_SKIN': u'mooc',
+                u'ASKBOT_DEFAULT_SKIN': u'mooc',
                 u'SHOW_LOGO': u'True',
                 u'SITE_LOGO_URL': u'images/logo.png'
             },
@@ -461,14 +461,14 @@ else:
     DATABASES['default']['ENGINE'] = ASKBOT_DATABASE_ENGINE
 
 try:
-    from course_settings import *
-    import course_settings
+    from instance_settings import *
+    import instance_settings
 except ImportError:
     if DEBUG:
-        sys.stderr.write("\033[91m\n#################################\n#\n# course_settings.py not found!!\n#\n#################################\n\033[0m")
+        sys.stderr.write("\033[91m\n#################################\n#\n# instance_settings.py not found!!\n#\n#################################\n\033[0m")
 else:
     if 'COURSE_NAME' in dir():
-        if not 'DATABASE_NAME' in dir(course_settings):
+        if not 'DATABASE_NAME' in dir(instance_settings):
             DATABASE_NAME = ('%s%s' % (DATABASE_NAME_PREFIX, COURSE_NAME))
 
         DATABASES = {

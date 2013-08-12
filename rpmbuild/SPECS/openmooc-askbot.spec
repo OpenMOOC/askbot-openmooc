@@ -88,9 +88,11 @@ install -d -m 755 %{buildroot}/%{_sharedstatedir}/%{platform}/%{component}
 install -d -m 755 %{buildroot}/%{_sharedstatedir}/%{platform}/%{component}/instances
 
 # /var/run/openmooc [gunicorn sockets]
+nstall -d -m 770 %{buildroot}%{_localstatedir}/run/openmooc
 install -d -m 770 %{buildroot}%{_localstatedir}/run/openmooc/askbot
 
 # /var/log/openmooc
+install -d -m 775 %{buildroot}%{_localstatedir}/log/openmoo
 install -d -m 775 %{buildroot}%{_localstatedir}/log/openmooc/askbot
 
 # nginx conf
@@ -151,7 +153,7 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/certs/server.key
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/certs/server.crt
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/local_settings.py*
-%config(noreplace) %{_sysconfdir}/%{platform}/%{component}/instances/*
+%config(noreplace) %{_sysconfdir}/%{platform}/%{component}/instances/
 %config(noreplace) %{_sysconfdir}/nginx/conf.d/%{name}.conf
 
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/saml2/attribute-maps/*py*

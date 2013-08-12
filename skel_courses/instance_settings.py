@@ -13,8 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+Instance-level settings for openmooc-askbot. You can set here any of the settings
+related with the course and all of the askbot/django settings if necessary, but
+we recommend you to keep this configuration file as tidy as possible.
+
+All the settings that affect all the instances are applied in local_settings.py.
+"""
 from os import path
 
+
+# DEBUG = False # You can set the DEBUG here if necessary
 
 # Course details section. You must edit this section according to your needs.
 COURSE_NAME = path.basename(path.dirname(__file__))
