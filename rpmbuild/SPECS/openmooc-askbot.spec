@@ -77,9 +77,10 @@ install -m 440 %{SOURCE5} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/c
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/saml2/
 cp -a askbotopenmooc/saml2/attribute-maps %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/saml2/
 
-# /usr/bin/openmooc-askbot-admin.py
+# /usr/bin/openmooc-askbot-admin | /usr/bin/openmooc-askbot-instancetool
 install -d -m 755 %{buildroot}/%{_bindir}/
 install -m 755 %{SOURCE3} %{buildroot}/%{_bindir}/openmooc-askbot-admin
+install -m 755 utils/%{name}-instancetool.py %{buildroot}/%{_bindir}/%{name}-instancetool
 
 # /var/lib/openmooc/askbot
 install -d -m 755 %{buildroot}/%{_sharedstatedir}/%{platform}/%{component}
@@ -159,6 +160,7 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/saml2/attribute-maps/*py*
 
 %attr(0755,root,%name) %{_bindir}/%{name}-admin
+%attr(0755,root,%name) %{_bindir}/%{name}-instancetool
 
 %dir %{python_sitelib}/%{libname}/
 %dir %{python_sitelib}/%{libname}/app
@@ -183,11 +185,12 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %dir %{python_sitelib}/%{libname}/saml2
 %dir %{python_sitelib}/%{libname}/saml2/attribute-maps
 %dir %{python_sitelib}/%{libname}/skel_instances
-%dir %{python_sitelib}/%{libname}/skel_instances/instance_settings.py*
-%dir %{python_sitelib}/%{libname}/skel_instances/supervisor.conf
-%dir %{python_sitelib}/%{libname}/skel_instances/nginx.conf
-%dir %{python_sitelib}/%{libname}/skel_instances/nginx.forward.conf
-%dir %{python_sitelib}/%{libname}/skel_instances/manage.py
+
+%{python_sitelib}/%{libname}/skel_instances/instance_settings.py*
+%{python_sitelib}/%{libname}/skel_instances/supervisor.conf
+%{python_sitelib}/%{libname}/skel_instances/nginx.conf
+%{python_sitelib}/%{libname}/skel_instances/nginx.forward.conf
+%{python_sitelib}/%{libname}/skel_instances/manage.py
 
 %dir %{python_sitelib}/%{platform}_%{component}-%{version}-*.egg-info/
 
