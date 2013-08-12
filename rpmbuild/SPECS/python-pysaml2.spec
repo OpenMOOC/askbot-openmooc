@@ -12,7 +12,7 @@ Source0:        %{mod_name}-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  python-devel python-setuptools
-Requires:       python-decorator, python-httplib2, python-paste, python-zope-interface 
+Requires:       python-decorator, python-httplib2, python-paste, python-zope-interface
 Requires:       python-repoze-who
 
 %description
@@ -32,7 +32,7 @@ frameworks.
 %install
 %{__python} setup.py install -O1 --skip-build --root %{buildroot}
 
- 
+
 %files
 %doc doc/ INSTALL README TODO example
 
@@ -49,6 +49,7 @@ frameworks.
 %changelog
 * Thu Jul 3 2013 Oscar Carballal Prego <ocarballal@yaco.es> - 0.4.3-1
 - Updated spec to 0.4.3, got sources from github
+  https://github.com/rohe/pysaml2/archive/0.4.3.tar.gz
 
 * Tue Feb 5 2013 Antonio Perez-Aranda Alcaide <aperezaranda@yaco.es> - 0.4.2-1
 - Initial RPM release
