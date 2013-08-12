@@ -92,7 +92,7 @@ nstall -d -m 770 %{buildroot}%{_localstatedir}/run/openmooc
 install -d -m 770 %{buildroot}%{_localstatedir}/run/openmooc/askbot
 
 # /var/log/openmooc
-install -d -m 775 %{buildroot}%{_localstatedir}/log/openmoo
+install -d -m 775 %{buildroot}%{_localstatedir}/log/openmooc
 install -d -m 775 %{buildroot}%{_localstatedir}/log/openmooc/askbot
 
 # nginx conf
@@ -182,6 +182,12 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %dir %{python_sitelib}/%{libname}/locale/es/LC_MESSAGES/
 %dir %{python_sitelib}/%{libname}/saml2
 %dir %{python_sitelib}/%{libname}/saml2/attribute-maps
+%dir %{python_sitelib}/%{libname}/skel_instances
+%dir %{python_sitelib}/%{libname}/skel_instances/instance_settings.py*
+%dir %{python_sitelib}/%{libname}/skel_instances/supervisor.conf
+%dir %{python_sitelib}/%{libname}/skel_instances/nginx.conf
+%dir %{python_sitelib}/%{libname}/skel_instances/nginx.forward.conf
+%dir %{python_sitelib}/%{libname}/skel_instances/manage.py
 
 %dir %{python_sitelib}/%{platform}_%{component}-%{version}-*.egg-info/
 
