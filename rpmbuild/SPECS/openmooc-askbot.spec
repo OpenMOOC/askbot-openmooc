@@ -89,7 +89,7 @@ install -d -m 755 %{buildroot}/%{_sharedstatedir}/%{platform}/%{component}
 install -d -m 755 %{buildroot}/%{_sharedstatedir}/%{platform}/%{component}/instances
 
 # /var/run/openmooc [gunicorn sockets]
-nstall -d -m 770 %{buildroot}%{_localstatedir}/run/openmooc
+install -d -m 770 %{buildroot}%{_localstatedir}/run/openmooc
 install -d -m 770 %{buildroot}%{_localstatedir}/run/openmooc/askbot
 
 # /var/log/openmooc
