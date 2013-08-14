@@ -19,7 +19,7 @@ This are the specific settings for the local environment. This provides an
 extra configuration layer for all the common configuration parameters of the
 courses, p.e. the database.
 
-Configuration levels: openmooc-askbot, local_settings, course_settings
+Configuration levels: openmooc-askbot, local_settings, instance_settings
 """
 
 import askbot
@@ -28,20 +28,16 @@ import saml2
 from os import path, environ
 
 
-# Debug setting. Set this to True to have feedback. Default: False
-DEBUG = False
-
 # Set the base directories for everything. Usually you should create a new user
 # and create the courses inside his home folder.
-COURSES_BASEDIR = '/etc/openmooc/askbot/instances/'
+INSTANCES_BASEDIR = '/etc/openmooc/askbot/instances/'
 SAML2DIR = '/etc/openmooc/askbot/saml2'
 BASEDIR = path.dirname(__file__)
 PROJECT_ROOT = path.dirname(__file__)
-ASKBOT_ROOT = path.dirname(askbot.__file__)
 ASKBOTOPENMOOC_ROOT = path.dirname(askbotopenmooc.__file__)
 
 if DEBUG:
-    print "\nASKBOT_ROOT: %s\nASKBOTOPENMOOC_ROOT: %s\nBASEDIR: %s\nSAML2DIR: %s\nCOURSES_BASEDIR: %s\nPROJECT_ROOT: %s\n" % (ASKBOT_ROOT, ASKBOTOPENMOOC_ROOT, BASEDIR, SAML2DIR, COURSES_BASEDIR, PROJECT_ROOT)
+    print "\n\nASKBOT_ROOT: %s\nASKBOTOPENMOOC_ROOT: %s\nBASEDIR: %s\nSAML2DIR: %s\nINSTANCES_BASEDIR: %s\nPROJECT_ROOT: %s\n\n" % (ASKBOT_ROOT, ASKBOTOPENMOOC_ROOT, BASEDIR, SAML2DIR, INSTANCES_BASEDIR, PROJECT_ROOT)
 
 # Skin settings, this has to be declared before media and static roots
 ASKBOT_EXTRA_SKINS_DIR = ASKBOTOPENMOOC_ROOT + '/themes/'
@@ -55,35 +51,29 @@ STATIC_ROOT = "/var/lib/openmooc/askbot/static"
 STATIC_URL = '/m/'
 
 if DEBUG:
-    print 'MEDIA_ROOT: %s\nSTATIC_ROOT: %s' % (MEDIA_ROOT, STATIC_ROOT)
+    print '\n\nMEDIA_ROOT: %s\nSTATIC_ROOT: %s\n\n' % (MEDIA_ROOT, STATIC_ROOT)
 
-STATICFILES_DIRS = (
-    ASKBOT_EXTRA_SKINS_DIR,
-#    os.path.join(ASKBOT_ROOT, 'skins'),
-#    os.path.join(PROJECT_ROOT, "askbot-openmooc-themes"),
-    ('default/media', path.join(ASKBOT_ROOT, 'media')),
-)
 
 LANGUAGE_CODE = 'en'
 
 # Database settings. This settings are common for all the courses.
 DATABASE_NAME_PREFIX = 'askbot_'
-ASKBOT_DATABASE_USER = 'askbot'
-ASKBOT_DATABASE_PASSWORD = 'askbot'
+ASKBOT_DATABASE_USER = ''
+ASKBOT_DATABASE_PASSWORD = ''
 ASKBOT_DATABASE_ENGINE = 'django.db.backends.postgresql_psycopg2'
 
 # Activate Twitter Bootstrap
 BOOTSTRAP_MODE = True
 
 # E-Mail configuration
-SERVER_EMAIL = 'smtp.example.com'
-DEFAULT_FROM_EMAIL = 'no-reply@questions.example.com'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_SUBJECT_PREFIX = ''
-EMAIL_HOST = 'smtp.example.com'
-EMAIL_PORT = ''
-EMAIL_USE_TLS = False
+#SERVER_EMAIL = 'smtp.example.com'
+#DEFAULT_FROM_EMAIL = 'no-reply@questions.example.com'
+#EMAIL_HOST_USER = ''
+#EMAIL_HOST_PASSWORD = ''
+#EMAIL_SUBJECT_PREFIX = ''
+#EMAIL_HOST = 'smtp.example.com'
+#EMAIL_PORT = ''
+#EMAIL_USE_TLS = False
 
 # Secret key for Askbot. Please make this private and secure!.
 SECRET_KEY = 'askbot_#-d(!f1z878n@6luytxz8$az5e(b@ctqgnxalyqoj&moep@^^2_random'
@@ -93,40 +83,11 @@ SECRET_KEY = 'askbot_#-d(!f1z878n@6luytxz8$az5e(b@ctqgnxalyqoj&moep@^^2_random'
 # what you're doing. You can find documentation about this section on:
 # http://askbot.org/doc/live-settings.html
 EXTRA_SETTINGS = {
-    u'APP_COPYRIGHT':'Open Mooc',
+    u'APP_COPYRIGHT':'OpenMOOC',
     u'USE_LICENSE':'False',
     u'FEEDBACK_SITE_URL': 'https://moocng.example.com/complaints/'
 }
 
-# The only reason to have here the TinyMCE settings is to validate the runtime
-# tests of Askbot. Please don't touch this section unless STRICTLY NECESSARY.
-TINYMCE_COMPRESSOR = True
-TINYMCE_SPELLCHECKER = False
-TINYMCE_JS_ROOT = path.join(STATIC_ROOT, 'default/media/js/tinymce/')
-TINYMCE_URL = STATIC_URL + 'default/media/js/tinymce/'
-TINYMCE_DEFAULT_CONFIG = {
-    'plugins': 'askbot_imageuploader,askbot_attachment',
-    'convert_urls': False,
-    'theme': 'advanced',
-    'content_css': STATIC_URL + 'default/media/style/tinymce/content.css',
-    'force_br_newlines': True,
-    'force_p_newlines': False,
-    'forced_root_block': '',
-    'mode' : 'textareas',
-    'oninit': "function(){ tinyMCE.activeEditor.setContent(askbot['data']['editorContent'] || ''); }",
-    'plugins': 'askbot_imageuploader,askbot_attachment',
-    'theme_advanced_toolbar_location' : 'top',
-    'theme_advanced_toolbar_align': 'left',
-    'theme_advanced_buttons1': 'bold,italic,underline,|,bullist,numlist,|,undo,redo,|,link,unlink,askbot_imageuploader,askbot_attachment',
-    'theme_advanced_buttons2': '',
-    'theme_advanced_buttons3' : '',
-    'theme_advanced_path': False,
-    'theme_advanced_resizing': True,
-    'theme_advanced_resize_horizontal': False,
-    'theme_advanced_statusbar_location': 'bottom',
-    'width': '723',
-    'height': '250'
-}
 MOOCNG_URL = 'https://moocng.example.com/'
 
 LANGUAGE_COOKIE_DOMAIN = '.example.com'

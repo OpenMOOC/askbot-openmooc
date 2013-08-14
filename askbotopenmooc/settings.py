@@ -27,6 +27,8 @@ import site
 
 #this line is added so that we can import pre-packaged askbot dependencies
 ASKBOT_ROOT = os.path.abspath(os.path.dirname(askbot.__file__))
+ROOT = path.dirname(askbot.__file__)
+
 site.addsitedir(os.path.join(ASKBOT_ROOT, 'deps'))
 
 DEBUG = False #set to True to enable debugging
@@ -328,7 +330,8 @@ ASKBOT_USE_LOCAL_FONTS=True
 #      THIS PART IS SPECIFIC FOR OPENMOOC-ASKBOT         #
 #                                                        #
 # It rewrites the configuration settings to have a fully #
-# automated askbot farm.                                 #
+# automated askbot farm. Some of the askbot settings are #
+# located here beacuse of the rewritten settings         #
 ##########################################################
 
 # Language settings
@@ -463,6 +466,43 @@ else:
 try:
     from instance_settings import *
     import instance_settings
+
+    # All the askbot settings located here are beacuse of the local_settings rewriting the STATIC_ROOT setting.
+    TINYMCE_COMPRESSOR = True
+    TINYMCE_SPELLCHECKER = False
+    TINYMCE_JS_ROOT = path.join(STATIC_ROOT, 'default/media/js/tinymce/')
+    TINYMCE_URL = STATIC_URL + 'default/media/js/tinymce/'
+    TINYMCE_DEFAULT_CONFIG = {
+        'plugins': 'askbot_imageuploader,askbot_attachment',
+        'convert_urls': False,
+        'theme': 'advanced',
+        'content_css': STATIC_URL + 'default/media/style/tinymce/content.css',
+        'force_br_newlines': True,
+        'force_p_newlines': False,
+        'forced_root_block': '',
+        'mode' : 'textareas',
+        'oninit': "function(){ tinyMCE.activeEditor.setContent(askbot['data']['editorContent'] || ''); }",
+        'plugins': 'askbot_imageuploader,askbot_attachment',
+        'theme_advanced_toolbar_location' : 'top',
+        'theme_advanced_toolbar_align': 'left',
+        'theme_advanced_buttons1': 'bold,italic,underline,|,bullist,numlist,|,undo,redo,|,link,unlink,askbot_imageuploader,askbot_attachment',
+        'theme_advanced_buttons2': '',
+        'theme_advanced_buttons3' : '',
+        'theme_advanced_path': False,
+        'theme_advanced_resizing': True,
+        'theme_advanced_resize_horizontal': False,
+        'theme_advanced_statusbar_location': 'bottom',
+        'width': '723',
+        'height': '250'
+    }
+
+    STATICFILES_DIRS = (
+        ASKBOT_EXTRA_SKINS_DIR,
+        # os.path.join(ASKBOT_ROOT, 'skins'),
+        # os.path.join(PROJECT_ROOT, "askbot-openmooc-themes"),
+        ('default/media', path.join(ASKBOT_ROOT, 'media')),
+    )
+
 except ImportError:
     if DEBUG:
         sys.stderr.write("\033[91m\n#################################\n#\n# instance_settings.py not found!!\n#\n#################################\n\033[0m")

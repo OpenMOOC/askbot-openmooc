@@ -22,17 +22,16 @@ All the settings that affect all the instances are applied in local_settings.py.
 """
 from os import path
 
-
 # DEBUG = False # You can set the DEBUG here if necessary
 
-# Course details section. You must edit this section according to your needs.
-COURSE_NAME = path.basename(path.dirname(__file__))
-COURSE_DIR = path.dirname(__file__)
-COURSE_URL = 'http://courses.example.com/course/%s/' % (COURSE_NAME)
-COURSE_TITLE = COURSE_NAME.capitalize()
-DATABASE_NAME = COURSE_NAME
+# Instance details section. You must edit this section according to your needs.
+INSTANCE_NAME = ''
+INSTANCE_DIR = path.dirname(__file__)
+INSTANCE_URL = 'http://questions.example.com/%s/' % (INSTANCE_NAME)
+INSTANCE_TITLE = INSTANCE_NAME.capitalize()
+DATABASE_NAME = ''
 
-# If the course doesn't use the default Askbot theme or the extra themes provided
+# If the instance doesn't use the default Askbot theme or the extra themes provided
 # by OpenMOOC, uncomment this line and redirect to your skins directory
 # ASKBOT_EXTRA_SKINS_DIR = '/path/to/your/skins/'
 
@@ -40,10 +39,10 @@ DATABASE_NAME = COURSE_NAME
 # to use another theme set it here.
 # ASKBOT_DEFAULT_SKIN = 'skinName'
 
-# This course won't be open to non-registered users. Default: False
-COURSE_CLOSED = False
+# This instance won't be open to non-registered users. Default: False
+INSTANCE_CLOSED = False
 
-# SAML2 related settings. This settings are related to the closed courses setting
+# SAML2 related settings. This settings are related to the closed instance setting
 # SAML_AUTHORIZATION_EXPECTED_VALUE = COURSE_NAME
 # SAML_AUTHORIZATION_ATTRIBUTE = "schacUserStatus"
 # SAML_AUTHORIZATION_URL='https://idp.difundi.com/module.php/userregistrationApi/api.php/users/%s?apikey=k7dnfya8hs54sjfak8a5lmcha8dksh6smbtai'
