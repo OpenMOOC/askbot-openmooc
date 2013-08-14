@@ -64,6 +64,7 @@ install -d -m 755 %{buildroot}/%{_defaultdocdir}/%{platform}/%{component}
 # /etc/openmooc/askbot
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}
 install -m 644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/local_settings.py
+install -m 644 askbotopenmooc/utils/instances_creator_conf.py %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/
 
 # /etc/openmooc/askbot/instances
 install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/instances
@@ -80,7 +81,7 @@ cp -a askbotopenmooc/saml2/attribute-maps %{buildroot}/%{_sysconfdir}/%{platform
 # /usr/bin/openmooc-askbot-admin | /usr/bin/openmooc-askbot-instancetool
 install -d -m 755 %{buildroot}/%{_bindir}/
 install -m 755 %{SOURCE3} %{buildroot}/%{_bindir}/openmooc-askbot-admin
-install -m 755 utils/%{name}-instancetool.py %{buildroot}/%{_bindir}/%{name}-instancetool
+install -m 755 askbotopenmooc/utils/%{name}-instancetool.py %{buildroot}/%{_bindir}/%{name}-instancetool
 
 # /var/lib/openmooc/askbot
 install -d -m 755 %{buildroot}/%{_sharedstatedir}/%{platform}/%{component}
@@ -196,7 +197,7 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %{python_sitelib}/%{libname}/skel_instances/__init__.py*
 
 # Check that te openmooc-askbot utilities are in place
-%{python_sitelib}/%{libname}/utils/instances_creator_conf.py*
+%{_sysconfdir}/%{platform}/%{component}/instances_creator_conf.py*
 %{python_sitelib}/%{libname}/utils/openmooc-askbot-instancetool.py*
 %{python_sitelib}/%{libname}/utils/__init__.py*
 
@@ -204,6 +205,7 @@ rm /usr/lib64/libxmlsec1-openssl.so
 
 %attr(0770,root,%name) %dir %{_localstatedir}/log/openmooc
 
+# Check for the applicationa and saml2 data
 %{python_sitelib}/%{libname}/*.py*
 %{python_sitelib}/%{libname}/app/*.py*
 %{python_sitelib}/%{libname}/app/management/*.py*
@@ -213,6 +215,7 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %{python_sitelib}/%{libname}/admin-templates/admin/*.html
 %{python_sitelib}/%{libname}/saml2/attribute-maps/*py*
 
+# Check for the OpenMOOC theme
 %{python_sitelib}/%{libname}/themes/mooc/media/images/*
 %{python_sitelib}/%{libname}/themes/mooc/media/bootstrap/css/bootstrap.css
 %{python_sitelib}/%{libname}/themes/mooc/media/style/*.css
