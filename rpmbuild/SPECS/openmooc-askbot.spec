@@ -185,13 +185,20 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %dir %{python_sitelib}/%{libname}/saml2
 %dir %{python_sitelib}/%{libname}/saml2/attribute-maps
 %dir %{python_sitelib}/%{libname}/skel_instances
+%dir %{python_sitelib}/%{libname}/utils
 
+# Check that the skel is in place
 %{python_sitelib}/%{libname}/skel_instances/instance_settings.py*
 %{python_sitelib}/%{libname}/skel_instances/supervisor.conf
 %{python_sitelib}/%{libname}/skel_instances/nginx.conf
 %{python_sitelib}/%{libname}/skel_instances/nginx.forward.conf
 %{python_sitelib}/%{libname}/skel_instances/manage.py*
 %{python_sitelib}/%{libname}/skel_instances/__init__.py*
+
+# Check that te openmooc-askbot utilities are in place
+%{python_sitelib}/%{libname}/utils/instances_creator_conf.py*
+%{python_sitelib}/%{libname}/utils/openmooc-askbot-instancetool.py*
+%{python_sitelib}/%{libname}/utils/__init__.py*
 
 %dir %{python_sitelib}/%{platform}_%{component}-%{version}-*.egg-info/
 
