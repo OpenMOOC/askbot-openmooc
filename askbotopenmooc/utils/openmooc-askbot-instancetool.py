@@ -80,10 +80,6 @@ class AskbotInstance():
             sys.exit('\n ERROR: Couldn\'t connect to the PostgreSQL server (authentication failed or server down). Aborting.\n')
 
         print "\n * Database created and connection test [OK]"
-        # cursor = conn.cursor()
-        # Check if database user exists
-        # cursor.execute("SELECT * FROM pg_catalog.pg_user WHERE usename = '%s'" % db_user)
-        # cursor.execute("CREATE DATABASE %s WITH OWNER '%s' ENCODING 'UTF8'" % (instance_db_name, db_user))
 
     def syncdb_and_migrate(self, instance_name):
 
