@@ -8,7 +8,6 @@ rpmbuild/SOURCES/askbot-openmooc-*.tar.gz
 rpmbuild/BUIDLROOT/
 rpmbuild/RPMS/
 rpmbuild/SRPMS/
-
 *.pyc
 *.egg-info
 *~

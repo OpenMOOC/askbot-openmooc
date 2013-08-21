@@ -14,7 +14,7 @@ def recursive_include(directory, patterns):
         child_root = root.replace(directory, '').lstrip('/')
         for pattern in patterns:
             result.extend([os.path.join(child_root, name)
-                           for name in fnmatch.filter(files, pattern)])
+            for name in fnmatch.filter(files, pattern)])
     return result
 
 

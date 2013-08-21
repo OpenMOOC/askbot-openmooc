@@ -94,12 +94,14 @@ class AskbotInstance():
         """
         Creates the supervisor file into the directory
         """
+        pass
 
     def add_instance_to_nginx(self, instance_name):
 
         """
         Adds the new instance to the nginx forwarding routes
         """
+        pass
 
     def disable_instance(self, instance_name):
 
