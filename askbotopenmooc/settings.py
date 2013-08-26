@@ -27,7 +27,7 @@ import site
 
 #this line is added so that we can import pre-packaged askbot dependencies
 ASKBOT_ROOT = os.path.abspath(os.path.dirname(askbot.__file__))
-ROOT = path.dirname(askbot.__file__)
+ROOT = os.path.dirname(askbot.__file__)
 
 site.addsitedir(os.path.join(ASKBOT_ROOT, 'deps'))
 
@@ -464,13 +464,14 @@ else:
     DATABASES['default']['ENGINE'] = ASKBOT_DATABASE_ENGINE
 
 try:
+    sys.path.insert(0, os.getcwd())
     from instance_settings import *
     import instance_settings
 
     # All the askbot settings located here are beacuse of the local_settings rewriting the STATIC_ROOT setting.
     TINYMCE_COMPRESSOR = True
     TINYMCE_SPELLCHECKER = False
-    TINYMCE_JS_ROOT = path.join(STATIC_ROOT, 'default/media/js/tinymce/')
+    TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, 'default/media/js/tinymce/')
     TINYMCE_URL = STATIC_URL + 'default/media/js/tinymce/'
     TINYMCE_DEFAULT_CONFIG = {
         'plugins': 'askbot_imageuploader,askbot_attachment',
@@ -500,76 +501,72 @@ try:
         ASKBOT_EXTRA_SKINS_DIR,
         # os.path.join(ASKBOT_ROOT, 'skins'),
         # os.path.join(PROJECT_ROOT, "askbot-openmooc-themes"),
-        ('default/media', path.join(ASKBOT_ROOT, 'media')),
+        ('default/media', os.path.join(ASKBOT_ROOT, 'media')),
     )
 
 except ImportError:
     if DEBUG:
         sys.stderr.write("\033[91m\n#################################\n#\n# instance_settings.py not found!!\n#\n#################################\n\033[0m")
 else:
-    if 'COURSE_NAME' in dir():
-        if not 'DATABASE_NAME' in dir(instance_settings):
-            DATABASE_NAME = ('%s%s' % (DATABASE_NAME_PREFIX, COURSE_NAME))
+    DATABASES = {
+        'default': {
+            'NAME': DATABASE_NAME,
+            'ENGINE': ASKBOT_DATABASE_ENGINE,
+            'USER': ASKBOT_DATABASE_USER,
+            'PASSWORD': ASKBOT_DATABASE_PASSWORD,
+        },
+    }
 
-        DATABASES = {
-            'default': {
-                'NAME': DATABASE_NAME,
-                'ENGINE': ASKBOT_DATABASE_ENGINE,
-                'USER': ASKBOT_DATABASE_USER,
-                'PASSWORD': ASKBOT_DATABASE_PASSWORD,
-            },
+    #CACHE_PREFIX = DATABASE_NAME #make this unique
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': '127.0.0.1:11211',
+            'KEY_PREFIX': DATABASE_NAME,
+        }
+    }
+
+    MEDIA_ROOT = os.path.join(INSTANCE_DIR, 'upfiles')
+    MEDIA_URL = '/%s/upfiles/' % INSTANCE_NAME
+
+    # ASKBOT_URL = ('%s/') % COURSE_NAME
+    ASKBOT_URL = ''
+    FULL_ASKBOT_URL = '%s%s/' % (BASE_URL, INSTANCE_NAME)
+
+    CSRF_COOKIE_NAME = '%s_csrf' % INSTANCE_NAME
+    SESSION_COOKIE_NAME = '%s_sessionid' % INSTANCE_NAME
+
+    LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'MARKUP'] = {
+        u'AUTO_LINK_URLS': u'http://%s/\\1/\\2' % (FULL_ASKBOT_URL),
+    }
+
+    LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'QA_SITE_SETTINGS'] = {
+        u'APP_TITLE': INSTANCE_NAME,
+        u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
+        u'APP_SHORT_NAME': INSTANCE_NAME,
+        u'ENABLE_GREETING_FOR_ANON_USER': False,
+        u'FEEDBACK_SITE_URL': u"AAAAAAA",
+        u'APP_URL': '%s' % FULL_ASKBOT_URL,
+    }
+
+    if 'BOOTSTRAP_MODE' in dir():
+        LIVESETTINGS_OPTIONS[1][u'SETTINGS']['SITE_MODES'] = {
+            'ACTIVATE_BOOTSTRAP_MODE': "%s" % BOOTSTRAP_MODE,
         }
 
-        #CACHE_PREFIX = DATABASE_NAME #make this unique
-        CACHES = {
-            'default': {
-                'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-                'LOCATION': '127.0.0.1:11211',
-                'KEY_PREFIX': DATABASE_NAME,
-            }
-        }
+    LOGIN_URL = '%s%s' % (FULL_ASKBOT_URL, 'saml2/login/')
+    LOGIN_REDIRECT_URL = FULL_ASKBOT_URL  # adjust, if needed
+    LOGOUT_URL = "%s%s" % (FULL_ASKBOT_URL, 'saml2/logout/')
+    LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 
-        MEDIA_ROOT = os.path.join(COURSE_DIR, 'upfiles')
-        MEDIA_URL = '/%s/upfiles/' % COURSE_NAME
+    SAML_AUTHORIZATION_EXPECTED_VALUE = INSTANCE_NAME
 
-        # ASKBOT_URL = ('%s/') % COURSE_NAME
-        ASKBOT_URL = ''
-        FULL_ASKBOT_URL = '%s%s/' % (BASE_URL, COURSE_NAME)
+    SAML_CONFIG['entityid'] = '%s%s' % (FULL_ASKBOT_URL, "saml2/metadata/")
+    SAML_CONFIG['service']['sp']['name'] = '%s - Askbot - OpenMOOC SP' % INSTANCE_NAME
+    SAML_CONFIG['service']['sp']['endpoints']['assertion_consumer_service'] = [(
+        "%s%s" % (FULL_ASKBOT_URL, 'saml2/acs/'),
+        saml2.BINDING_HTTP_POST)]
 
-        CSRF_COOKIE_NAME = '%s_csrf' % COURSE_NAME
-        SESSION_COOKIE_NAME = '%s_sessionid' % COURSE_NAME
-
-        LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'MARKUP'] = {
-            u'AUTO_LINK_URLS': u'http://%s/\\1/\\2' % (FULL_ASKBOT_URL),
-        }
-
-        LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'QA_SITE_SETTINGS'] = {
-            u'APP_TITLE': COURSE_NAME,
-            u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
-            u'APP_SHORT_NAME': COURSE_NAME,
-            u'ENABLE_GREETING_FOR_ANON_USER': False,
-            u'FEEDBACK_SITE_URL': u"AAAAAAA",
-            u'APP_URL': '%s' % FULL_ASKBOT_URL,
-        }
-
-        if 'BOOTSTRAP_MODE' in dir():
-            LIVESETTINGS_OPTIONS[1][u'SETTINGS']['SITE_MODES'] = {
-                'ACTIVATE_BOOTSTRAP_MODE': "%s" % BOOTSTRAP_MODE,
-            }
-
-        LOGIN_URL = '%s%s' % (FULL_ASKBOT_URL, 'saml2/login/')
-        LOGIN_REDIRECT_URL = FULL_ASKBOT_URL  # adjust, if needed
-        LOGOUT_URL = "%s%s" % (FULL_ASKBOT_URL, 'saml2/logout/')
-        LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
-
-        SAML_AUTHORIZATION_EXPECTED_VALUE = COURSE_NAME
-
-        SAML_CONFIG['entityid'] = '%s%s' % (FULL_ASKBOT_URL, "saml2/metadata/")
-        SAML_CONFIG['service']['sp']['name'] = '%s - Askbot - OpenMOOC SP' % COURSE_NAME
-        SAML_CONFIG['service']['sp']['endpoints']['assertion_consumer_service'] = [(
-            "%s%s" % (FULL_ASKBOT_URL, 'saml2/acs/'),
-            saml2.BINDING_HTTP_POST)]
-
-        SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'] = [(
-                        "%s%s" % (FULL_ASKBOT_URL, 'saml2/ls/'),
-                        saml2.BINDING_HTTP_REDIRECT)]
+    SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'] = [(
+                    "%s%s" % (FULL_ASKBOT_URL, 'saml2/ls/'),
+                    saml2.BINDING_HTTP_REDIRECT)]

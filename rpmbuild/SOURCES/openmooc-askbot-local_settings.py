@@ -27,6 +27,7 @@ import askbotopenmooc
 import saml2
 from os import path, environ
 
+DEBUG = False
 
 # Set the base directories for everything. Usually you should create a new user
 # and create the courses inside his home folder.

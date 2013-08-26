@@ -25,11 +25,11 @@ from os import path
 # DEBUG = False # You can set the DEBUG here if necessary
 
 # Instance details section. You must edit this section according to your needs.
-INSTANCE_NAME = ''
+INSTANCE_NAME = '{instance_name}'
 INSTANCE_DIR = path.dirname(__file__)
-INSTANCE_URL = 'http://questions.example.com/%s/' % (INSTANCE_NAME)
+INSTANCE_URL = 'http://questions.example.com/{instance_name}/'
 INSTANCE_TITLE = INSTANCE_NAME.capitalize()
-DATABASE_NAME = ''
+DATABASE_NAME = '{instance_db_name}'
 
 # If the instance doesn't use the default Askbot theme or the extra themes provided
 # by OpenMOOC, uncomment this line and redirect to your skins directory

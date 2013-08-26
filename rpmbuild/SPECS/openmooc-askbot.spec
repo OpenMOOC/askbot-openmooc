@@ -200,6 +200,7 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %{_sysconfdir}/%{platform}/%{component}/instances_creator_conf.py*
 %{python_sitelib}/%{libname}/utils/openmooc-askbot-instancetool.py*
 %{python_sitelib}/%{libname}/utils/__init__.py*
+%{python_sitelib}/%{libname}/utils/
 
 %dir %{python_sitelib}/%{platform}_%{component}-%{version}-*.egg-info/
 
