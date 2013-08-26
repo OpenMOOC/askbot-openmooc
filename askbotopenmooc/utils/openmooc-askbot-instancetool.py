@@ -71,9 +71,9 @@ class AskbotInstance():
         """
         f = open(original_file, 'r')
         file_content = f.read()
-        file_content.close()
+        f.close()
         # Create a new populated file. We use ** so we can use keyword replacement
-        populated_settings = file_content_file.format(**values)
+        populated_settings = file_content.format(**values)
         # Open the file in write mode so we can rewrite it
         f = open(original_file, 'w')
         f.write(populated_settings)
@@ -90,13 +90,12 @@ class AskbotInstance():
         try:
             shutil.copytree(icc.SKEL_DIR, INSTANCE_DIR)
             os.chdir(os.path.join(icc.DEFAULT_INSTANCE_DIR, instance_name))
+            # Second, call populate_file
+            template = os.path.join(INSTANCE_DIR, 'instance_settings.py')
+            values = {'instance_name': instance_name, 'instance_db_name': instance_db_name}
+            self._populate_file(template, values)
         except:
-            sys.exit('\n ERROR: Couldn\'t copy the instance skeleton into destination. Please check: a) You have permission b) The directory doesn\'t exist already.\n')
-
-        # Second, call populate_file
-        template = os.path.join(INSTANCE_DIR, instance_name)
-        values = {'instance_name': instance_name, 'instance_db_name': instance_db_name}
-        self._populate_file(template, values)
+            sys.exit('\n ERROR: Couldn\'t copy the instance skeleton into destination or populate the settings. Please check: a) You have permission b) The directory doesn\'t exist already.\n')
 
     def create_db(self, instance_db_name):
 
@@ -187,14 +186,14 @@ class AskbotInstance():
 # Parsing section
 parser = optparse.OptionParser(description="This is OpenMOOC Askbot instance creator. This allows you to easily create new instances for OpenMOOC Askbot without any of the fuss of the terminal.",
                                version="%prog 0.1 alpha")
-parser.add_option('-c', 'create', help='Create a new OpenMOOC Askbot instance. Takes the instance name and the instance database name as parameters (eg. -c fooinstance fooinstancedb)',
+parser.add_option('-c', '--create', help='Create a new OpenMOOC Askbot instance. Takes the instance name and the instance database name as parameters (eg. -c fooinstance fooinstancedb)',
                             dest='instance_data', action='store', nargs=2)
-parser.add_option('-d', 'disable', help='Disables an instance (data is moved to /instances.disabled)', dest='disable_instance_name',
+parser.add_option('-d', '--disable', help='Disables an instance (data is moved to /instances.disabled)', dest='disable_instance_name',
                             action='store_true')
-parser.add_option('-k', 'destroy', help='Complete destroys an instance (erase everything)',
+parser.add_option('-k', '--destroy', help='Complete destroys an instance (erase everything)',
                              dest='destroy_instance_name', action='store_true')
 
-(opts, args) = parser.parse_args(sys.argv[2:])
+(opts, args) = parser.parse_args()
 
 inst = AskbotInstance()
 
