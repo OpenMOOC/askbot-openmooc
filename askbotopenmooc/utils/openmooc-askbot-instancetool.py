@@ -125,9 +125,14 @@ class AskbotInstance():
         """
         Creates the supervisor file into the directory
         """
-        template = os.path.join(INSTANCE_DIR, instance_name, 'supervisor.conf')
-        values = {'instance_name': instance_name, 'instance_dir': INSTANCE_DIR}
-        self._populate_file(template, values)
+        try:
+            template = os.path.join(INSTANCE_DIR, instance_name, 'supervisor.conf')
+            values = {'instance_name': instance_name, 'instance_dir': INSTANCE_DIR}
+            self._populate_file(template, values)
+            print "\n * Populated the supervisor settings [OK]\n"
+        except:
+            sys.exit("\n ERROR: Couldn't populate the supervisor settings. Exiting.")
+
 
     def add_instance_to_nginx(self, instance_name):
 
@@ -136,15 +141,18 @@ class AskbotInstance():
         configuration for the proxy machine. Remember that some values of the
         forward file need to be changed manually!
         """
-        # Populate the nginx file
-        template = os.path.join(INSTANCE_DIR, instance_name, 'nginx.conf')
-        values = {'instance_name': instance_name}
-        self.populate_file(template, values)
-        # Populate the nginx.forward file
-        template = os.path.join(INSTANCE_DIR, instance_name, 'nginx.forward.conf')
-        values = {'instance_name': instance_name}
-        self.populate_file(template, values)
-        print "\n * Remember to change the rest the nginx.forward file values manually!"
+        try:
+            # Populate the nginx file
+            template = os.path.join(INSTANCE_DIR, instance_name, 'nginx.conf')
+            values = {'instance_name': instance_name}
+            self.populate_file(template, values)
+            # Populate the nginx.forward file
+            template = os.path.join(INSTANCE_DIR, instance_name, 'nginx.forward.conf')
+            values = {'instance_name': instance_name}
+            self.populate_file(template, values)
+            print "\n * nginx and nginx.forward settings populated. Remember to change the rest the nginx.forward file values manually!"
+        except:
+            sys.exit("\n ERROR: Couldn't populate the nginx or the nginx.forward settings. Exiting.")
 
     def disable_instance(self, instance_name):
 
@@ -201,10 +209,10 @@ if opts.instance_data:
     INSTANCE_NAME = opts.instance_data[0]
     INSTANCE_DB_NAME = opts.instance_data[1]
     inst.create_instance(INSTANCE_NAME, INSTANCE_DB_NAME)
-    inst.create_db(INSTANCE_NAME, INSTANCE_DB_NAME)
-    inst.syncdb_and_migrate(INSTANCE_NAME)
     inst.add_instance_to_supervisor(INSTANCE_NAME)
     inst.add_instance_to_nginx(INSTANCE_NAME)
+    inst.create_db(INSTANCE_DB_NAME)
+    inst.syncdb_and_migrate(INSTANCE_NAME)
 
 elif opts.disable_instance_name:
     INSTANCE_NAME = opts.disable_instance_name[0]
