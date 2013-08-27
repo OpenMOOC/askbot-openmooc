@@ -125,8 +125,9 @@ class AskbotInstance():
         """
         Creates the supervisor file into the directory
         """
+        INSTANCE_DIR = os.path.join(icc.DEFAULT_INSTANCE_DIR, instance_name)
         try:
-            template = os.path.join(INSTANCE_DIR, instance_name, 'supervisor.conf')
+            template = os.path.join(INSTANCE_DIR, 'supervisor.conf')
             values = {'instance_name': instance_name, 'instance_dir': INSTANCE_DIR}
             self._populate_file(template, values)
             print "\n * Populated the supervisor settings [OK]\n"
@@ -141,13 +142,14 @@ class AskbotInstance():
         configuration for the proxy machine. Remember that some values of the
         forward file need to be changed manually!
         """
+        INSTANCE_DIR = os.path.join(icc.DEFAULT_INSTANCE_DIR, instance_name)
         try:
             # Populate the nginx file
-            template = os.path.join(INSTANCE_DIR, instance_name, 'nginx.conf')
+            template = os.path.join(INSTANCE_DIR, 'nginx.conf')
             values = {'instance_name': instance_name}
             self.populate_file(template, values)
             # Populate the nginx.forward file
-            template = os.path.join(INSTANCE_DIR, instance_name, 'nginx.forward.conf')
+            template = os.path.join(INSTANCE_DIR, 'nginx.forward.conf')
             values = {'instance_name': instance_name}
             self.populate_file(template, values)
             print "\n * nginx and nginx.forward settings populated. Remember to change the rest the nginx.forward file values manually!"
