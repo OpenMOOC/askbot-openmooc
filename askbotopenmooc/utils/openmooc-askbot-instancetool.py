@@ -23,9 +23,9 @@ import os
 
 # Check Python version
 if sys.version_info < (2, 6, 0):
-    print "\n WARNING: This script needs python 2.6. We don't guarantee it works on other python versions.\n"
+    print "\n [WARNING] This script needs python 2.6. We don't guarantee it works on other python versions."
 elif sys.version_info >= (3, 0, 0):
-    sys.exit('\n ERROR: This script doesn\'t work in python 3.x series. Exiting.')
+    sys.exit('\n [ERROR] This script doesn\'t work in python 3.x series. Exiting.')
 
 # Add directories to path
 sys.path.insert(0, '/etc/openmooc/askbot')
@@ -36,13 +36,10 @@ import optparse
 import subprocess
 try:
     import instances_creator_conf as icc
-except ImportError:
-    sys.exit('\n ERROR: Couldn\'t import the default settings.\n')
-try:
+    #from fabric.api import run, env, hosts
     import psycopg2
 except ImportError:
-    sys.exit('\n ERROR: The module psycopg2 (Python PostgreSQL binding) is not installed or it isn\'t in the PATH.\n')
-
+    sys.exit('\n [ERROR] Either we couldn\'t import the default settings (instances_creator_conf) or you don\'t have psycopg2 (Python PostgreSQL binding) or fabric installed.')
 
 os.environ['PGPASSWORD'] = icc.DB_PASSWORD
 
@@ -56,10 +53,17 @@ class AskbotInstance():
         """
         # Detect if $USER=root
         if not os.environ['USER'] == 'root':
-            sys.exit('\n ERROR: This script requires root access.\n')
+            sys.exit('\n [ERROR] This script requires root access.')
 
         # Include the default instances dir in the PATH
         sys.path.insert(0, icc.DEFAULT_INSTANCE_DIR)
+
+    def _copy_to_remote(self, nginx_forward_file):
+        """
+        Copies to the remote host specified in REMOTE_HOST the nginx forward file.
+        """
+        env.hosts = [icc.REMOTE_HOST]
+        put(nginx_forward_file, '/etc/nginx')
 
     def _populate_file(self, original_file, values):
 
@@ -94,8 +98,9 @@ class AskbotInstance():
             template = os.path.join(INSTANCE_DIR, 'instance_settings.py')
             values = {'instance_name': instance_name, 'instance_db_name': instance_db_name}
             self._populate_file(template, values)
+            print "\n [  OK ] Instance {0} created.".format(instance_name)
         except:
-            sys.exit('\n ERROR: Couldn\'t copy the instance skeleton into destination or populate the settings. Please check: a) You have permission b) The directory doesn\'t exist already.\n')
+            sys.exit('\n [ERROR] Couldn\'t copy the instance skeleton into destination or populate the settings. Please check: a) You have permission b) The directory doesn\'t exist already.')
 
     def create_db(self, instance_db_name):
 
@@ -106,10 +111,9 @@ class AskbotInstance():
         createdb.wait()  # Wait until it finishes
         try:
             conn = psycopg2.connect(database=instance_db_name, user=icc.DB_USER, password=icc.DB_PASSWORD)
+            print "\n [  OK ] Database {0} created and tested.".format(instance_db_name)
         except:
-            sys.exit('\n ERROR: Couldn\'t connect to the PostgreSQL server (authentication failed or server down). Aborting.\n')
-
-        print "\n * Database created and connection test [OK]\n"
+            sys.exit('\n [ERROR] Couldn\'t connect to the PostgreSQL server (authentication failed or server down). Aborting.')
 
     def syncdb_and_migrate(self, instance_name, instance_db_name):
 
@@ -130,9 +134,9 @@ class AskbotInstance():
             template = os.path.join(INSTANCE_DIR, 'supervisor.conf')
             values = {'instance_name': instance_name, 'instance_dir': INSTANCE_DIR}
             self._populate_file(template, values)
-            print "\n * Populated the supervisor settings [OK]\n"
+            print "\n [  OK ] Populated the supervisor settings."
         except:
-            sys.exit("\n ERROR: Couldn't populate the supervisor settings. Exiting.")
+            sys.exit("\n [ERROR] Couldn't populate the supervisor settings. Exiting.")
 
 
     def add_instance_to_nginx(self, instance_name):
@@ -152,9 +156,11 @@ class AskbotInstance():
             template = os.path.join(INSTANCE_DIR, 'nginx.forward.conf')
             values = {'instance_name': instance_name}
             self._populate_file(template, values)
-            print "\n * nginx and nginx.forward settings populated. Remember to change the rest the nginx.forward file values manually!"
+            print "\n [  OK ] nginx and nginx.forward settings populated."
         except:
-            sys.exit("\n ERROR: Couldn't populate the nginx or the nginx.forward settings. Exiting.")
+            sys.exit("\n [ERROR] Couldn't populate the nginx or the nginx.forward settings. Exiting.")
+
+        #self._copy_to_remote(os.path.join(INSTANCE_DIR, 'nginx.forward.conf'))
 
     def disable_instance(self, instance_name):
 
@@ -163,34 +169,39 @@ class AskbotInstance():
         """
         INSTANCE_DIR = os.path.join(icc.DEFAULT_INSTANCE_DIR, instance_name)
 
-        # Create a disabled instances folder if it doesn't exist already
-        if not os.path.isdir(icc.DEFAULT_DISABLED_INSTANCES_DIR):
-            os.makedirs(icc.DEFAULT_DISABLED_INSTANCES_DIR)
-
-        # Get the instance dir, copy the data to the disabled folder and delete
-        # the instance folder.
-        shutil.copy(INSTANCE_DIR, icc.DEFAULT_DISABLED_INSTANCES_DIR)
-        shutil.rmtree(INSTANCE_DIR)
+        try:
+            # Create a disabled instances folder if it doesn't exist already
+            if not os.path.isdir(icc.DEFAULT_DISABLED_INSTANCES_DIR):
+                os.makedirs(icc.DEFAULT_DISABLED_INSTANCES_DIR)
+            # Get the instance dir, copy the data to the disabled folder and delete
+            # the instance folder.
+            shutil.copy(INSTANCE_DIR, icc.DEFAULT_DISABLED_INSTANCES_DIR)
+            shutil.rmtree(INSTANCE_DIR)
+            print "\n [  OK ] Instance {0} disabled.".format(instance_name)
+        except:
+            sys.exit("\n [ERROR] Couldn't disable the instance. Please check the directories.")
 
     def destroy_instance(self, instance_name):
 
         """
         Destroys the database and contents of the instance completely
         """
-        # First, get the values for the course, name, db name, user and password
-        # Try to connect to the db
-        # Drop the DB
-        # Disconnect and remove the instance dir
         INSTANCE_DIR = os.path.join(icc.DEFAULT_INSTANCE_DIR, instance_name)
-
+        # Ensure we can import the instance settings
+        sys.path.insert(0, INSTANCE_DIR)
         try:
-            conn = psycopg2.connect(user=db_user, password=db_password, host=icc.REMOTE_HOST)
+            import instance_settings
         except:
-            sys.exit('\n ERROR: Couldn\'t connect to the PostgreSQL server. Aborting.\n')
+            sys.exit('\n [ERROR] Couldn\'t import the instance settings to destroy it. Check that it exists. Aborting.')
+        try:
+            conn = psycopg2.connect(database=instance_settings.DATABASE_NAME, user=icc.DB_USER, password=icc.DB_PASSWORD)
+            cursor = conn.cursor()
+            cursor.execute("DROP DATABASE %s" % instance_db_name)
+            shutil.rmtree(INSTANCE_DIR)
+            print "\n [  OK ] Instance {0} destroyed.".format(instance_name)
+        except:
+            sys.exit('\n [ERROR] Couldn\'t connect to the PostgreSQL server. Aborting.')
 
-        cursor = conn.cursor()
-        cursor.execute("DROP DATABASE %s" % instance_name)
-        shutil.rmtree(INSTANCE_DIR)
 
 
 # Parsing section
@@ -224,9 +235,6 @@ elif opts.destroy_instance_name:
     INSTANCE_NAME = opts.destroy_instance[0]
     inst.destroy_instance(INSTANCE_NAME)
 
-
-print opts
-print args
 # if opts.instance_data:
 #     for d in instance_data:
 
