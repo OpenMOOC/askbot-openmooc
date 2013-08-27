@@ -147,11 +147,11 @@ class AskbotInstance():
             # Populate the nginx file
             template = os.path.join(INSTANCE_DIR, 'nginx.conf')
             values = {'instance_name': instance_name}
-            self.populate_file(template, values)
+            self._populate_file(template, values)
             # Populate the nginx.forward file
             template = os.path.join(INSTANCE_DIR, 'nginx.forward.conf')
             values = {'instance_name': instance_name}
-            self.populate_file(template, values)
+            self._populate_file(template, values)
             print "\n * nginx and nginx.forward settings populated. Remember to change the rest the nginx.forward file values manually!"
         except:
             sys.exit("\n ERROR: Couldn't populate the nginx or the nginx.forward settings. Exiting.")
