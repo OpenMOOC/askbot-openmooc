@@ -20,7 +20,7 @@ This is the settings file for the instance creation tool.
 # Define some variables.
 INSTANCE_NAME = ''
 INSTANCE_DB_NAME = ''
-REMOTE_HOST = 'localhost'
+REMOTE_HOST = 'localhost' # If the instances are behind an askbot proxy, set this to the proxy
 DB_HOST = REMOTE_HOST  # By default, DB_HOST is the same as REMOTE_HOST but you can change it.
 DB_USER = 'YourDatabaseUser'
 DB_PASSWORD = 'YourDatabasePassword'

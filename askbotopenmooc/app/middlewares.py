@@ -38,7 +38,7 @@ class Saml2SSORedirect(object):
         exclude_urls = [item[0] for item in
             settings.SAML_CONFIG['service']['sp']['endpoints']['single_logout_service']
         ]
-        admin_url = '/%s/admin/' % settings.COURSE_NAME
+        admin_url = '/%s/admin/' % settings.INSTANCE_NAME
         exclude_urls.append(request.build_absolute_uri(admin_url))
         exclude_urls.append(settings.LOGIN_URL)
 
@@ -71,7 +71,7 @@ class ForumModeMiddleware(object):
         All others will be redirected to the login url.
         """
 
-        if (getattr(settings, "COURSE_CLOSED", False)
+        if (getattr(settings, "INSTANCE_CLOSED", False)
                 and request.user.is_anonymous()):
             script_name = request.META.get("SCRIPT_NAME", "")
             if request.path.startswith(script_name):

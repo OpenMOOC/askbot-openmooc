@@ -99,8 +99,8 @@ FOOTER_LINKS = (
         'es': u'Condiciones legales',
     }),
     ('%scopyright' % MOOCNG_URL, {
-        'en': u'Moocng Copyright 2013',
-        'es': u'Moocng Copyright 2013',
+        'en': u'OpenMOOC Copyright 2013',
+        'es': u'OpenMOOC Copyright 2013',
     }),
     ('%stos' % MOOCNG_URL, {
         'en': u'Terms of Use',
