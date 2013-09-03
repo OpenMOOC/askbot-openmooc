@@ -28,6 +28,9 @@ Requires: python-djangosaml2 = 0.10.0
 Requires: python-memcached = 1.48
 Requires: python-gunicorn >= 0.14.6
 Requires: python-requests >= 1.1.0
+Requires: python-psycopg2 = 2.4.2
+Requires: python-pip
+Requires: python-devel
 Requires: nginx
 Requires: supervisor >= 2.1
 Requires: xmlsec1 >= 1.2.16
