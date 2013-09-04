@@ -18,6 +18,11 @@
 Askbot instance administration tool for creating, disabling or destroying askbot instances
 """
 
+# TODO (updated 2013-09-04)
+# - Create methods that invoke fabric to copy the nginx.forward.conf if necessary
+#   to the proxy nginx (_copy_to_remote).
+# - Create method that launches the supervisor and gunicorn of the instance
+
 import sys
 import os
 
@@ -39,7 +44,7 @@ try:
     #from fabric.api import run, env, hosts
     import psycopg2
 except ImportError:
-    sys.exit(' [ERROR] Either we couldn\'t import the default settings (instances_creator_conf) or you don\'t have psycopg2 (Python PostgreSQL binding) or fabric installed.')
+    sys.exit(' [ERROR] Either we couldn\'t import the default settings (instances_creator_conf) or you don\'t have psycopg2 (Python PostgreSQL binding) installed.')
 
 os.environ['PGPASSWORD'] = icc.DB_PASSWORD
 
