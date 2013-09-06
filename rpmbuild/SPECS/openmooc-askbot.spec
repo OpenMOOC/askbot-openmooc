@@ -15,6 +15,7 @@ Source2: %{platform}-%{component}-local_settings.py
 Source3: %{platform}-%{component}-admin.py
 Source4: %{platform}-%{component}-server.key
 Source5: %{platform}-%{component}-server.crt
+Source6: %{platform}-%{component}-supervisord.conf
 
 License: Apache Software License 2.0
 Group: Development/Libraries
@@ -22,6 +23,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Prefix: %{_prefix}
 Vendor: Rooter <info@rooter.es>
 URL: https://github.com/OpenMOOC/%{platform}-%{component}
+
 Requires: askbot = 0.7.48
 
 Requires: python-djangosaml2 = 0.10.0
@@ -31,6 +33,7 @@ Requires: python-requests >= 1.1.0
 Requires: python-psycopg2 = 2.4.2
 Requires: python-pip
 Requires: python-devel
+Requires: memcached = 1.4.4
 Requires: nginx
 Requires: supervisor >= 2.1
 Requires: xmlsec1 >= 1.2.16
@@ -104,8 +107,12 @@ install -d -m 775 %{buildroot}%{_localstatedir}/log/openmooc/askbot
 install -d -m 755 %{buildroot}/%{_sysconfdir}/nginx/conf.d
 install -m 755 %{SOURCE1} %{buildroot}/%{_sysconfdir}/nginx/conf.d/%{name}.conf
 
+# supervisor conf
+install -m 755 %{SOURCE6} %{buildroot}%{_sysconfdir}/supervisord.d/%{name}-supervisord.conf
+
 # /var/lib/openmooc/askbot/media | static
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{platform}/%{component}/static
+
 
 %pre
 ## Create group openmooc-askbot
@@ -125,23 +132,14 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %post
-## Preconfigure supervisor
-if ! grep "^# OPENMOOC" /etc/supervisord.conf > /dev/null ; then
-    cat /etc/supervisord.conf << EOF
-
-# OPENMOOC - Don't delete this line, this section is generate by openmooc rpms
-[include]
-files = /etc/openmooc/*/supervisord.conf
-
-EOF
-fi
-
 ## Message to notice about collectstatic
-echo "INFO: You must execute openmooc-askbot-admin.py collectstatic"
+echo "INFO: You must execute openmooc-askbot-admin collectstatic"
+
 
 %postun
 ## Remove the .so link
 rm /usr/lib64/libxmlsec1-openssl.so
+
 
 %files
 %defattr(-,root,root)
@@ -159,6 +157,7 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/certs/server.crt
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/local_settings.py*
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/instances/
+%attr(644,root,%{name}) %config(noreplace) %{_sysconfdir}/supervisord.d/%{name}-supervisord.conf
 %config(noreplace) %{_sysconfdir}/nginx/conf.d/%{name}.conf
 
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/saml2/attribute-maps/*py*
@@ -233,6 +232,7 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %{python_sitelib}/%{libname}/locale/es/LC_MESSAGES/*
 
 %{python_sitelib}/%{platform}_%{component}-%{version}-*.egg-info/*
+
 
 %changelog
 * Fri Aug 9 2013 Oscar Carballal Prego <ocarballal@yaco.es> - 0.1-1
