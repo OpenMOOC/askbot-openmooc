@@ -61,39 +61,36 @@ Askbot customizations for OpenMOOC
 %install
 %{__python} setup.py install -O1 --skip-build --root %{buildroot}
 
-
-# Create directories
-
 # /usr/share/doc/openmooc/askbot
 install -d -m 755 %{buildroot}/%{_defaultdocdir}/%{platform}/%{component}
 
 # /etc/openmooc/askbot
-install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}
-install -m 644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/local_settings.py
-install -m 644 askbotopenmooc/utils/instances_creator_conf.py %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/
+install -d -m 755 %{buildroot}%{_sysconfdir}/%{platform}/%{component}
+install -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/%{platform}/%{component}/local_settings.py
+install -m 644 askbotopenmooc/utils/instances_creator_conf.py %{buildroot}%{_sysconfdir}/%{platform}/%{component}/
 
 # /etc/openmooc/askbot/instances
-install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/instances
+install -d -m 755 %{buildroot}%{_sysconfdir}/%{platform}/%{component}/instances
 
 # /etc/openmooc/askbot/certs
-install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/
-install -m 440 %{SOURCE4} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/server.key
-install -m 440 %{SOURCE5} %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/certs/server.crt
+install -d -m 755 %{buildroot}%{_sysconfdir}/%{platform}/%{component}/certs/
+install -m 440 %{SOURCE4} %{buildroot}%{_sysconfdir}/%{platform}/%{component}/certs/server.key
+install -m 440 %{SOURCE5} %{buildroot}%{_sysconfdir}/%{platform}/%{component}/certs/server.crt
 
 # saml2 attribute-maps
-install -d -m 755 %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/saml2/
-cp -a askbotopenmooc/saml2/attribute-maps %{buildroot}/%{_sysconfdir}/%{platform}/%{component}/saml2/
+install -d -m 755 %{buildroot}%{_sysconfdir}/%{platform}/%{component}/saml2/
+cp -a askbotopenmooc/saml2/attribute-maps %{buildroot}%{_sysconfdir}/%{platform}/%{component}/saml2/
 
 # /usr/bin/openmooc-askbot-admin | /usr/bin/openmooc-askbot-instancetool
-install -d -m 755 %{buildroot}/%{_bindir}/
-install -m 755 %{SOURCE3} %{buildroot}/%{_bindir}/openmooc-askbot-admin
+install -d -m 755 %{buildroot}%{_bindir}/
+install -m 755 %{SOURCE3} %{buildroot}%{_bindir}/openmooc-askbot-admin
 install -m 755 askbotopenmooc/utils/%{name}-instancetool.py %{buildroot}/%{_bindir}/%{name}-instancetool
 
 # /var/lib/openmooc/askbot
-install -d -m 755 %{buildroot}/%{_sharedstatedir}/%{platform}/%{component}
+install -d -m 755 %{buildroot}%{_sharedstatedir}/%{platform}/%{component}
 
 # /var/lib/openmooc/askbot/instances
-install -d -m 755 %{buildroot}/%{_sharedstatedir}/%{platform}/%{component}/instances
+install -d -m 755 %{buildroot}%{_sharedstatedir}/%{platform}/%{component}/instances
 
 # /var/run/openmooc [gunicorn sockets]
 install -d -m 770 %{buildroot}%{_localstatedir}/run/openmooc
@@ -104,10 +101,11 @@ install -d -m 775 %{buildroot}%{_localstatedir}/log/openmooc
 install -d -m 775 %{buildroot}%{_localstatedir}/log/openmooc/askbot
 
 # nginx conf
-install -d -m 755 %{buildroot}/%{_sysconfdir}/nginx/conf.d
-install -m 755 %{SOURCE1} %{buildroot}/%{_sysconfdir}/nginx/conf.d/%{name}.conf
+install -d -m 755 %{buildroot}%{_sysconfdir}/nginx/conf.d
+install -m 755 %{SOURCE1} %{buildroot}%{_sysconfdir}/nginx/conf.d/%{name}.conf
 
 # supervisor conf
+install -d -m 755 %{buildroot}%{_sysconfdir}/supervisord.d/
 install -m 755 %{SOURCE6} %{buildroot}%{_sysconfdir}/supervisord.d/%{name}-supervisord.conf
 
 # /var/lib/openmooc/askbot/media | static
