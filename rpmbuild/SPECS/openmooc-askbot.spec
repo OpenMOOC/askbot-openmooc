@@ -15,7 +15,6 @@ Source2: %{platform}-%{component}-local_settings.py
 Source3: %{platform}-%{component}-admin.py
 Source4: %{platform}-%{component}-server.key
 Source5: %{platform}-%{component}-server.crt
-Source6: %{platform}-%{component}-supervisord.conf
 
 License: Apache Software License 2.0
 Group: Development/Libraries
@@ -35,7 +34,7 @@ Requires: python-pip
 Requires: python-devel
 Requires: memcached = 1.4.4
 Requires: nginx
-Requires: supervisor >= 2.1
+Requires: supervisor >= 3.0
 Requires: xmlsec1 >= 1.2.16
 Requires: xmlsec1-openssl >= 1.2.16
 
@@ -101,10 +100,6 @@ install -d -m 775 %{buildroot}%{_localstatedir}/log/openmooc/askbot
 install -d -m 755 %{buildroot}%{_sysconfdir}/nginx/conf.d
 install -m 755 %{SOURCE1} %{buildroot}%{_sysconfdir}/nginx/conf.d/%{name}.conf
 
-# supervisor conf
-install -d -m 755 %{buildroot}%{_sysconfdir}/supervisord.d/
-install -m 755 %{SOURCE6} %{buildroot}%{_sysconfdir}/supervisord.d/%{name}-supervisord.conf
-
 # /var/lib/openmooc/askbot/media | static
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{platform}/%{component}/static
 
@@ -152,7 +147,6 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/certs/server.crt
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/local_settings.py*
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/instances/
-%attr(644,root,%{name}) %config(noreplace) %{_sysconfdir}/supervisord.d/%{name}-supervisord.conf
 %config(noreplace) %{_sysconfdir}/nginx/conf.d/%{name}.conf
 
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/saml2/attribute-maps/*py*
