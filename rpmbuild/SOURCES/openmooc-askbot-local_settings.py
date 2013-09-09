@@ -22,10 +22,9 @@ courses, p.e. the database.
 Configuration levels: openmooc-askbot, local_settings, instance_settings
 """
 
-import askbot
 import askbotopenmooc
 import saml2
-from os import path, environ
+from os import path
 
 DEBUG = False
 
@@ -38,7 +37,7 @@ PROJECT_ROOT = path.dirname(__file__)
 ASKBOTOPENMOOC_ROOT = path.dirname(askbotopenmooc.__file__)
 
 if DEBUG:
-    print "\n\nASKBOT_ROOT: %s\nASKBOTOPENMOOC_ROOT: %s\nBASEDIR: %s\nSAML2DIR: %s\nINSTANCES_BASEDIR: %s\nPROJECT_ROOT: %s\n\n" % (ASKBOT_ROOT, ASKBOTOPENMOOC_ROOT, BASEDIR, SAML2DIR, INSTANCES_BASEDIR, PROJECT_ROOT)
+    print "\n\nASKBOTOPENMOOC_ROOT: %s\nBASEDIR: %s\nSAML2DIR: %s\nINSTANCES_BASEDIR: %s\nPROJECT_ROOT: %s\n\n" % (ASKBOTOPENMOOC_ROOT, BASEDIR, SAML2DIR, INSTANCES_BASEDIR, PROJECT_ROOT)
 
 # Skin settings, this has to be declared before media and static roots
 ASKBOT_EXTRA_SKINS_DIR = ASKBOTOPENMOOC_ROOT + '/themes/'
@@ -84,8 +83,8 @@ SECRET_KEY = 'askbot_#-d(!f1z878n@6luytxz8$az5e(b@ctqgnxalyqoj&moep@^^2_random'
 # what you're doing. You can find documentation about this section on:
 # http://askbot.org/doc/live-settings.html
 EXTRA_SETTINGS = {
-    u'APP_COPYRIGHT':'OpenMOOC',
-    u'USE_LICENSE':'False',
+    u'APP_COPYRIGHT': 'OpenMOOC',
+    u'USE_LICENSE': 'False',
     u'FEEDBACK_SITE_URL': 'https://moocng.example.com/complaints/'
 }
 
@@ -115,14 +114,13 @@ FOOTER_LINKS = (
 # Caching settings. OpenMOOC is configured by default to use memcached. Please
 # don't edit this unless you know what you're doing.
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
-CACHE_PREFIX = 'askbot' #make this unique
+CACHE_PREFIX = 'askbot'  # make this unique
 
 # Base URLs. These are some basic URLs needed by openmooc-askbot to determine
 # the redirects in Askbot.
 ASKBOT_URL = ''
 BASE_URL = 'http://questions.example.com/'
 FULL_ASKBOT_URL = '%s%s' % (BASE_URL, ASKBOT_URL)
-
 
 # EXTERNAL_KEYS = {u'USE_RECAPTCHA',
 #                  u'RECAPTCHA_SECRET':u'6LeJCNYSAAAAAHTzqr4fPu_KsAS4hNXAzlymh8So',
@@ -141,10 +139,10 @@ LOGGING = {
     },
     'handlers': {
         'saml2file': {
-           'level': 'DEBUG',
-           'class': 'logging.FileHandler',
-           'filename': '/tmp/djangosaml2.log',
-           'formatter': 'verbose',
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/djangosaml2.log',
+            'formatter': 'verbose',
         }
     },
     'loggers': {
@@ -180,90 +178,93 @@ SAML_AUTHORIZATION_EXPECTED_VALUE = None
 # SAML_AUTHORIZATION_EXPECTED_VALUE = COURSE_NAME
 
 SAML_CONFIG = {
-  # full path to the xmlsec1 binary programm
-  'xmlsec_binary': '/usr/bin/xmlsec1',
+    # full path to the xmlsec1 binary programm
+    'xmlsec_binary': '/usr/bin/xmlsec1',
 
-  # your entity id, usually your subdomain plus the url to the metadata view
-  'entityid': '%ssaml2/metadata/' % FULL_ASKBOT_URL,
+    # your entity id, usually your subdomain plus the url to the metadata view
+    'entityid': '%ssaml2/metadata/' % FULL_ASKBOT_URL,
 
-  # directory with attribute mapping
-  'attribute_map_dir': path.join(SAML2DIR, 'attribute-maps'),
+    # directory with attribute mapping
+    'attribute_map_dir': path.join(SAML2DIR, 'attribute-maps'),
 
-  # this block states what services we provide
-  'service': {
-      # we are just a lonely SP
-      'sp' : {
-          'name': 'Askbot - OpenMOOC SP',
-          'endpoints': {
-              # url and binding to the assetion consumer service view
-              # do not change the binding or service name
-              'assertion_consumer_service': [
-                  ('%ssaml2/acs/' % FULL_ASKBOT_URL,
-                   saml2.BINDING_HTTP_POST),
-                  ],
-              # url and binding to the single logout service view
-              # do not change the binding or service name
-              'single_logout_service': [
-                  ('%ssaml2/ls/' % FULL_ASKBOT_URL,
-                   saml2.BINDING_HTTP_REDIRECT),
-                  ],
-              },
-          # # This is commented to be compatible with simplesamlphp
-          # # attributes that this project need to identify a user
-          #'required_attributes': ['uid'],
-          #
-          # # attributes that may be useful to have but not required
-          #'optional_attributes': ['eduPersonAffiliation'],
+    # this block states what services we provide
+    'service': {
+        # we are just a lonely SP
+        'sp': {
+            'name': 'Askbot - OpenMOOC SP',
+            'endpoints': {
+                # url and binding to the assetion consumer service view
+                # do not change the binding or service name
+                'assertion_consumer_service': [
+                    ('%ssaml2/acs/' % FULL_ASKBOT_URL,
+                    saml2.BINDING_HTTP_POST),
+                ],
+                # url and binding to the single logout service view
+                # do not change the binding or service name
+                'single_logout_service': [
+                    ('%ssaml2/ls/' % FULL_ASKBOT_URL, saml2.BINDING_HTTP_REDIRECT),
+                ],
+            },
+            # # This is commented to be compatible with simplesamlphp
+            # # attributes that this project need to identify a user
+            #'required_attributes': ['uid'],
+            #
+            # # attributes that may be useful to have but not required
+            #'optional_attributes': ['eduPersonAffiliation'],
 
-          # in this section the list of IdPs we talk to are defined
-          'idp': {
-              # we do not need a WAYF service since there is
-              # only an IdP defined here. This IdP should be
-              # present in our metadata
+            # in this section the list of IdPs we talk to are defined
+            'idp': {
+                # we do not need a WAYF service since there is
+                # only an IdP defined here. This IdP should be
+                # present in our metadata
 
-              # the keys of this dictionary are entity ids
-              'https://idp.example.com/simplesaml/saml2/idp/metadata.php': {
-                  'single_sign_on_service': {
-                      saml2.BINDING_HTTP_REDIRECT: 'https://idp.example.com/simplesaml/saml2/idp/SSOService.php',
-                      },
-                  'single_logout_service': {
-                      saml2.BINDING_HTTP_REDIRECT: 'https://idp.example.com/simplesaml/saml2/idp/SingleLogoutService.php',
-                      },
-                  },
-              },
-          },
-      },
+                # the keys of this dictionary are entity ids
+                'https://idp.example.com/simplesaml/saml2/idp/metadata.php': {
+                    'single_sign_on_service': {
+                        saml2.BINDING_HTTP_REDIRECT: 'https://idp.example.com/simplesaml/saml2/idp/SSOService.php',
+                    },
+                    'single_logout_service': {
+                        saml2.BINDING_HTTP_REDIRECT: 'https://idp.example.com/simplesaml/saml2/idp/SingleLogoutService.php',
+                    },
+                },
+            },
+        },
+    },
 
- # where the remote metadata is stored
-  'metadata': {
-      'local': [path.join(SAML2DIR, 'remote_metadata.xml')],
-      },
+    # where the remote metadata is stored
+    'metadata': {
+        'local': [path.join(SAML2DIR, 'remote_metadata.xml')],
+    },
 
-  # set to 1 to output debugging information
-  'debug': 1,
+    # set to 1 to output debugging information
+    'debug': 1,
 
-  # certificate
-  'key_file': path.join("%s%s" % (SAML2DIR, "/certs"), 'server.key'),  # private part
-  'cert_file': path.join("%s%s" % (SAML2DIR, "/certs"), 'server.crt'),  # public part
+    # certificate
+    'key_file': path.join("%s%s" % (SAML2DIR, "/certs"), 'server.key'),  # private part
+    'cert_file': path.join("%s%s" % (SAML2DIR, "/certs"), 'server.crt'),  # public part
 
 
-  # own metadata settings
-  'contact_person': [
-      {'given_name': 'Sysadmin',
-       'sur_name': '',
-       'company': 'Example CO',
-       'email_address': 'sysadmin@example.com',
-       'contact_type': 'technical'},
-      {'given_name': 'Admin',
-       'sur_name': 'CEO',
-       'company': 'Example CO',
-       'email_address': 'admin@example.com',
-       'contact_type': 'administrative'},
-      ],
-  # you can set multilanguage information here
-  'organization': {
-      'name': [('Example CO', 'es'), ('Example CO', 'en')],
-      'display_name': [('Example', 'es'), ('Example', 'en')],
-      'url': [('http://www.example.com', 'es'), ('http://www.example.com', 'en')],
-      },
-  }
+    # own metadata settings
+    'contact_person': [
+        {
+            'given_name': 'Sysadmin',
+            'sur_name': '',
+            'company': 'Example CO',
+            'email_address': 'sysadmin@example.com',
+            'contact_type': 'technical'
+        },
+        {
+            'given_name': 'Admin',
+            'sur_name': 'CEO',
+            'company': 'Example CO',
+            'email_address': 'admin@example.com',
+            'contact_type': 'administrative'
+        },
+    ],
+    # you can set multilanguage information here
+    'organization': {
+        'name': [('Example CO', 'es'), ('Example CO', 'en')],
+        'display_name': [('Example', 'es'), ('Example', 'en')],
+        'url': [('http://www.example.com', 'es'), ('http://www.example.com', 'en')],
+    },
+}

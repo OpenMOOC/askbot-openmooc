@@ -89,9 +89,6 @@ install -m 755 askbotopenmooc/utils/%{name}-instancetool.py %{buildroot}/%{_bind
 # /var/lib/openmooc/askbot
 install -d -m 755 %{buildroot}%{_sharedstatedir}/%{platform}/%{component}
 
-# /var/lib/openmooc/askbot/instances
-install -d -m 755 %{buildroot}%{_sharedstatedir}/%{platform}/%{component}/instances
-
 # /var/run/openmooc [gunicorn sockets]
 install -d -m 770 %{buildroot}%{_localstatedir}/run/openmooc
 install -d -m 770 %{buildroot}%{_localstatedir}/run/openmooc/askbot

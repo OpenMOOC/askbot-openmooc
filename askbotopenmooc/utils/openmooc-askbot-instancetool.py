@@ -18,9 +18,8 @@
 Askbot instance administration tool for creating, disabling or destroying askbot instances
 """
 
-# TODO (updated 2013-09-04)
 # - Create methods that invoke fabric to copy the nginx.forward.conf if necessary
-#   to the proxy nginx (_copy_to_remote).
+#   to the proxy nginx (_copy_to_remote). TODO
 # - Create method that launches the supervisor and gunicorn of the instance
 
 import sys
@@ -63,12 +62,12 @@ class AskbotInstance():
         # Include the default instances dir in the PATH
         sys.path.insert(0, icc.DEFAULT_INSTANCE_DIR)
 
-    def _copy_to_remote(self, nginx_forward_file):
-        """
-        Copies to the remote host specified in REMOTE_HOST the nginx forward file.
-        """
-        env.hosts = [icc.REMOTE_HOST]
-        put(nginx_forward_file, '/etc/nginx')
+    #def _copy_to_remote(self, nginx_forward_file): # TODO
+        #"""
+        #Copies to the remote host specified in REMOTE_HOST the nginx forward file.
+        #"""
+        #env.hosts = [icc.REMOTE_HOST]
+        #put(nginx_forward_file, '/etc/nginx')
 
     def _populate_file(self, original_file, values):
 
@@ -115,7 +114,7 @@ class AskbotInstance():
         createdb = subprocess.Popen("sudo -u postgres createdb %s -w -O %s -E UTF8 > /dev/null 2>&1" % (instance_db_name, icc.DB_USER), shell=True)
         createdb.wait()  # Wait until it finishes
         try:
-            conn = psycopg2.connect(database=instance_db_name, user=icc.DB_USER, password=icc.DB_PASSWORD)
+            psycopg2.connect(database=instance_db_name, user=icc.DB_USER, password=icc.DB_PASSWORD)
             print " [  OK ] Database {0} created and tested.".format(instance_db_name)
         except:
             sys.exit(' [ERROR] Couldn\'t connect to the PostgreSQL server (authentication failed or server down). Aborting.')
@@ -141,10 +140,10 @@ class AskbotInstance():
             template = os.path.join(INSTANCE_DIR, 'supervisor.conf')
             values = {'instance_name': instance_name, 'instance_dir': INSTANCE_DIR}
             self._populate_file(template, values)
+            os.symlink(template, os.path.join(os.path.abspath('etc'), 'supervisord.d', 'openmooc-askbot-%s.conf' % instance_name))
             print " [  OK ] Populated the supervisor settings."
         except:
             sys.exit(" [ERROR] Couldn't populate the supervisor settings. Exiting.")
-
 
     def add_instance_to_nginx(self, instance_name):
 
@@ -201,7 +200,8 @@ class AskbotInstance():
         except:
             sys.exit(' [ERROR] Couldn\'t import the instance settings to destroy it. Check that it exists. Aborting.')
         try:
-            conn = psycopg2.connect(database=instance_settings.DATABASE_NAME, user=icc.DB_USER, password=icc.DB_PASSWORD)
+            instance_db_name = instance_settings.DATABASE_NAME
+            conn = psycopg2.connect(database=instance_db_name, user=icc.DB_USER, password=icc.DB_PASSWORD)
             cursor = conn.cursor()
             cursor.execute("DROP DATABASE %s" % instance_db_name)
             shutil.rmtree(INSTANCE_DIR)
@@ -210,16 +210,29 @@ class AskbotInstance():
             sys.exit(' [ERROR] Couldn\'t connect to the PostgreSQL server. Aborting.')
 
 
-
 # Parsing section
-parser = optparse.OptionParser(description="This is OpenMOOC Askbot instance creator. This allows you to easily create new instances for OpenMOOC Askbot without any of the fuss of the terminal.",
-                               version="%prog 0.1 alpha")
-parser.add_option('-c', '--create', help='<instance name> <instance database name>',
-                            dest='instance_data', action='store', nargs=2)
-parser.add_option('-d', '--disable', help='Disables an instance (data is moved to /instances.disabled)', dest='disable_instance_name',
-                            action='store_true')
-parser.add_option('-k', '--destroy', help='Complete destroys an instance (erase everything)',
-                             dest='destroy_instance_name', action='store_true')
+parser = optparse.OptionParser(
+    description="This is OpenMOOC Askbot instance creator. This allows you to easily create new instances for OpenMOOC Askbot without any of the fuss of the terminal.",
+    version="%prog 0.1 alpha")
+parser.add_option(
+    '-c',
+    '--create',
+    help='<instance name> <instance database name>',
+    dest='instance_data',
+    action='store',
+    nargs=2)
+parser.add_option(
+    '-d',
+    '--disable',
+    help='Disables an instance (data is moved to /instances.disabled)',
+    dest='disable_instance_name',
+    action='store_true')
+parser.add_option(
+    '-k',
+    '--destroy',
+    help='Complete destroys an instance (erase everything)',
+    dest='destroy_instance_name',
+    action='store_true')
 
 (opts, args) = parser.parse_args()
 
@@ -241,13 +254,3 @@ elif opts.disable_instance_name:
 elif opts.destroy_instance_name:
     INSTANCE_NAME = opts.destroy_instance[0]
     inst.destroy_instance(INSTANCE_NAME)
-
-# if opts.instance_data:
-#     for d in instance_data:
-
-
-# if opts.instance_name()
-
-
-# if __name__ == "__main__":
-#     AskbotInstance()
