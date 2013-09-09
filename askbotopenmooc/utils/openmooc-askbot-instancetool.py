@@ -140,7 +140,7 @@ class AskbotInstance():
             template = os.path.join(INSTANCE_DIR, 'supervisor.conf')
             values = {'instance_name': instance_name, 'instance_dir': INSTANCE_DIR}
             self._populate_file(template, values)
-            os.symlink(template, os.path.join(os.path.abspath('etc'), 'supervisord.d', 'openmooc-askbot-%s.conf' % instance_name))
+            os.symlink(template, os.path.join('/etc', 'supervisord.d', 'openmooc-askbot-%s.conf' % instance_name))
             print " [  OK ] Populated the supervisor settings."
         except:
             sys.exit(" [ERROR] Couldn't populate the supervisor settings. Exiting.")
@@ -201,13 +201,12 @@ class AskbotInstance():
             sys.exit(' [ERROR] Couldn\'t import the instance settings to destroy it. Check that it exists. Aborting.')
         try:
             instance_db_name = instance_settings.DATABASE_NAME
-            conn = psycopg2.connect(database=instance_db_name, user=icc.DB_USER, password=icc.DB_PASSWORD)
-            cursor = conn.cursor()
-            cursor.execute("DROP DATABASE %s" % instance_db_name)
+            subprocess.Popen('su - postgres -c "dropdb %s"' % instance_db_name, shell=True)
             shutil.rmtree(INSTANCE_DIR)
+            os.remove(os.path.join('/etc', 'supervisord.d', 'openmooc-askbot-%s.conf' % instance_name))
             print " [  OK ] Instance {0} destroyed.".format(instance_name)
         except:
-            sys.exit(' [ERROR] Couldn\'t connect to the PostgreSQL server. Aborting.')
+            sys.exit(' [ERROR] Couldn\'t drop database or remove instance files. Aborting.')
 
 
 # Parsing section
@@ -225,14 +224,12 @@ parser.add_option(
     '-d',
     '--disable',
     help='Disables an instance (data is moved to /instances.disabled)',
-    dest='disable_instance_name',
-    action='store_true')
+    dest='disable_instance_name')
 parser.add_option(
     '-k',
     '--destroy',
     help='Complete destroys an instance (erase everything)',
-    dest='destroy_instance_name',
-    action='store_true')
+    dest='destroy_instance_name')
 
 (opts, args) = parser.parse_args()
 
@@ -248,9 +245,9 @@ if opts.instance_data:
     inst.syncdb_and_migrate(INSTANCE_NAME)
 
 elif opts.disable_instance_name:
-    INSTANCE_NAME = opts.disable_instance_name[0]
+    INSTANCE_NAME = opts.disable_instance_name
     inst.disable_instance(INSTANCE_NAME)
 
 elif opts.destroy_instance_name:
-    INSTANCE_NAME = opts.destroy_instance[0]
+    INSTANCE_NAME = opts.destroy_instance_name
     inst.destroy_instance(INSTANCE_NAME)
