@@ -71,6 +71,9 @@ install -m 644 askbotopenmooc/utils/instances_creator_conf.py %{buildroot}%{_sys
 # /etc/openmooc/askbot/instances
 install -d -m 755 %{buildroot}%{_sysconfdir}/%{platform}/%{component}/instances
 
+# /var/lib/openmooc/askbot/instances
+install -d -m 755 %{buildroot}%{_sharedstatedir}/%{platform}/%{component}/instances
+
 # /etc/openmooc/askbot/certs
 install -d -m 755 %{buildroot}%{_sysconfdir}/%{platform}/%{component}/certs/
 install -m 440 %{SOURCE4} %{buildroot}%{_sysconfdir}/%{platform}/%{component}/certs/server.key
