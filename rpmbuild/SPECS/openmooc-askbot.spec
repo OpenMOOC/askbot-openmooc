@@ -1,7 +1,7 @@
 %define platform openmooc
 %define component askbot
 %define version 0.1dev
-%define release 1
+%define release 2
 %define libname %{component}%{platform}
 
 Summary: Askbot OpenMOOC integration. Default theme and SAML2 authentication
@@ -106,6 +106,8 @@ install -m 755 %{SOURCE1} %{buildroot}%{_sysconfdir}/nginx/conf.d/%{name}.conf
 # /var/lib/openmooc/askbot/media | static
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{platform}/%{component}/static
 
+#/var/run/openmooc/askbot
+install -d -m 755 %{buildroot}%{_localstatedir}/run/%{platform}/%{component}
 
 %pre
 ## Create group openmooc-askbot
@@ -145,6 +147,7 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %dir %{_sysconfdir}/%{platform}/%{component}/certs
 %dir %{_sharedstatedir}/%{platform}/%{component}
 %dir %{_sharedstatedir}/%{platform}/%{component}/instances
+%dir %{_localstatedir}/run/%{platform}/%{component}
 
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/certs/server.key
 %config(noreplace) %{_sysconfdir}/%{platform}/%{component}/certs/server.crt
@@ -227,5 +230,8 @@ rm /usr/lib64/libxmlsec1-openssl.so
 
 
 %changelog
-* Fri Aug 9 2013 Oscar Carballal Prego <ocarballal@yaco.es> - 0.1-1
-- Create spec for openmooc-askbot
+* Thu Sep 10 2013 Alejandro Blanco <ablanco@yaco.es> - 0.1-2
+- Fix several paths and bugs.
+
+* Fri Aug 09 2013 Oscar Carballal Prego <ocarballal@yaco.es> - 0.1-1
+- Create spec for openmooc-askbot.
