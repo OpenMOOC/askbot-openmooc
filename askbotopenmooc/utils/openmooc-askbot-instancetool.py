@@ -15,11 +15,12 @@
 # limitations under the License.
 
 """
-Askbot instance administration tool for creating, disabling or destroying askbot instances
+Askbot instance administration tool for creating, disabling or destroying
+askbot instances
 """
 
-# - Create methods that invoke fabric to copy the nginx.forward.conf if necessary
-#   to the proxy nginx (_copy_to_remote). TODO
+# - Create methods that invoke fabric to copy the nginx.forward.conf if
+#    necessary to the proxy nginx (_copy_to_remote). TODO
 # - Create method that launches the supervisor and gunicorn of the instance
 
 import sys
@@ -27,9 +28,11 @@ import os
 
 # Check Python version
 if sys.version_info < (2, 6, 0):
-    print " [WARNING] This script needs python 2.6. We don't guarantee it works on other python versions."
+    print(' [WARNING] This script needs python 2.6. We don\'t guarantee it '
+          'works on other python versions.')
 elif sys.version_info >= (3, 0, 0):
-    sys.exit(' [ERROR] This script doesn\'t work in python 3.x series. Exiting.')
+    sys.exit(' [ERROR] This script doesn\'t work in python 3.x series. '
+             'Exiting.')
 
 # Add directories to path
 sys.path.insert(0, '/etc/openmooc/askbot')
@@ -40,10 +43,12 @@ import optparse
 import subprocess
 try:
     import instances_creator_conf as icc
-    #from fabric.api import run, env, hosts
+    #from fabric.api import run, env, hosts  # TODO
     import psycopg2
 except ImportError:
-    sys.exit(' [ERROR] Either we couldn\'t import the default settings (instances_creator_conf) or you don\'t have psycopg2 (Python PostgreSQL binding) installed.')
+    sys.exit(' [ERROR] Either we couldn\'t import the default settings '
+             '(instances_creator_conf) or you don\'t have psycopg2 (Python '
+             'PostgreSQL binding) installed.')
 
 os.environ['PGPASSWORD'] = icc.DB_PASSWORD
 
@@ -64,7 +69,8 @@ class AskbotInstance():
 
     #def _copy_to_remote(self, nginx_forward_file): # TODO
         #"""
-        #Copies to the remote host specified in REMOTE_HOST the nginx forward file.
+        #Copies to the remote host specified in REMOTE_HOST the nginx forward
+        #file.
         #"""
         #env.hosts = [icc.REMOTE_HOST]
         #put(nginx_forward_file, '/etc/nginx')
@@ -80,7 +86,8 @@ class AskbotInstance():
         f = open(original_file, 'r')
         file_content = f.read()
         f.close()
-        # Create a new populated file. We use ** so we can use keyword replacement
+        # Create a new populated file. We use ** so we can use keyword
+        # replacement
         populated_settings = file_content.format(**values)
         # Open the file in write mode so we can rewrite it
         f = open(original_file, 'w')
@@ -100,35 +107,51 @@ class AskbotInstance():
             os.chdir(os.path.join(icc.DEFAULT_INSTANCE_DIR, instance_name))
             # Second, call populate_file
             template = os.path.join(INSTANCE_DIR, 'instance_settings.py')
-            values = {'instance_name': instance_name, 'instance_db_name': instance_db_name}
+            values = {
+                'instance_name': instance_name,
+                'instance_db_name': instance_db_name
+            }
             self._populate_file(template, values)
-            print " [  OK ] Instance {0} created.".format(instance_name)
+            print(' [  OK ] Instance {0} created.'.format(instance_name))
         except:
-            sys.exit(' [ERROR] Couldn\'t copy the instance skeleton into destination or populate the settings. Please check: a) You have permission b) The directory doesn\'t exist already.')
+            sys.exit(' [ERROR] Couldn\'t copy the instance skeleton into '
+                     'destination or populate the settings. Please check: '
+                     'a) You have permission '
+                     'b) The directory doesn\'t exist already.')
 
     def create_db(self, instance_db_name):
 
         """
         Create the database for the designated instance.
         """
-        createdb = subprocess.Popen("sudo -u postgres createdb %s -w -O %s -E UTF8 > /dev/null 2>&1" % (instance_db_name, icc.DB_USER), shell=True)
+        createdb = subprocess.Popen(
+            'sudo -u postgres createdb %s -w -O %s -E UTF8 > /dev/null 2>&1' %
+            (instance_db_name, icc.DB_USER), shell=True)
         createdb.wait()  # Wait until it finishes
         try:
-            psycopg2.connect(database=instance_db_name, user=icc.DB_USER, password=icc.DB_PASSWORD)
-            print " [  OK ] Database {0} created and tested.".format(instance_db_name)
+            psycopg2.connect(
+                database=instance_db_name,
+                user=icc.DB_USER,
+                password=icc.DB_PASSWORD,
+                host=icc.DB_HOST
+            )
+            print(' [  OK ] Database {0} created and tested.'.format(
+                instance_db_name))
         except:
-            sys.exit(' [ERROR] Couldn\'t connect to the PostgreSQL server (authentication failed or server down). Aborting.')
+            sys.exit(' [ERROR] Couldn\'t connect to the PostgreSQL server '
+                     '(authentication failed or server down). Aborting.')
 
     def syncdb_and_migrate(self, instance_name):
 
         """
         Do the syncdb and migrate actions for the selected intance. Please note
-        that this action does not create the superuser, it just synchronizes and
-        migrates the database.
+        that this action does not create the superuser, it just synchronizes
+        and migrates the database.
         """
         working_dir = os.path.join(icc.DEFAULT_INSTANCE_DIR, instance_name)
         os.chdir(working_dir)
-        subprocess.Popen("openmooc-askbot-admin syncdb --migrate --noinput", shell=True)
+        subprocess.Popen('openmooc-askbot-admin syncdb --migrate --noinput',
+                         shell=True)
 
     def add_instance_to_supervisor(self, instance_name):
 
@@ -138,12 +161,18 @@ class AskbotInstance():
         INSTANCE_DIR = os.path.join(icc.DEFAULT_INSTANCE_DIR, instance_name)
         try:
             template = os.path.join(INSTANCE_DIR, 'supervisor.conf')
-            values = {'instance_name': instance_name, 'instance_dir': INSTANCE_DIR}
+            values = {
+                'instance_name': instance_name,
+                'instance_dir': INSTANCE_DIR
+            }
             self._populate_file(template, values)
-            os.symlink(template, os.path.join('/etc', 'supervisord.d', 'openmooc-askbot-%s.conf' % instance_name))
-            print " [  OK ] Populated the supervisor settings."
+            os.symlink(template, os.path.join(
+                '/etc', 'supervisord.d',
+                'openmooc-askbot-%s.conf' % instance_name))
+            print(' [  OK ] Populated the supervisor settings.')
         except:
-            sys.exit(" [ERROR] Couldn't populate the supervisor settings. Exiting.")
+            sys.exit(' [ERROR] Couldn\'t populate the supervisor settings. '
+                     'Exiting.')
 
     def add_instance_to_nginx(self, instance_name):
 
@@ -162,10 +191,12 @@ class AskbotInstance():
             template = os.path.join(INSTANCE_DIR, 'nginx.forward.conf')
             values = {'instance_name': instance_name}
             self._populate_file(template, values)
-            print " [  OK ] Populated nginx and nginx.forward settings."
+            print(' [  OK ] Populated nginx and nginx.forward settings.')
         except:
-            sys.exit(" [ERROR] Couldn't populate the nginx or the nginx.forward settings. Exiting.")
+            sys.exit(' [ERROR] Couldn\'t populate the nginx or the '
+                     'nginx.forward settings. Exiting.')
 
+        # TODO
         #self._copy_to_remote(os.path.join(INSTANCE_DIR, 'nginx.forward.conf'))
 
     def disable_instance(self, instance_name):
@@ -179,13 +210,14 @@ class AskbotInstance():
             # Create a disabled instances folder if it doesn't exist already
             if not os.path.isdir(icc.DEFAULT_DISABLED_INSTANCES_DIR):
                 os.makedirs(icc.DEFAULT_DISABLED_INSTANCES_DIR)
-            # Get the instance dir, copy the data to the disabled folder and delete
-            # the instance folder.
+            # Get the instance dir, copy the data to the disabled folder and
+            # delete the instance folder.
             shutil.copy(INSTANCE_DIR, icc.DEFAULT_DISABLED_INSTANCES_DIR)
             shutil.rmtree(INSTANCE_DIR)
-            print " [  OK ] Instance {0} disabled.".format(instance_name)
+            print(' [  OK ] Instance {0} disabled.').format(instance_name)
         except:
-            sys.exit(" [ERROR] Couldn't disable the instance. Please check the directories.")
+            sys.exit(' [ERROR] Couldn\'t disable the instance. Please check '
+                     'the directories.')
 
     def destroy_instance(self, instance_name):
 
@@ -198,38 +230,48 @@ class AskbotInstance():
         try:
             import instance_settings
         except:
-            sys.exit(' [ERROR] Couldn\'t import the instance settings to destroy it. Check that it exists. Aborting.')
+            sys.exit(' [ERROR] Couldn\'t import the instance settings to '
+                     'destroy it. Check that it exists. Aborting.')
         try:
             instance_db_name = instance_settings.DATABASE_NAME
-            subprocess.Popen('su - postgres -c "dropdb %s"' % instance_db_name, shell=True)
+            subprocess.Popen('su - postgres -c "dropdb %s"' % instance_db_name,
+                             shell=True)
             shutil.rmtree(INSTANCE_DIR)
-            os.remove(os.path.join('/etc', 'supervisord.d', 'openmooc-askbot-%s.conf' % instance_name))
-            print " [  OK ] Instance {0} destroyed.".format(instance_name)
+            os.remove(os.path.join('/etc', 'supervisord.d',
+                                   'openmooc-askbot-%s.conf' % instance_name))
+            print(' [  OK ] Instance {0} destroyed.').format(instance_name)
         except:
-            sys.exit(' [ERROR] Couldn\'t drop database or remove instance files. Aborting.')
+            sys.exit(' [ERROR] Couldn\'t drop database or remove instance '
+                     'files. Aborting.')
 
 
 # Parsing section
 parser = optparse.OptionParser(
-    description="This is OpenMOOC Askbot instance creator. This allows you to easily create new instances for OpenMOOC Askbot without any of the fuss of the terminal.",
-    version="%prog 0.1 alpha")
+    description=('This is OpenMOOC Askbot instance creator. This allows you '
+                 'to easily create new instances for OpenMOOC Askbot without '
+                 'any of the fuss of the terminal.'),
+    version='%prog 0.1 alpha'
+)
 parser.add_option(
     '-c',
     '--create',
     help='<instance name> <instance database name>',
     dest='instance_data',
     action='store',
-    nargs=2)
+    nargs=2
+)
 parser.add_option(
     '-d',
     '--disable',
     help='Disables an instance (data is moved to /instances.disabled)',
-    dest='disable_instance_name')
+    dest='disable_instance_name'
+)
 parser.add_option(
     '-k',
     '--destroy',
     help='Complete destroys an instance (erase everything)',
-    dest='destroy_instance_name')
+    dest='destroy_instance_name'
+)
 
 (opts, args) = parser.parse_args()
 
