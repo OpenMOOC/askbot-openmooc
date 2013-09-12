@@ -124,9 +124,9 @@ class AskbotInstance():
         """
         Create the database for the designated instance.
         """
-        createdb = subprocess.Popen(
-            'sudo -u postgres createdb %s -w -O %s -E UTF8 > /dev/null 2>&1' %
-            (instance_db_name, icc.DB_USER), shell=True)
+        createdb = subprocess.Popen(('su - postgres -c "createdb %s -w -O %s '
+                                     '-E UTF8"') % (instance_db_name,
+                                                    icc.DB_USER), shell=True)
         createdb.wait()  # Wait until it finishes
         try:
             psycopg2.connect(
@@ -135,8 +135,8 @@ class AskbotInstance():
                 password=icc.DB_PASSWORD,
                 host=icc.DB_HOST
             )
-            print(' [  OK ] Database {0} created and tested.'.format(
-                instance_db_name))
+            print((' [  OK ] Database {0} created and connection '
+                   'tested.').format(instance_db_name))
         except:
             sys.exit(' [ERROR] Couldn\'t connect to the PostgreSQL server '
                      '(authentication failed or server down). Aborting.')
