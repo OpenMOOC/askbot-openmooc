@@ -190,7 +190,6 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %{python_sitelib}/%{libname}/skel_instances/supervisor.conf
 %{python_sitelib}/%{libname}/skel_instances/nginx.conf
 %{python_sitelib}/%{libname}/skel_instances/nginx.forward.conf
-%{python_sitelib}/%{libname}/skel_instances/manage.py*
 %{python_sitelib}/%{libname}/skel_instances/__init__.py*
 
 # Check that te openmooc-askbot utilities are in place
