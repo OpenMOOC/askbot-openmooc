@@ -160,6 +160,16 @@ class AskbotInstance():
         subprocess.Popen('openmooc-askbot-admin syncdb --migrate --noinput',
                          shell=True)
 
+    def collect_static(seld, instance_name):
+
+        """
+        Collect all the static files and prepare them to be used
+        """
+        working_dir = os.path.join(icc.DEFAULT_INSTANCE_DIR, instance_name)
+        os.chdir(working_dir)
+        subprocess.Popen('openmooc-askbot-admin collectstatic --noinput',
+                         shell=True)
+
     def add_instance_to_supervisor(self, instance_name):
 
         """
@@ -292,6 +302,7 @@ if opts.instance_data:
     inst.add_instance_to_nginx(INSTANCE_NAME)
     inst.create_db(INSTANCE_DB_NAME)
     inst.syncdb_and_migrate(INSTANCE_NAME)
+    inst.collect_static(INSTANCE_NAME)
 
 elif opts.disable_instance_name:
     INSTANCE_NAME = opts.disable_instance_name
