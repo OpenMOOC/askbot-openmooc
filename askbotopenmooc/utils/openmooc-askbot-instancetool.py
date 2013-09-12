@@ -104,19 +104,26 @@ class AskbotInstance():
         # First, copy the skel template in the destination directory
         try:
             shutil.copytree(icc.SKEL_DIR, INSTANCE_DIR)
-            os.chdir(os.path.join(icc.DEFAULT_INSTANCE_DIR, instance_name))
+            os.chdir(INSTANCE_DIR)
             # Second, call populate_file
             template = os.path.join(INSTANCE_DIR, 'instance_settings.py')
+
+            os.symlink(
+                os.path.join('/usr', 'bin', 'openmooc-askbot-admin'),
+                os.path.join(INSTANCE_DIR, 'manage.py'))
+
             values = {
                 'instance_name': instance_name,
-                'instance_db_name': instance_db_name
+                'instance_db_name': instance_db_name,
+                'instance_db_host': icc.DB_HOST,
+                'base_url': icc.BASE_URL
             }
             self._populate_file(template, values)
             print(' [  OK ] Instance {0} created.'.format(instance_name))
         except:
             sys.exit(' [ERROR] Couldn\'t copy the instance skeleton into '
                      'destination or populate the settings. Please check: '
-                     'a) You have permission '
+                     'a) You have permission. '
                      'b) The directory doesn\'t exist already.')
 
     def create_db(self, instance_db_name):

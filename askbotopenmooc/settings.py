@@ -511,6 +511,7 @@ else:
     DATABASES = {
         'default': {
             'NAME': DATABASE_NAME,
+            'HOST': DATABASE_HOST,
             'ENGINE': ASKBOT_DATABASE_ENGINE,
             'USER': ASKBOT_DATABASE_USER,
             'PASSWORD': ASKBOT_DATABASE_PASSWORD,
