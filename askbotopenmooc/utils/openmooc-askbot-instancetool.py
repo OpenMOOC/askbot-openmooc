@@ -314,7 +314,7 @@ if opts.instance_data:
     inst.syncdb_and_migrate(INSTANCE_NAME)
     inst.collect_static(INSTANCE_NAME)
     if not opts.no_metadata:
-        inst.update_entries_metadata(INSTANCE_NAME)
+        inst.update_entries_metadata()
 
 elif opts.disable_instance_name:
     INSTANCE_NAME = opts.disable_instance_name
