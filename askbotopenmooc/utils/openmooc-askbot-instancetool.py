@@ -56,7 +56,6 @@ os.environ['PGPASSWORD'] = icc.DB_PASSWORD
 class AskbotInstance():
 
     def __init__(self):
-
         """
         Shared stuff between all the methods.
         """
@@ -76,7 +75,6 @@ class AskbotInstance():
         #put(nginx_forward_file, '/etc/nginx')
 
     def _populate_file(self, original_file, values):
-
         """
         Basic abstraction layer for populating files on demand
 
@@ -95,12 +93,10 @@ class AskbotInstance():
         f.close()
 
     def create_instance(self, instance_name, instance_db_name):
-
         """
         Create the main instance in the instances directory.
         """
         INSTANCE_DIR = os.path.join(icc.DEFAULT_INSTANCE_DIR, instance_name)
-
         # First, copy the skel template in the destination directory
         try:
             shutil.copytree(icc.SKEL_DIR, INSTANCE_DIR)
@@ -127,7 +123,6 @@ class AskbotInstance():
                      'b) The directory doesn\'t exist already.')
 
     def create_db(self, instance_db_name):
-
         """
         Create the database for the designated instance.
         """
@@ -149,7 +144,6 @@ class AskbotInstance():
                      '(authentication failed or server down). Aborting.')
 
     def syncdb_and_migrate(self, instance_name):
-
         """
         Do the syncdb and migrate actions for the selected intance. Please note
         that this action does not create the superuser, it just synchronizes
@@ -161,7 +155,6 @@ class AskbotInstance():
                          shell=True)
 
     def collect_static(seld, instance_name):
-
         """
         Collect all the static files and prepare them to be used
         """
@@ -171,7 +164,6 @@ class AskbotInstance():
                          shell=True)
 
     def add_instance_to_supervisor(self, instance_name):
-
         """
         Creates the supervisor file into the directory
         """
@@ -192,7 +184,6 @@ class AskbotInstance():
                      'Exiting.')
 
     def add_instance_to_nginx(self, instance_name):
-
         """
         Creates the nginx file for the local askbot and also the nginx forward
         configuration for the proxy machine. Remember that some values of the
@@ -216,13 +207,24 @@ class AskbotInstance():
         # TODO
         #self._copy_to_remote(os.path.join(INSTANCE_DIR, 'nginx.forward.conf'))
 
-    def disable_instance(self, instance_name):
+    def update_entries_metadata(self):
+        """
+        Update all entries' metadata
+        """
+        try:
+            update_metadata = subprocess.Popen(('openmooc-askbot-admin '
+                                                'update_entries_metadata'),
+                                               shell=True)
+            update_metadata.wait()  # Wait until it finishes
+        except:
+            sys.exit(' [ERROR] Couldn\'t update the entries\' metadata. '
+                     'Exiting.')
 
+    def disable_instance(self, instance_name):
         """
         Disables an instance so it won't be available anymore.
         """
         INSTANCE_DIR = os.path.join(icc.DEFAULT_INSTANCE_DIR, instance_name)
-
         try:
             # Create a disabled instances folder if it doesn't exist already
             if not os.path.isdir(icc.DEFAULT_DISABLED_INSTANCES_DIR):
@@ -231,13 +233,15 @@ class AskbotInstance():
             # delete the instance folder.
             shutil.copy(INSTANCE_DIR, icc.DEFAULT_DISABLED_INSTANCES_DIR)
             shutil.rmtree(INSTANCE_DIR)
+            # FIXME it doesn't work
+
+            # TODO disable the instance at supervisor and nginx levels too
             print(' [  OK ] Instance {0} disabled.').format(instance_name)
         except:
             sys.exit(' [ERROR] Couldn\'t disable the instance. Please check '
                      'the directories.')
 
     def destroy_instance(self, instance_name):
-
         """
         Destroys the database and contents of the instance completely
         """
@@ -289,6 +293,12 @@ parser.add_option(
     help='Complete destroys an instance (erase everything)',
     dest='destroy_instance_name'
 )
+parser.add_option(
+    '--no-metadata',
+    help='Avoid updating the entries\' metadata',
+    action='store_true',
+    dest='no_metadata'
+)
 
 (opts, args) = parser.parse_args()
 
@@ -303,6 +313,8 @@ if opts.instance_data:
     inst.create_db(INSTANCE_DB_NAME)
     inst.syncdb_and_migrate(INSTANCE_NAME)
     inst.collect_static(INSTANCE_NAME)
+    if not opts.no_metadata:
+        inst.update_entries_metadata(INSTANCE_NAME)
 
 elif opts.disable_instance_name:
     INSTANCE_NAME = opts.disable_instance_name
