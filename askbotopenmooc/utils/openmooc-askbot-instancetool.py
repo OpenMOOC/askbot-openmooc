@@ -151,8 +151,9 @@ class AskbotInstance():
         """
         working_dir = os.path.join(icc.DEFAULT_INSTANCE_DIR, instance_name)
         os.chdir(working_dir)
-        subprocess.Popen('openmooc-askbot-admin syncdb --migrate --noinput',
-                         shell=True)
+        syncdb = subprocess.Popen(('openmooc-askbot-admin syncdb --migrate '
+                                   '--noinput'), shell=True)
+        syncdb.wait()
 
     def collect_static(seld, instance_name):
         """
@@ -160,8 +161,10 @@ class AskbotInstance():
         """
         working_dir = os.path.join(icc.DEFAULT_INSTANCE_DIR, instance_name)
         os.chdir(working_dir)
-        subprocess.Popen('openmooc-askbot-admin collectstatic --noinput',
-                         shell=True)
+        collectstatic = subprocess.Popen(('openmooc-askbot-admin '
+                                          'collectstatic --noinput'),
+                                         shell=True)
+        collectstatic.wait()
 
     def add_instance_to_supervisor(self, instance_name):
         """
@@ -255,8 +258,9 @@ class AskbotInstance():
                      'destroy it. Check that it exists. Aborting.')
         try:
             instance_db_name = instance_settings.DATABASE_NAME
-            subprocess.Popen('su - postgres -c "dropdb %s"' % instance_db_name,
-                             shell=True)
+            dropdb = subprocess.Popen('su - postgres -c "dropdb %s"' %
+                                      instance_db_name, shell=True)
+            dropdb.wait()
             shutil.rmtree(INSTANCE_DIR)
             os.remove(os.path.join('/etc', 'supervisord.d',
                                    'openmooc-askbot-%s.conf' % instance_name))
