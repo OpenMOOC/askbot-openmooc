@@ -31,8 +31,9 @@ if sys.version_info < (2, 6, 0):
     print(' [WARNING] This script needs python 2.6. We don\'t guarantee it '
           'works on other python versions.')
 elif sys.version_info >= (3, 0, 0):
-    sys.exit(' [ERROR] This script doesn\'t work in python 3.x series. '
+    sys.stderr.write(' [ERROR] This script doesn\'t work in python 3.x series. '
              'Exiting.')
+    sys.exit(2)
 
 # Add directories to path
 sys.path.insert(0, '/etc/openmooc/askbot')
@@ -46,9 +47,10 @@ try:
     #from fabric.api import run, env, hosts  # TODO
     import psycopg2
 except ImportError:
-    sys.exit(' [ERROR] Either we couldn\'t import the default settings '
+    sys.stderr.write(' [ERROR] Either we couldn\'t import the default settings '
              '(instances_creator_conf) or you don\'t have psycopg2 (Python '
              'PostgreSQL binding) installed.')
+    sys.exit(3)
 
 os.environ['PGPASSWORD'] = icc.DB_PASSWORD
 
@@ -61,7 +63,7 @@ class AskbotInstance():
         """
         # Detect if $USER=root
         if not os.environ['USER'] == 'root':
-            sys.exit(' [ERROR] This script requires root access.')
+            self.abort(' [ERROR] This script requires root access.')
 
         # Include the default instances dir in the PATH
         sys.path.insert(0, icc.DEFAULT_INSTANCE_DIR)
@@ -115,12 +117,12 @@ class AskbotInstance():
                 'base_url': icc.BASE_URL
             }
             self._populate_file(template, values)
-            print(' [  OK ] Instance {0} created.'.format(instance_name))
+            print(' [ OK ] Instance {0} created.'.format(instance_name))
         except:
-            sys.exit(' [ERROR] Couldn\'t copy the instance skeleton into '
-                     'destination or populate the settings. Please check: '
-                     'a) You have permission. '
-                     'b) The directory doesn\'t exist already.')
+            self.abort(' [ERROR] Couldn\'t copy the instance skeleton into '
+                   'destination or populate the settings. Please check: '
+                   'a) You have permission. '
+                   'b) The directory doesn\'t exist already.')
 
     def create_db(self, instance_db_name):
         """
@@ -137,10 +139,10 @@ class AskbotInstance():
                 password=icc.DB_PASSWORD,
                 host=icc.DB_HOST
             )
-            print((' [  OK ] Database {0} created and connection '
+            print((' [ OK ] Database {0} created and connection '
                    'tested.').format(instance_db_name))
         except:
-            sys.exit(' [ERROR] Couldn\'t connect to the PostgreSQL server '
+            self.abort(' [ERROR] Couldn\'t connect to the PostgreSQL server '
                      '(authentication failed or server down). Aborting.')
 
     def syncdb_and_migrate(self, instance_name):
@@ -181,9 +183,9 @@ class AskbotInstance():
             os.symlink(template, os.path.join(
                 '/etc', 'supervisord.d',
                 'openmooc-askbot-%s.conf' % instance_name))
-            print(' [  OK ] Populated the supervisor settings.')
+            print(' [ OK ] Populated the supervisor settings.')
         except:
-            sys.exit(' [ERROR] Couldn\'t populate the supervisor settings. '
+            self.abort(' [ERROR] Couldn\'t populate the supervisor settings. '
                      'Exiting.')
 
     def add_instance_to_nginx(self, instance_name):
@@ -202,9 +204,9 @@ class AskbotInstance():
             template = os.path.join(INSTANCE_DIR, 'nginx.forward.conf')
             values = {'instance_name': instance_name}
             self._populate_file(template, values)
-            print(' [  OK ] Populated nginx and nginx.forward settings.')
+            print(' [ OK ] Populated nginx and nginx.forward settings.')
         except:
-            sys.exit(' [ERROR] Couldn\'t populate the nginx or the '
+            self.abort(' [ERROR] Couldn\'t populate the nginx or the '
                      'nginx.forward settings. Exiting.')
 
         # TODO
@@ -220,7 +222,7 @@ class AskbotInstance():
                                                shell=True)
             update_metadata.wait()  # Wait until it finishes
         except:
-            sys.exit(' [ERROR] Couldn\'t update the entries\' metadata. '
+            self.abort(' [ERROR] Couldn\'t update the entries\' metadata. '
                      'Exiting.')
 
     def disable_instance(self, instance_name):
@@ -239,9 +241,9 @@ class AskbotInstance():
             # FIXME it doesn't work
 
             # TODO disable the instance at supervisor and nginx levels too
-            print(' [  OK ] Instance {0} disabled.').format(instance_name)
+            print(' [ OK ] Instance {0} disabled.'.format(instance_name))
         except:
-            sys.exit(' [ERROR] Couldn\'t disable the instance. Please check '
+            self.abort(' [ERROR] Couldn\'t disable the instance. Please check '
                      'the directories.')
 
     def destroy_instance(self, instance_name):
@@ -254,7 +256,7 @@ class AskbotInstance():
         try:
             import instance_settings
         except:
-            sys.exit(' [ERROR] Couldn\'t import the instance settings to '
+            self.abort(' [ERROR] Couldn\'t import the instance settings to '
                      'destroy it. Check that it exists. Aborting.')
         try:
             instance_db_name = instance_settings.DATABASE_NAME
@@ -264,10 +266,14 @@ class AskbotInstance():
             shutil.rmtree(INSTANCE_DIR)
             os.remove(os.path.join('/etc', 'supervisord.d',
                                    'openmooc-askbot-%s.conf' % instance_name))
-            print(' [  OK ] Instance {0} destroyed.').format(instance_name)
+            print(' [ OK ] Instance {0} destroyed.').format(instance_name)
         except:
-            sys.exit(' [ERROR] Couldn\'t drop database or remove instance '
+            self.abort(' [ERROR] Couldn\'t drop database or remove instance '
                      'files. Aborting.')
+
+    def abort(self, msg, status=1):
+        sys.stderr.write(msg)
+        sys.exit(status)
 
 
 # Parsing section
