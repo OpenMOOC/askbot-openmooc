@@ -32,8 +32,10 @@ Requires: python-requests >= 1.1.0
 Requires: python-psycopg2 = 2.4.2
 Requires: python-pip
 Requires: python-devel
+
 Requires: memcached = 1.4.4
 Requires: nginx
+Requires: postgresql-server = 8.4.13
 Requires: supervisor >= 3.0
 Requires: xmlsec1 >= 1.2.16
 Requires: xmlsec1-openssl >= 1.2.16
