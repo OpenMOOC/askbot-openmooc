@@ -1195,3 +1195,8 @@ msgstr "Por favor, haz login para responder temas"
 #, python-format
 msgid "Asked by %(author)s:"
 msgstr "Publicado por %(author)s:"
+
+#: templates/ask.html:30 templates/widgets/answer_edit_tips.html:12
+#: templates/widgets/question_edit_tips.html:8
+msgid "provide enough details"
+msgstr "provee suficientes detalles"

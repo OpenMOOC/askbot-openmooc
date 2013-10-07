@@ -111,6 +111,119 @@ body.question-page div.question-content,
 
 body.question-page div.question-content,
 body.question-page div#ContentLeft .vote-buttons {
+    margin-top: 20px@import url('custom.css');
+
+#header,
+#secondaryHeader,
+#ground,
+#questionCount, .question-page #questionCount,
+.question-page #comment-title,
+a.followed, a.follow,
+.question-page #fmanswer h2,
+.tag, .tag-right,
+#header h1,
+.section-title,
+#question-list,
+#header,
+#ContentLeft,
+#ContentRight,
+.tabBar,
+html body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    background: #F1F1F1;
+    color: #333333;
+}
+
+.question-page .question-body,
+.question-page .answer-body,
+.question-page h1,
+.quesiton-content,
+.box h2, .box h3, .box label,
+.box .contributorback,
+.user-about,
+.question-page #comment-title,
+.question-page h1 a,
+.short-summary {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    background: #FFF;
+    color: #333333;
+}
+
+body .short-summary .counts div {
+    width: auto;
+    padding: 5px 2px;
+}
+
+
+.box h2 {
+   text-align: left;
+   border-bottom: 1px solid #DDDDDD;
+   margin-bottom: 0.5em;
+   padding: 0;
+}
+
+.short-summary a,
+.evenMore a,
+#metaNav a,
+#userToolsNav .user-info, #userToolsNav .user-micro-info,
+.tabsA a, .tabsC a,
+#userToolsNav a,
+.question-page h1 a,
+.footer-no-link,
+body .btn-link,
+a {
+    color: #0088CC;
+    text-decoration: none;
+}
+
+
+.short-summary a:hover,
+.evenMore a:hover,
+#metaNav a:hover,
+#userToolsNav .user-info, #userToolsNav .user-micro-info a:hover,
+#userToolsNav a:hover,
+.tabsA a.on, .tabsC a.on, .tabsA a:hover, .tabsC a:hover,
+.question-page h1 a:hover,
+a:hover {
+    color: #005580;
+    text-decoration: underline;
+}
+
+
+#metaNav a.on {
+    color: #005580;
+}
+
+#ContentRight {
+    padding: 5px 10px;
+}
+
+
+div.short-summary {
+     width: 700px;
+}
+
+.user-info-table,
+.user-stats-table table,
+body.question-page div.answer-table,
+div.short-summary,
+body.question-page div.answer-body,
+body.question-page div.question-content,
+#ContentRight .box {
+    background-color: #FFF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 0;
+    padding: 15px;
+}
+
+.box h2 {
+    height: auto;
+}
+
+body.question-page div.question-content,
+body.question-page div#ContentLeft .vote-buttons {
     margin-top: 20px
 }
 
@@ -317,4 +430,247 @@ body .paginator .page a {
 
 body.anon #searchBar {
     margin-left: 397px;
+}
+
+}
+
+
+
+body.question-page div.answer-table,
+
+body.question-page div.question-content {
+   padding: 10px;
+   width: 650px;
+}
+
+
+body.question-page div.answer-body {
+   width: auto;
+}
+body.question-page div#question-table {
+   width: 100%;
+}
+
+body.question-page div#ContentLeft .answer .vote-buttons,
+body.question-page div#ContentLeft .answer .answer-table {
+   margin-top: 5px;
+}
+
+div.question-content,
+.question-page .answered-by-owner {
+    background-color: #FFF;
+}
+
+.question-page h1 {
+    padding-top: 5px;
+}
+
+body.question-page #ContentLeft {
+    padding: 0;
+}
+
+ul.tags, ul.tags.marked-tags, ul#related-tags {
+    display: inline-block;
+}
+
+
+#header .header-media {
+    border-bottom: 1px solid #DDDDDD;
+}
+
+#header h1 {
+  margin: 0;
+  padding: 10px 0;
+  line-height: 28px;
+}
+
+.question-page .vote-buttons .notify-sidebar label {
+   font-size: 14px;
+}
+
+.follow-toggle, .submit {
+   width: auto;
+}
+
+#metaNav #navTags {
+    background: url("/m/mooc/media/images/sprites.png") no-repeat scroll 0 -90px transparent;
+}
+
+#metaNav #navUsers {
+    background: url("/m/mooc/media/images/sprites.png") no-repeat scroll 0 -128px transparent;
+}
+
+#metaNav #navBadges {
+    background: url("/m/mooc/media/images/sprites.png") no-repeat scroll 0 -166px transparent;
+}
+
+
+#metaNav {
+    float: none;
+}
+
+#userToolsNav {
+    width: 770px;
+    text-align: right;
+}
+
+#userToolsNav a {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#ground {
+    font-size: 14px;
+}
+
+#languageBar {
+    float: right;
+}
+
+#languageBar form {
+    float: left;
+}
+
+
+#languageBar form input {
+    font-size: 14px;
+}
+
+
+body .btn-link {
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: 0 0 0 0;
+    cursor: pointer;
+    margin-right: 0;
+    padding-right: 0;
+    border-left: 0;
+}
+
+body .btn.disabled,
+body .btn[disabled] {
+    color: #333333;
+    background-image: none;
+    box-shadow: none;
+    cursor: default;
+    opacity: 0.65;
+}
+
+body .btn-link:hover {
+    background-color: transparent;
+    color: #944515;
+    text-decoration: underline;
+}
+
+
+.userList .user ul li {
+    float: left;
+    margin-right: 5px;
+}
+
+.userList .user {
+    width: auto;
+}
+
+.footer-links-mooc ul {
+  list-style-type: none;
+  margin-left: 0;
+}
+
+.footer-links-mooc li {
+  display: inline;
+  padding-right: 1em;
+
+}
+
+.footer-links-mooc li a {
+  font-size: 14px;
+}
+
+.question-page .question-content h1 a {
+    line-height: 1.25;
+}
+
+#logo img {
+    height: auto;
+}
+
+.question-page p.rss a,
+#ContentRight .box p {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+body .label,
+body .badge {
+    background-color: inherit;
+    color: inherit;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 20px;
+    text-shadow: none;
+    vertical-align: baseline;
+    white-space: nowrap;
+}
+
+
+body .paginator .page {
+   -webkit-border-radius: 0;
+   -moz-border-radius: 0;
+   border-radius: 0;
+   border: none;
+   background: transparent;
+   padding: 0;
+}
+
+body .paginator .page a {
+   -webkit-border-radius: 0;
+   -moz-border-radius: 0;
+   border-radius: 0;
+   min-width: 20px;
+   margin: 0;
+   margin-right: 5px;
+}
+
+#searchBar {
+    margin: -49px 228px 0 397px;
+}
+
+body.anon #searchBar {
+    margin-left: 397px;
+}
+
+#searchBar input.searchInput {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 0 none;
+    box-shadow: none;
+    color: #484848;
+    font-family: Arial;
+    font-size: 22px;
+    font-weight: 300;
+    height: 26px;
+    line-height: 26px;
+    margin: 8px 0 6px;
+    padding: 0;
+    width: 99%;
+}
+
+.scope-selector {
+    color: #7A7A6B;
+    display: block;
+    float: left;
+    font-size: 1.15em;
+    height: 55px;
+    line-height: 55px;
+    margin-left: 16px;
+}
+
+tabsA a, .tabsC a {
+  border-left: 1px solid #d0e1e4;
+  color: #7ea9b3;
+  display: block;
+  float: left;
+  height: 20px;
+  line-height: 20px;
+  padding: 4px 7px 4px 5px;
+  text-decoration: none;
 }
