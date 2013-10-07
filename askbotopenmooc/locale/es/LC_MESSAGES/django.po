@@ -35,11 +35,11 @@ msgstr ""
 
 #: askbot-openmooc-themes/mooc/templates/question/sidebar.html:8
 msgid "Question tools"
-msgstr "Herramientas de pregunta"
+msgstr "Herramientas de tema"
 
 #: askbot-openmooc-themes/mooc/templates/question/sidebar.html:11
 msgid "click to unfollow this question"
-msgstr "click para dejar de seguir esta pregunta"
+msgstr "click para dejar de seguir este tema"
 
 #: askbot-openmooc-themes/mooc/templates/question/sidebar.html:12
 msgid "Following"
@@ -51,7 +51,7 @@ msgstr "Dejar de seguir"
 
 #: askbot-openmooc-themes/mooc/templates/question/sidebar.html:17
 msgid "click to follow this question"
-msgstr "click para seguir esta pregunta"
+msgstr "click para seguir este tema"
 
 #: askbot-openmooc-themes/mooc/templates/question/sidebar.html:18
 msgid "Follow"
@@ -74,11 +74,11 @@ msgid ""
 "periodic email updates about this question."
 msgstr ""
 "<strong>Aquí</strong> (una vez haya hecho login) puedes solicitar "
-"actualizaciones de esta pregunta por correo."
+"actualizaciones de este tema por correo."
 
 #: askbot-openmooc-themes/mooc/templates/question/sidebar.html:39
 msgid "subscribe to this question rss feed"
-msgstr "Suscribir a la fuente rss de esta pregunta"
+msgstr "Suscribir a la fuente rss de este tema"
 
 #: askbot-openmooc-themes/mooc/templates/question/sidebar.html:40
 msgid "subscribe to rss feed"
@@ -90,7 +90,7 @@ msgstr "Estadísticas"
 
 #: askbot-openmooc-themes/mooc/templates/question/sidebar.html:50
 msgid "Asked"
-msgstr "Preguntado"
+msgstr "Publicado"
 
 #: askbot-openmooc-themes/mooc/templates/question/sidebar.html:53
 msgid "Seen"
@@ -106,16 +106,16 @@ msgstr "Última actualización"
 
 #: askbot-openmooc-themes/mooc/templates/question/sidebar.html:64
 msgid "Related questions"
-msgstr "Preguntas relacionadas"
+msgstr "Temas relacionados"
 
 #: askbot-openmooc-themes/mooc/templates/widgets/header.html:38
 #, python-format
 msgid " %(COURSE_TITLE)s Q&A "
-msgstr "Herramienta de debate de %(COURSE_TITLE)s"
+msgstr "Espacio de debate de %(COURSE_TITLE)s"
 
 #: askbot-openmooc-themes/mooc/templates/widgets/user_navigation.html:16
 msgid "sign out"
-msgstr "Log out"
+msgstr "Salir"
 
 #: askbot-openmooc-themes/mooc/templates/widgets/user_navigation.html:18
 msgid "Hi, there! Please sign in"
@@ -139,10 +139,10 @@ msgstr "Ir al curso"
 ## Index
 
 msgid "Ask Your Question"
-msgstr "Realiza tu pregunta"
+msgstr "Crea tu tema"
 
 msgid "Show only questions from"
-msgstr "Mostrar solo las preguntas con"
+msgstr "Mostrar solo los temas con"
 
 msgid "show all tags"
 msgstr "todas las tags"
@@ -162,17 +162,17 @@ msgid "Thank you for using {{app_name}} here is how it works."
 msgstr "Gracias por usar el foro {{app_name}}, así es como funciona."
 
 msgid "How questions, answers and comments work"
-msgstr "Cómo funcionan las preguntas, respuestas y comentarios"
+msgstr "Cómo funcionan los temas, comentarios y anotaciones"
 
 msgid "Please search before asking your questions"
-msgstr "Por favor, usa el buscador antes de preguntar"
+msgstr "Por favor, usa el buscador antes de creaer un tema"
 
 msgid ""
 "Type your question in the search bar and see whether a similar question "
 "has been asked before"
 msgstr ""
-"Escribe tu pregunta en la barra de búsqueda y mira si alguna pregunta "
-"similar ya sido respondida"
+"Escribe el tema en la barra de búsqueda y mira si algún tema "
+"similar ya sido respondido"
 
 msgid "Search has advanced capabilities:"
 msgstr "El buscador tiene opciones avanzadas:"
@@ -216,13 +216,982 @@ msgid "oldest"
 msgstr "antigüedad"
 
 
-## faq 
+## faq
 
 msgid "No, you don't have to. You can login through any service that supports OpenID, e.g. Google, Yahoo, AOL, etc."
 msgstr ""
 "Necesitarás la misma contraseña que usas para acceder a la herramienta de "
 "cursos"
 
+#: feed.py:35 feed.py:109
+msgid "Individual question feed"
+msgstr "Canal de temas individuales"
+
+#: forms.py:249 templates/embed/ask_by_widget.html:170
+msgid "Please enter your question"
+msgstr "Por favor introduzca su tema"
+
+#: forms.py:270
+#, python-format
+msgid "The question is too long, maximum allowed size is %d characters"
+msgstr "El tema es muy largo, el tamaño máximo permitido es de %d caracteres"
+
+#: forms.py:277
+#, python-format
+msgid "The question is too long, maximum allowed size is %d bytes"
+msgstr "El tema es muy largo, el maximo permitido es de %d bytes"
+
+#: forms.py:479
+msgid ""
+"if you choose community wiki option, the question and answer do not generate"
+" points and name of author will not be shown"
+msgstr "si marcas la opción Wiki comunitaria, el tema y comentario no generan puntos y el nombre del autor no se muestra"
+
+#: forms.py:914 forms.py:957
+msgid "ask anonymously"
+msgstr "postear tema anónimamente"
+
+#: forms.py:1213
+msgid ""
+"You have asked this question anonymously, if you decide to reveal your "
+"identity, please check this box."
+msgstr "Has realizado un tema anónimamente, si decides revelar tu identidad, marca esta casilla."
+
+#: forms.py:1296
+msgid ""
+"Sorry, only owner of the anonymous question can reveal his or her identity, "
+"please uncheck the box"
+msgstr "Lo sentimos, solo el autor del tema puede revelar su identidad, desmarca la casilla"
+
+
+#: forms.py:1309
+msgid ""
+"Sorry, apparently rules have just changed - it is no longer possible to ask "
+"anonymously. Please either check the \"reveal identity\" box or reload this "
+"page and try editing the question again."
+msgstr "Lo sentimos, aparentemente las reglas han cambiado, ya no es posible crear temas de forma anónima. Por favor marca la casilla \"revelar identidad\" o vuelve a cargar esta página e intenta editar el tema nuevamente."
+
+#: conf/badges.py:77
+msgid "Nice Question: minimum upvotes for the question"
+msgstr "Buen tema: tiene el mínimo de votos de aprobación por el tema"
+
+#: conf/badges.py:86
+msgid "Good Question: minimum upvotes for the question"
+msgstr "Muy buena tema: tiene el mínimo de votos de aporbación por el tema"
+
+#: conf/badges.py:95
+msgid "Great Question: minimum upvotes for the question"
+msgstr "Excelente tema: tiene el mínimo de votos de aprobación por el tema"
+
+
+
+
+#: conf/email.py:72
+msgid "Default notification frequency all questions"
+msgstr "Frecuencia de notificación predeterminada para todas los temas"
+
+#: conf/email.py:74
+msgid "Option to define frequency of emailed updates for: all questions."
+msgstr "Opción para definir la frecuencia de las actualizaciones por correo electrónico para todas los temas."
+
+#: conf/email.py:86
+msgid "Default notification frequency questions asked by the user"
+msgstr "Frecuencia de notificación por defecto para los temas realizados por el usuario"
+
+#: conf/email.py:88
+msgid ""
+"Option to define frequency of emailed updates for: Question asked by the "
+"user."
+msgstr "Opción para definir la frecuencia de las actualizaciones enviadas por email para los temas realizados por el usuario."
+
+#: conf/email.py:102
+msgid ""
+"Option to define frequency of emailed updates for: Question answered by the "
+"user."
+msgstr "Opción para definir la frecuencia de las actualizaciones enviadas por email para los temas realizados por el usuario."
+
+#: conf/email.py:117
+msgid ""
+"Option to define frequency of emailed updates for: Question individually "
+"selected by the user."
+msgstr "Opción para definir la frecuencia de las actualizaciones para los temas seleccionados por el usuario"
+
+#: conf/email.py:143
+msgid "Send periodic reminders about unanswered questions"
+msgstr "Enviar recordatorios periódicos sobre temas sin comentarios"
+
+#: conf/email.py:158
+msgid "Days before starting to send reminders about unanswered questions"
+msgstr "Días antes de empezar a enviar recordatorios sobre temas sin responder"
+
+#: conf/email.py:169
+msgid ""
+"How often to send unanswered question reminders (in days between the "
+"reminders sent)."
+msgstr "Con qué frecuencia enviar recordatorios de temas sin resolver (en días entre cada recordatorio enviado)."
+
+#: conf/email.py:181
+msgid "Max. number of reminders to send about unanswered questions"
+msgstr "N.º máximo de recordatorios a enviar sobre temas sin responder"
+
+#: conf/email.py:262
+msgid "Allow posting questions by email"
+msgstr "Permitir publicar temas por correo electrónico"
+
+#: conf/email.py:277
+msgid ""
+"This setting applies to tags written in the subject line of questions asked "
+"by email"
+msgstr "Esta configuración aplica a las etiquetas escritas en la línea de asunto de temas realizados mediante correo electrónico"
+
+#: conf/flatpages.py:45
+msgid "Instructions on how to ask questions"
+msgstr "Instrucciones sobre como hacer temas"
+
+#: conf/flatpages.py:48
+msgid ""
+"HTML is allowed. Save, then <a href=\"http://validator.w3.org/\">use HTML "
+"validator</a> on the \"ask\" page to check your input."
+msgstr "HTML es permitido. Guarda, luego <a href=\"http://validator.w3.org/\">usa el validador de HTML</a> en la página \"crear tema\" para revisar tu entrada."
+
+#: conf/forum_data_rules.py:53
+msgid ""
+"Disabling this button will reduce number of new questions. If this button is"
+" disabled, the ask button in the search menu will still be available."
+msgstr "Deshabilitar este botón reducirá el número de nuevos temas. Si este botón está deshabilitado, el botón crear tema del menú de búsqueda aún estará activo."
 
 #~ msgid "%(lang_name)s"
 #~ msgstr "%(lang_name)s"
+
+#: conf/forum_data_rules.py:87
+msgid "Allow asking questions anonymously"
+msgstr "Permitir crear temas anónimamente"
+
+#: conf/forum_data_rules.py:89
+msgid ""
+"Users do not accrue reputation for anonymous questions and their identity is"
+" not revealed until they change their mind"
+msgstr "Los usuarios no acumulan reputación por crear temas anónimos y su identidad no será revelada hasta que cambien de opinión"
+
+#: conf/forum_data_rules.py:118
+msgid "Auto-follow questions by the Author"
+msgstr "Auto-seguir temas creados por el Autor"
+
+#: conf/forum_data_rules.py:133
+msgid "Question details/body editor should be"
+msgstr "El editor de detalles/cuerpo del tema debe ser"
+
+#: conf/forum_data_rules.py:147
+msgid "Allow swapping answer with question"
+msgstr "Permitir intercambiar comentario con tema"
+
+#: conf/forum_data_rules.py:149
+msgid ""
+"This setting will help import data from other forums such as zendesk, when "
+"automatic data import fails to detect the original question correctly."
+msgstr "Este ajuste te ayudará a importar datos de otros foros como zendesk, cuando falle la importación automática de datos y no detecte el tema original correctamente."
+
+
+#: conf/forum_data_rules.py:180
+msgid "Minimum length of question body (number of characters)"
+msgstr "Tamaño minimo del tema (numero de caracteres)"
+
+#: conf/forum_data_rules.py:213
+msgid "Limit one answer per question per user"
+msgstr "Limitar a una respuesta por tema por usuario"
+
+#: conf/forum_data_rules.py:259
+msgid ""
+"At least one of these tags will be required for any new or newly edited "
+"question. A mandatory tag may be wildcard, if the wildcard tags are active."
+msgstr "Al menos una de estas etiquetas será requerida por cada nuevo tema o editado. Una etiqueta obligatoria podria ser el asterisco, si las etiquetas comodín están activadas."
+
+#: conf/forum_data_rules.py:436
+msgid "Maximum number of tags per question"
+msgstr "Número máximo de etiquetas por cada tema"
+
+#: conf/forum_data_rules.py:448
+msgid "Number of questions to list by default"
+msgstr "Número máximo de temas a listar por defecto"
+
+#: conf/forum_data_rules.py:458
+msgid "What should \"unanswered question\" mean?"
+msgstr "¿Qué debería significar «tema sin responder»?"
+
+#: conf/minimum_reputation.py:40
+msgid "Answer own question immediately"
+msgstr "Contestar tu propio tema inmediatamente"
+
+#: conf/minimum_reputation.py:97
+msgid "Delete questions and answers posted by others"
+msgstr "Eliminar temas y comentarios publicados por otros"
+
+#: conf/minimum_reputation.py:137
+msgid "Close own questions"
+msgstr "Cerrar temas propios"
+
+#: conf/minimum_reputation.py:146
+msgid "Retag questions posted by other people"
+msgstr "Re-etiquetar los temas creados por otros usuarios"
+
+#: conf/minimum_reputation.py:155
+msgid "Reopen own questions"
+msgstr "Reabrir temas propios"
+
+#: conf/minimum_reputation.py:191
+msgid "Close questions asked by others"
+msgstr "Cerrar temas realizados por otros"
+
+#: conf/question_lists.py:11
+msgid "Listings of questions"
+msgstr "Listado de temas"
+
+#: conf/question_lists.py:64
+msgid "Default questions selector for the authenticated users"
+msgstr "Selector de temas por defecto para usuarios autenticados"
+
+#: conf/question_lists.py:80
+msgid "Default questions selector for the anonymous users"
+msgstr "Selector de temas por defecto para usuarios anónimos"
+
+#: conf/sidebar_question.py:11
+msgid "Question page banners and sidebar"
+msgstr "Barra lateral y carteles de la página de tema"
+
+#: conf/sidebar_question.py:107
+msgid ""
+"Uncheck this if you want to hide the meta information about the question "
+"(post date, views, last updated). "
+msgstr "Desmarque esto si quiere ocultar la metainformación sobre el tema (fecha de publicación, vistas, última actualización). "
+
+#: conf/sidebar_question.py:119
+msgid "Show related questions in sidebar"
+msgstr "Mostrar temas relacionados en la barra lateral"
+
+#: conf/sidebar_question.py:121
+msgid "Uncheck this if you want to hide the list of related questions. "
+msgstr "Desmarque esto si quiere ocultar la lista de temas relacionados. "
+
+#: conf/social_sharing.py:38
+msgid "Check to enable sharing of questions on Twitter"
+msgstr "Marque para permitir compartir los temas en Twitter"
+
+#: conf/social_sharing.py:52
+msgid "Check to enable sharing of questions on Facebook"
+msgstr "Marque para permitir compartir los temas en Facebook"
+
+#: conf/social_sharing.py:61
+msgid "Check to enable sharing of questions on LinkedIn"
+msgstr "Marque para permitir compartir los temas en LinkedIn"
+
+#: conf/social_sharing.py:70
+msgid "Check to enable sharing of questions on Identi.ca"
+msgstr "Marque para permitir compartir los temas en Identi.ca"
+
+#: conf/social_sharing.py:79
+msgid "Check to enable sharing of questions on Google+"
+msgstr "Marque para permitir compartir los temas en Google+"
+
+#: conf/vote_rules.py:60
+msgid "Number of days required before answering own question"
+msgstr "Número de días requeridos antes de responder a temas propios"
+
+#: conf/vote_rules.py:87
+msgid ""
+"Minimum days to accept an answer, if it has not been accepted by the "
+"question poster"
+msgstr "Días mínimos para aceptar un comentario, si no ha sido aceptada por el que hizo el tema"
+
+#: const/__init__.py:11
+msgid "duplicate question"
+msgstr "tema duplicado"
+
+#: const/__init__.py:12
+msgid "question is off-topic or not relevant"
+msgstr "el tema esta fuera de lugar o no es relevante"
+
+
+#: const/__init__.py:14
+msgid "not a real question"
+msgstr "no es un tema real"
+
+#: const/__init__.py:15
+msgid "the question is answered, right answer was accepted"
+msgstr "el tema ha sido respondido, el comentario correcto ha sido aceptado"
+
+#: const/__init__.py:16
+msgid "question is not relevant or outdated"
+msgstr "el tema no es relevante o está desactualizado"
+
+#: const/__init__.py:17
+msgid "question contains offensive or malicious remarks"
+msgstr "el tema contiene puntos ofensivos o maliciosos"
+
+#: const/__init__.py:138
+msgid "Question has no answers"
+msgstr "El tema no tiene respuestas"
+
+#: const/__init__.py:139
+msgid "Question has no accepted answers"
+msgstr "El tema no tiene respuestas aceptadas"
+
+#: const/__init__.py:195
+msgid "asked a question"
+msgstr "realizó un tema"
+
+#: const/__init__.py:196
+msgid "answered a question"
+msgstr "respondió a un tema"
+
+#: const/__init__.py:197 const/__init__.py:301
+msgid "commented question"
+msgstr "comentar tema"
+
+#: const/__init__.py:199
+msgid "edited question"
+msgstr "editar tema"
+
+#: const/__init__.py:206
+msgid "deleted question"
+msgstr "eliminar tema"
+
+#: const/__init__.py:216
+msgid "reminder about unanswered questions sent"
+msgstr "enviado recordatorio sobre temas no contestados"
+
+#: const/__init__.py:300
+msgid "answered question"
+msgstr "respondió al  tema"
+
+#: const/message_keys.py:21
+msgid "most relevant questions"
+msgstr "temas más relevantes"
+
+#: const/message_keys.py:22
+msgid "click to see most relevant questions"
+msgstr "haz click para ver los temas más relevantes"
+
+#: const/message_keys.py:24
+msgid "click to see the oldest questions"
+msgstr "haz click para ver los temas más antiguas"
+
+#: const/message_keys.py:26
+msgid "click to see the newest questions"
+msgstr "haz click para ver los temas más recientes"
+
+#: const/message_keys.py:27
+msgid "click to see the least recently updated questions"
+msgstr "haz click para ver los temas actualizadas más recientes"
+
+#: const/message_keys.py:29
+msgid "click to see the most recently updated questions"
+msgstr "haz click para ver los temas más recientes"
+
+#: const/message_keys.py:30
+msgid "click to see the least answered questions"
+msgstr "haz click para ver los temas menos contestadas"
+
+#: const/message_keys.py:32
+msgid "click to see the most answered questions"
+msgstr "haz click para ver los temas más respondidas"
+
+#: const/message_keys.py:33
+msgid "click to see least voted questions"
+msgstr "haz click para ver los temas menos votadas"
+
+#: const/message_keys.py:35
+msgid "click to see most voted questions"
+msgstr "haz click para ver los temas más votadas"
+
+#: mail/__init__.py:183
+msgid "<p>To ask by email, please:</p>"
+msgstr "<p>Para crear un tema por correo electrónico, por favor:</p>"
+
+#: mail/__init__.py:188
+msgid "<li>Type details of your question into the email body</li>"
+msgstr "<li>Introduzca los detalles de su tema en el cuerpo del correo</li>"
+
+#: mail/__init__.py:214
+#, python-format
+msgid ""
+"<p>Sorry, there was an error posting your question please contact the "
+"%(site)s administrator</p>"
+msgstr "<p>Lo sentimos, ha habido un error enviando tu tema, por favor, contacta con el administrador de %(site)s</p>"
+
+#: mail/__init__.py:241
+#, python-format
+msgid ""
+"<p>Sorry, in order to post questions on %(site)s by email, please <a "
+"href=\"%(url)s\">register first</a></p>"
+msgstr "<p>Lo sentimos, para enviar temas en %(site)s por email, por favor<a href=\"%(url)s\">regístrate primero</a></p>"
+
+#: mail/__init__.py:249
+msgid ""
+"<p>Sorry, your question could not be posted due to insufficient privileges "
+"of your user account</p>"
+msgstr "<p>Lo sentimos, tu tema no puede ser enviada porque no existen suficiente privilegios en tu cuenta</p>"
+
+#: management/commands/send_accept_answer_reminders.py:61
+#, python-format
+msgid "Accept the best answer for %(question_count)d of your questions"
+msgstr "Aceptar la mejor respuesta para %(question_count)d de tus temas"
+
+#: management/commands/send_accept_answer_reminders.py:66
+msgid "Please accept the best answer for this question:"
+msgstr "Por favor, acepta la mejor respuesta para el tema:"
+
+#: management/commands/send_accept_answer_reminders.py:68
+msgid "Please accept the best answer for these questions:"
+msgstr "Por favor, acepta la mejor respuesta para estos temas:"
+
+#: management/commands/send_email_alerts.py:434
+#, python-format
+msgid "%(question_count)d updated question about %(topics)s"
+msgid_plural "%(question_count)d updated questions about %(topics)s"
+msgstr[0] "%(question_count)d tema actualizado de %(topics)s"
+msgstr[1] "%(question_count)d temas actualizados de %(topics)s"
+
+#: management/commands/send_email_alerts.py:455
+msgid "new question"
+msgstr "nuevo tema"
+
+#: management/commands/send_unanswered_question_reminders.py:67
+#, python-format
+msgid "%(question_count)d unanswered question about %(topics)s"
+msgid_plural "%(question_count)d unanswered questions about %(topics)s"
+msgstr[0] "%(question_count)d tema sin responder de %(topics)s"
+msgstr[1] "%(question_count)d temas sin responder de %(topics)s"
+
+#: models/__init__.py:641
+#, python-format
+msgid ""
+">%(points)s points required to accept or unaccept  your own answer to your "
+"own question"
+msgstr ">%(points)s puntos necesarios para aceptar o cancelar tu propia respuesta o tu propio tema"
+
+#: models/__init__.py:665
+#, python-format
+msgid ""
+"Sorry, you will be able to accept this answer only after %(will_be_able_at)s"
+msgstr "Lo siento, sólo podrás aceptar este tema después de %(will_be_able_at)s"
+
+#: models/__init__.py:674
+#, python-format
+msgid ""
+"Sorry, only moderators or original author of the question  - %(username)s - "
+"can accept or unaccept the best answer"
+msgstr "Lo siento, sólo los moderadores o el autor del tema %(username)s pueden aceptar o cancelar la mejor respuesta"
+
+#: models/__init__.py:854
+#, python-format
+msgid ""
+"Sorry, to comment any post a minimum reputation of %(min_rep)s points is "
+"required. You can still comment your own posts and answers to your questions"
+msgstr "Lo sentimos, para comentar cualquier post se requiere un mínimo de %(min_rep)s de reputación. Aunque también puedes comentar tus propios posts y respuestas a tus temas."
+
+#: models/__init__.py:996
+msgid ""
+"Sorry, cannot delete your question since it has an upvoted answer posted by "
+"someone else"
+msgid_plural ""
+"Sorry, cannot delete your question since it has some upvoted answers posted "
+"by other users"
+msgstr[0] "Lo sentimos, no puedes eliminar tus temas debido a que tiene una respuestas con votos positivos enviada por otro usuarios"
+msgstr[1] "Lo sentimos, no puedes eliminar tus temas debido a que tiene varias respuestas con votos positivos enviadas por otros usuarios"
+
+#: models/__init__.py:1040
+msgid "Sorry, since your account is blocked you cannot close questions"
+msgstr "Lo sentimos, debido a que tu cuenta está bloqueda no puedes cerrar los temas"
+
+#: models/__init__.py:1044
+msgid "Sorry, since your account is suspended you cannot close questions"
+msgstr "Lo sentimos, debido a que tu cuenta está suspendida no puedes cerrar temas"
+
+#: models/__init__.py:1057
+#, python-format
+msgid ""
+"Sorry, to close own question a minimum reputation of %(min_rep)s is required"
+msgstr "Lo sentimos, para cerrar tu propioo tema, necesitas un mínimo de %(min_rep)s puntos de reputación"
+
+#: models/__init__.py:1084
+#, python-format
+msgid ""
+"Sorry, only administrators, moderators or post owners with reputation > "
+"%(min_rep)s can reopen questions."
+msgstr "Lo sentimos, sólo los administradores, moderadores y los dueños de los posts con reputación mayor de %(min_rep)s pueden reabrir los temas"
+
+#: models/__init__.py:1090
+#, python-format
+msgid ""
+"Sorry, to reopen own question a minimum reputation of %(min_rep)s is "
+"required"
+msgstr "Lo sentimos, para reabrir un tema se necesita un mínimo de %(min_rep)s de puntos de reputación"
+
+#: models/__init__.py:1095
+msgid "Sorry, you cannot reopen questions because your account is blocked"
+msgstr "Lo sentimos, no puede reabrir temas por que su cuenta esta bloqueada"
+
+#: models/__init__.py:1100
+msgid "Sorry, you cannot reopen questions because your account is suspended"
+msgstr "Lo sentimos, no puedes reabrir temas por que su cuenta está suspendida"
+
+#: models/__init__.py:1123
+msgid "You have flagged this question before and cannot do it more than once"
+msgstr "Ha marcado este tema anteriormente, no se puede marcar mas de una vez"
+
+#: models/__init__.py:1235
+msgid ""
+"Sorry, only question owners, site administrators and moderators can retag "
+"deleted questions"
+msgstr "Lo sentimos, sólo los dueños de los temas, los administradores del sitio y los moderadores pueden re-etiquetar los temas eliminados"
+
+#: models/__init__.py:1243
+msgid "Sorry, since your account is blocked you cannot retag questions"
+msgstr "Lo sentimos, debido a que tu cuenta está bloqueada no puedes re-etiquetar temas"
+
+#: models/__init__.py:1247
+msgid ""
+"Sorry, since your account is suspended you can retag only your own questions"
+msgstr "Lo sentimos, debido a que tu cuenta está suspendida, sólo puedes re-etiquetar tus propios temas"
+
+#: models/__init__.py:1251
+#, python-format
+msgid ""
+"Sorry, to retag questions a minimum reputation of %(min_rep)s is required"
+msgstr "Lo sentimos, para re-etiquetar temas es necesario un mínimo de %(min_rep)s puntos de reputación"
+
+#: models/__init__.py:2006
+#, python-format
+msgid ""
+"New users must wait %(days)s before answering their own question.  You can "
+"post an answer %(left)s"
+msgstr "Los nuevos usuarios deben esperar %(days)s antes de poder responder a sus propios temas. Puedes enviar tu respuesta %(left)s"
+
+#: models/badges.py:252
+#, python-format
+msgid "Answered own question with at least %(num)s up votes"
+msgstr "Contestó un tema propio con al menos %(num)s votos positivos"
+
+
+#: models/badges.py:418 models/badges.py:429 models/badges.py:441
+#, python-format
+msgid "Asked a question with %(views)s views"
+msgstr "Hizo un tema con %(views)s vistas"
+
+#: models/badges.py:381
+msgid "Asked first question with at least one up vote"
+msgstr "Primer tema con al menos un voto"
+
+#: models/badges.py:450
+msgid "Asked a question and accepted an answer"
+msgstr "Hizo un tema y aceptó un comentario"
+
+#: models/badges.py:518
+#, python-format
+msgid ""
+"Answered a question more than %(days)s days later with at least %(votes)s "
+"votes"
+msgstr "Respondió un tema más de %(days)s después con al menos %(votes)s votos"
+
+#: models/badges.py:756
+#, python-format
+msgid "Created a tag used by %(num)s questions"
+msgstr "Creó una etiqueta utilizada por %(num)s temas"
+
+#: models/post.py:1570
+msgid "Sorry, this question has been deleted and is no longer accessible"
+msgstr "Lo sentimos, este tema se ha eliminado y no puedes acceder a ella"
+
+#: models/post.py:1586
+msgid ""
+"Sorry, the answer you are looking for is no longer available, because the "
+"parent question has been removed"
+msgstr "Lo sentimos, el comentario que estás buscando no se encuentra disponible, debido a que el tema del que depende se ha eliminado"
+
+#: models/post.py:1609
+msgid ""
+"Sorry, the comment you are looking for is no longer accessible, because the "
+"parent question has been removed"
+msgstr "Lo sentimos, la anotación que estás buscando ya no se encuentra accesible porque el tema del que dependía se ha eliminado."
+
+#: models/question.py:1590
+#, python-format
+msgid "Please, <a href=\"%s\">review your question</a>."
+msgstr "Por favor, <a href=\"%s\">revise su tema</a>"
+
+#: models/repute.py:218
+#, python-format
+msgid ""
+"%(points)s points were added for %(username)s's contribution to question "
+"%(question_title)s"
+msgstr "%(points)s puntos se añadieron a tu usuario %(username)s  por el tema %(question_title)s"
+
+#: models/repute.py:223
+#, python-format
+msgid ""
+"%(points)s points were subtracted for %(username)s's contribution to "
+"question %(question_title)s"
+msgstr "%(points)s puntos se restaron de tu usuario %(username)s por el tema %(question_title)s"
+
+#: models/user.py:319
+msgid "Individually selected questions"
+msgstr "Selección individual de temas"
+
+#: templates/404.html:17
+msgid "this question or answer has been deleted;"
+msgstr "el tema o comentario ha sido eliminado;"
+
+#: templates/404.html:31 templates/widgets/scope_nav.html:17
+msgid "see all questions"
+msgstr "ver todas los temas"
+
+#: templates/500.html:12
+msgid "see latest questions"
+msgstr "ver las últimos temas"
+
+#: templates/ask.html:21
+msgid ""
+"since you are not logged in right now, you will be asked to sign in or "
+"register after posting your question"
+msgstr "como no ha iniciado sesión,  será invitado a iniciar sesión o registrarse después de publicar su tema"
+
+#: templates/ask.html:29
+msgid "please, try to make your question interesting to this community"
+msgstr "por favor, trate de hacer su tema interesante para esta comunidad"
+
+#: templates/ask.html:36 templates/widgets/answer_edit_tips.html:20
+#: templates/widgets/question_edit_tips.html:16
+msgid "see frequently asked questions"
+msgstr "mira los temas más frecuentes"
+
+#: templates/badges.html:7
+msgid "Community gives you awards for your questions, answers and votes."
+msgstr "La comunidad le da premios a sus temas, comentarios y votos."
+
+#: templates/close.html:3 templates/close.html.py:5
+msgid "Close question"
+msgstr "Cerrar tema"
+
+#: templates/close.html:6
+msgid "Close the question"
+msgstr "Cerrar el tema"
+
+#: templates/faq_static.html:6
+msgid "What kinds of questions can I ask here?"
+msgstr "Que tipo de temas puedo hacer aquí?"
+
+#: templates/faq_static.html:7
+msgid ""
+"Most importantly - questions should be <strong>relevant</strong> to this "
+"community."
+msgstr "Mas importantemente - los temas deben de ser <strong>relevantes</strong> a esta comunidad."
+
+#: templates/faq_static.html:8
+msgid ""
+"Before you ask - please make sure to search for a similar question. You can "
+"search questions by their title or tags."
+msgstr "Antes de crear un tema - asegúrate de haber buscado sobre él. Puedes buscar temas por título o por etiquetas."
+
+#: templates/faq_static.html:10
+msgid "What kinds of questions should be avoided?"
+msgstr "¿Qué tipo de temas deben de ser evitados?"
+
+#: templates/faq_static.html:11
+msgid ""
+"Please avoid asking questions that are not relevant to this community, too "
+"subjective and argumentative."
+msgstr "Por favor, evite crear temas que no son relevantes para esta comunidad, demasiado subjetivos y argumentativos."
+
+#: templates/faq_static.html:14
+msgid ""
+"is a <strong>question and answer</strong> site - <strong>it is not a "
+"discussion group</strong>. Please avoid holding debates in your answers as "
+"they tend to dilute the essense of questions and answers. For the brief "
+"discussions please use commenting facility."
+msgstr "es un sitio de <strong>temas y comentarios</strong> - <strong>no es un foro de discusión</strong>. Por favor evite hacer debates en sus temas por que tienden a diluir la esencia de los temas y comentarios. Para discusiones breves use la funcionalidad de anotaciones."
+
+#: templates/faq_static.html:22
+#, python-format
+msgid ""
+"For example, if you ask an interesting question or give a helpful answer, "
+"your input will be upvoted. On the other hand if the answer is misleading - "
+"it will be downvoted. Each vote in favor will generate "
+"<strong>%(REP_GAIN_FOR_RECEIVING_UPVOTE)s</strong> points, each vote against"
+" will subtract <strong>%(REP_LOSS_FOR_RECEIVING_DOWNVOTE)s</strong> points. "
+"There is a limit of <strong>%(MAX_REP_GAIN_PER_USER_PER_DAY)s</strong> "
+"points that can be accumulated for a question or answer per day. The table "
+"below explains reputation point requirements for each type of moderation "
+"task."
+msgstr "Si haces un tema interesante o envias una respuesta que sea de ayuda, te valoraran positivamente. Pero si la respuesta es confusa podran valorarte negativamente. Cada voto positivo generara <strong>%(REP_GAIN_FOR_RECEIVING_UPVOTE)s</strong> puntos , cada voto negativo te restara <strong>%(REP_LOSS_FOR_RECEIVING_DOWNVOTE)s</strong> puntos. Dispones de un limite de <strong>%(MAX_REP_GAIN_PER_USER_PER_DAY)s</strong> puntos que puedes ganar cada dia con cada tema. La tabla de abajo te muestra como funcionan los puntos de reputacion para cada tipo de tarea de moderacion."
+
+#: templates/faq_static.html:45
+msgid " accept own answer to own questions"
+msgstr "aceptar respuestas propias a tus temas"
+
+#: templates/faq_static.html:49
+msgid "open and close own questions"
+msgstr "abrir y cerrar temas propios"
+
+#: templates/faq_static.html:53
+msgid "retag other's questions"
+msgstr "re-etiquetar otros temas"
+
+#: templates/faq_static.html:58
+msgid "edit community wiki questions"
+msgstr "editar temas wiki"
+
+#: templates/faq_static.html:77
+msgid "Why other people can edit my questions/answers?"
+msgstr "Por que otras personas puede editar mis temas/comentarios?"
+
+#: templates/faq_static.html:81
+msgid "Still have questions?"
+msgstr "Aún tiene comentarios?"
+
+#: templates/faq_static.html:82
+#, python-format
+msgid ""
+"Please <a href='%(ask_question_url)s'>ask</a> your question, help make our "
+"community better!"
+msgstr "Por favor <a href='%(ask_question_url)s'>haga</a> su tema, ¡Ayúdenos a mejorar nuestra comunidad!"
+
+#: templates/help.html:18
+msgid ""
+"This site is for asking and answering questions, not for open-ended "
+"discussions."
+msgstr "Este sitio es para preguntar y contestar temas, no para debates o discusiones."
+
+#: templates/help.html:19
+msgid ""
+"We encourage everyone to use “question” space for asking and “answer” for "
+"answering."
+msgstr "Te aconsejamos utilizar el espacio de temas para crear temas y el de respuestas para comentar."
+
+#: templates/help.html:22
+msgid ""
+"Despite that, each question and answer can be commented – \n"
+"    the comments are good for the limited discussions."
+msgstr "A pesar de esto, puedes comentar cada tema y cada comentario – \n    aunque no se recomienda utilizar las anotaciones para iniciar debates demasiado extensos, solo para discusiones cortas."
+
+#: templates/list_suggested_tags.html:14
+msgid "Suggested tag was used for questions"
+msgstr "Etiqueta sugerida fue usada para los temas"
+
+#: templates/list_suggested_tags.html:62
+#, python-format
+msgid "Apply tag \"%(name)s\" to all above questions"
+msgstr "Aplicar etiqueta \"%(name)s\" a todos los temas anteriores"
+
+#: templates/macros.html:5
+#, python-format
+msgid "Share this question on %(site)s"
+msgstr "Compartir este tema en %(site)s"
+
+#: templates/macros.html:314
+#, python-format
+msgid "see questions tagged '%(tag)s'"
+msgstr "ver temas etiquetadas con '%(tag)s'"
+
+#: templates/question.html:245 templates/question/content.html:46
+msgid "Answer Your Own Question"
+msgstr "Responde tu tema"
+
+#: templates/question_edit.html:4 templates/question_edit.html.py:9
+msgid "Edit question"
+msgstr "Editar tema"
+
+#: templates/question_retag.html:32
+msgid "tag editors receive special awards from the community"
+msgstr "quienes etiquetan sus temas, son premiados por la comunidad"
+
+#: templates/reopen.html:4 templates/reopen.html.py:6
+msgid "Reopen question"
+msgstr "Re-abrir tema"
+
+#: templates/reopen.html:12
+#, python-format
+msgid ""
+"This question has been closed by \n"
+"    <a href=\"%(closed_by_profile_url)s\">%(username)s</a>\n"
+msgstr "Este tema ha sido cerrado por\n<a href=\"%(closed_by_profile_url)s\">%(username)s</a>\n"
+
+#: templates/reopen.html:23
+msgid "Reopen this question?"
+msgstr "Reabrir el tema?"
+
+#: templates/reopen.html:27
+msgid "Reopen this question"
+msgstr "Reabrir este tema"
+
+#: templates/authopenid/changeemail.html:21
+msgid ""
+"<span class=\\\"big strong\\\">Thank you for verifying your email!</span> Now \n"
+"you can <strong>ask</strong> and <strong>answer</strong> questions. Also if \n"
+"you find a very interesting question you can <strong>subscribe for the \n"
+"updates</strong> - then will be notified about changes <strong>once a day</strong>\n"
+"or less frequently."
+msgstr "<span class=\\\"big strong\\\">Gracias por verificar su correo</span>Ahora puedes <strong>hacer</strong> y <strong>comentar</strong> temas. Además si encuentras un tema muy interesante puedes <strong>subscribirte para las actualizaciones</strong> - luego será notificado sobre cambios <strong>una vez al día</strong> o menos frecuentemente."
+
+#: templates/authopenid/signin.html:22
+#: templates/authopenid/widget_signin.html:26
+#, python-format
+msgid ""
+"Your question \n"
+"        %(title)s %(summary)s will be posted once you log in\n"
+"        "
+msgstr "Tu tema \n        %(title)s %(summary)s se publicará cuando inicies sesión\n        "
+
+#: templates/avatar/change.html:4
+msgid "change avatar"
+msgstr "Re-etiquetar tema"
+
+#: templates/email/insufficient_rep_to_post_by_email.html:10
+#, python-format
+msgid "%(username)s, your question could not be posted by email just yet."
+msgstr "%(username)s, su tema no pudo ser publicada por correo electrónico."
+
+#: templates/email/insufficient_rep_to_post_by_email.html:15
+#, python-format
+msgid "At this time, please post your question at %(link)s"
+msgstr "En este momento, por favor publique su tema en %(link)s"
+
+#: templates/email/macros.html:21
+#, python-format
+msgid ""
+"\n"
+"                                In reply to %(author)s's question:\n"
+"                            "
+msgstr "\nEn respuesta al tema de %(author)s:"
+
+#: templates/email/macros.html:52
+#, python-format
+msgid ""
+"\n"
+"                                In reply to %(author)s's answer:\n"
+"                            "
+msgstr "\nEn respuesta al tema de %(author)s:"
+
+#: templates/email/welcome_lamson_on.html:14
+#, python-format
+msgid ""
+"Until we receive the response from you, you will not be able ask or answer "
+"questions on %(site_name)s by email."
+msgstr "Hasta que recibamos una respuesta de usted, no le será posible comentar o responder temaa en %(site_name)s por correo electronico."
+
+#: templates/embed/widgets.html:16
+msgid "Ask a question"
+msgstr "Formula un tema"
+
+#: templates/embed/widgets.html:25
+msgid "List of questions"
+msgstr "Lista de temas"
+
+#: templates/main_page/headline.html:4 views/readers.py:151
+#, python-format
+msgid "%(q_num)s question"
+msgid_plural "%(q_num)s questions"
+msgstr[0] "%(q_num)s tema"
+msgstr[1] "%(q_num)s temas"
+
+#: templates/main_page/nothing_found.html:4
+msgid "There are no unanswered questions here"
+msgstr "No hay temas sin responder aqui"
+
+#: templates/main_page/nothing_found.html:7
+msgid "No questions here. "
+msgstr "No hay temas aqui"
+
+#: templates/main_page/nothing_found.html:8
+msgid "Please follow some questions or follow some users."
+msgstr "Por favor, sigue los temas o usuarios que desees"
+
+#: templates/main_page/nothing_found.html:30
+msgid "Please always feel free to ask your question!"
+msgstr "Por favor, pregunta cuando quieras!"
+
+#: templates/main_page/questions_loop.html:9
+msgid "Did not find what you were looking for?"
+msgstr "No encontraste lo que estabas buscando?"
+
+#: templates/main_page/tab_bar.html:11
+msgid "subscribe to the questions feed"
+msgstr "suscribirse al feed de este tema"
+
+#: templates/question/answer_controls.html:2
+msgid "swap with question"
+msgstr "cambiar con tema"
+
+#: templates/question/new_answer_form.html:22
+msgid "Be the first one to answer this question!"
+msgstr "Se el primero en contestar este tema"
+
+#: templates/question/closed_question_info.html:2
+#, python-format
+msgid ""
+"The question has been closed for the following reason "
+"<b>\"%(close_reason)s\"</b> <i>by"
+msgstr "El tema ha sido cerrado por el siguiente motivo <b>\"%(close_reason)s\"</b> <i>por"
+
+#: templates/question/sidebar.html:81
+msgid "This question is currently shared only with:"
+msgstr "Este tema ha sido compartido con:"
+
+#: templates/user_profile/user_favorites.html:4
+#: templates/user_profile/user_tabs.html:29
+msgid "followed questions"
+msgstr "temas seguidos"
+
+#: templates/user_profile/user_tabs.html:10 views/users.py:819
+msgid "comments and answers to others questions"
+msgstr "comentar y responder otros temas"
+
+#: templates/user_profile/user_tabs.html:27
+msgid "questions that user is following"
+msgstr "temas que el usuario esta siguiendo"
+
+#: templates/widgets/group_info.html:46
+msgid "moderate emailed questions"
+msgstr "moderar temas enviadas por email"
+
+#: templates/widgets/question_edit_tips.html:5
+msgid "ask a question interesting to this community"
+msgstr "crea un tema interesante a esta comunidad"
+
+#: templates/widgets/scope_nav.html:22
+msgid "see unanswered questions"
+msgstr "ver temas sin comentarios"
+
+#: templates/widgets/scope_nav.html:27
+msgid "see your followed questions"
+msgstr "ver temas seguidos"
+
+#: templates/widgets/scope_nav.html:30
+msgid "Please ask your question here"
+msgstr "Por favor haz tu pregunta desde aqui"
+
+#: templates/widgets/three_column_category_selector.html:4
+msgid ""
+"Categorize your question using this tag selector or entering text in tag "
+"box."
+msgstr "Categorice su tema usando el selector de etiquetas o ingresando texto en la caja de etiquetas"
+
+#: templates/widgets/user_perms.html:21
+msgid "Post questions, answers and comments"
+msgstr "Publicar temas, comentarios y anotaciones"
+
+#: views/users.py:902
+msgid "users favorite questions"
+msgstr "temas favoritos del usuario"
+
+#: views/users.py:903
+msgid "profile - favorite questions"
+msgstr "pefil - temas favoritos"
+
+#: views/writers.py:582
+msgid "Please log in to answer questions"
+msgstr "Por favor, haz login para responder temas"
+
+#: templates/email/macros.html:33
+#, python-format
+msgid "Asked by %(author)s:"
+msgstr "Publicado por %(author)s:"
