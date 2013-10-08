@@ -139,8 +139,8 @@ class AskbotInstance():
                 password=icc.DB_PASSWORD,
                 host=icc.DB_HOST
             )
-            print((' [ OK ] Database {0} created and connection '
-                   'tested.').format(instance_db_name))
+            print(' [ OK ] Database {0} created and connection '
+                   'tested.'.format(instance_db_name))
         except:
             self.abort(' [ERROR] Couldn\'t connect to the PostgreSQL server '
                      '(authentication failed or server down). Aborting.')
@@ -266,7 +266,7 @@ class AskbotInstance():
             shutil.rmtree(INSTANCE_DIR)
             os.remove(os.path.join('/etc', 'supervisord.d',
                                    'openmooc-askbot-%s.conf' % instance_name))
-            print(' [ OK ] Instance {0} destroyed.').format(instance_name)
+            print(' [ OK ] Instance {0} destroyed.'.format(instance_name))
         except:
             self.abort(' [ERROR] Couldn\'t drop database or remove instance '
                      'files. Aborting.')
