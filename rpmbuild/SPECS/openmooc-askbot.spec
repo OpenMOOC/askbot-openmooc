@@ -119,7 +119,7 @@ fi
 
 ## Create custom link for fix xmlsec library load
 # xmlsec1 link
-if ! [ -e /lib64/libxmlsec1-openssl.so ]; then
+if ! [ -e %{_prefix}/lib64/libxmlsec1-openssl.so ]; then
     ln -s /usr/lib64/libxmlsec1-openssl.so.1 %{_prefix}/lib64/libxmlsec1-openssl.so
 fi
 
