@@ -194,7 +194,7 @@ rm /usr/lib64/libxmlsec1-openssl.so
 %{python_sitelib}/%{libname}/skel_instances/__init__.py*
 
 # Check that te openmooc-askbot utilities are in place
-%{_sysconfdir}/%{platform}/%{component}/instances_creator_conf.py*
+%config(noreplace) %{_sysconfdir}/%{platform}/%{component}/instances_creator_conf.py*
 %{python_sitelib}/%{libname}/utils/
 
 %dir %{python_sitelib}/%{platform}_%{component}-%{version}-*.egg-info/
