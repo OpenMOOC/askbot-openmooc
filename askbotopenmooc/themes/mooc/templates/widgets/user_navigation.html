@@ -23,7 +23,7 @@
 <a href="{% url "help" %}" title="{% trans %}help{% endtrans %}">{% trans %}help{% endtrans %}</a>
 <a href="{% url faq %}" title="{% trans %}faq{% endtrans %}">{% trans %}faq{% endtrans %}</a>
 
-{% if openmooc_settings.COURSE_URL %}
-   <a href="{{ openmooc_settings.COURSE_URL }}">{% trans %}Go to course site{% endtrans %}</a>
+{% if openmooc_settings.INSTANCE_URL %}
+   <a href="{{ openmooc_settings.INSTANCE_URL }}">{% trans %}Go to course site{% endtrans %}</a>
 {% endif %}
 

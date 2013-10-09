@@ -110,8 +110,8 @@ msgstr "Preguntas relacionadas"
 
 #: askbot-openmooc-themes/mooc/templates/widgets/header.html:38
 #, python-format
-msgid " %(COURSE_TITLE)s Q&A "
-msgstr "Herramienta de debate de %(COURSE_TITLE)s"
+msgid " %(INSTANCE_TITLE)s Q&A "
+msgstr "Herramienta de debate de %(INSTANCE_TITLE)s"
 
 #: askbot-openmooc-themes/mooc/templates/widgets/user_navigation.html:16
 msgid "sign out"
@@ -216,7 +216,7 @@ msgid "oldest"
 msgstr "antigüedad"
 
 
-## faq 
+## faq
 
 msgid "No, you don't have to. You can login through any service that supports OpenID, e.g. Google, Yahoo, AOL, etc."
 msgstr ""

@@ -21,14 +21,14 @@
     askbot['urls']['mark_read_message'] = '{% url "read_message" %}';
     askbot['urls']['get_tags_by_wildcard'] = '{% url "get_tags_by_wildcard" %}';
     askbot['urls']['get_tag_list'] = '{% url "get_tag_list" %}';
-    askbot['urls']['follow_user'] = '{{ openmooc_settings.COURSE_NAME }}/followit/follow/user/{{'{{'}}userId{{'}}'}}/';
-    askbot['urls']['unfollow_user'] = '{{ openmooc_settings.COURSE_NAME }}/followit/unfollow/user/{{'{{'}}userId{{'}}'}}/';
+    askbot['urls']['follow_user'] = '{{ openmooc_settings.INSTANCE_NAME }}/followit/follow/user/{{'{{'}}userId{{'}}'}}/';
+    askbot['urls']['unfollow_user'] = '{{ openmooc_settings.INSTANCE_NAME }}/followit/unfollow/user/{{'{{'}}userId{{'}}'}}/';
     askbot['urls']['user_signin'] = '{{ settings.LOGIN_URL }}';
     askbot['urls']['questions'] = '{% url "questions" %}';
     askbot['settings']['static_url'] = '{{ settings.STATIC_URL }}';
     askbot['urls']['getEditor'] = '{% url "get_editor" %}';
 </script>
-<script 
+<script
     type="text/javascript"
     {% if settings.DEBUG %}
         src="{{"/js/jquery-1.7.2.min.js"|media}}"
@@ -37,7 +37,7 @@
     {% endif %}
 ></script>
 <script type="text/javascript" src='{{"/bootstrap/js/bootstrap.js"|media}}'></script>
-<!-- History.js --> 
+<!-- History.js -->
 <script type='text/javascript' src="{{"/js/jquery.history.js"|media }}"></script>
 <script type='text/javascript' src="{{"/js/utils.js"|media }}"></script>
 {% if settings.ENABLE_MATHJAX %}
@@ -80,7 +80,7 @@
     /*]]>*/
 </script>
 {% if settings.USE_CUSTOM_JS %}
-<script 
+<script
     src="{% url "custom_js"%}?v={{ settings.MEDIA_RESOURCE_REVISION }}"
     type="text/javascript"
 ></script>

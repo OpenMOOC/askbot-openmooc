@@ -46,4 +46,4 @@ INSTANCE_CLOSED = False
 # SAML2 related settings. This settings are related to the closed instance setting
 # SAML_AUTHORIZATION_EXPECTED_VALUE = COURSE_NAME
 # SAML_AUTHORIZATION_ATTRIBUTE = "schacUserStatus"
-# SAML_AUTHORIZATION_URL='https://idp.difundi.com/module.php/userregistrationApi/api.php/users/%s?apikey=k7dnfya8hs54sjfak8a5lmcha8dksh6smbtai'
+# SAML_AUTHORIZATION_URL='https://idp.difundi.com/module.php/userregistrationApi/api.php/users/%s?apikey=123456'

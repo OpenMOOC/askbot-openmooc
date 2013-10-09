@@ -21,9 +21,9 @@ from django.conf import settings
 
 def openmooc_settings(request):
     """The context processor function"""
-    copy_attrs = ('COURSE_URL',
-                  'COURSE_TITLE',
-                  'COURSE_NAME',
+    copy_attrs = ('INSTANCE_URL',
+                  'INSTANCE_TITLE',
+                  'INSTANCE_NAME',
                   'FULL_ASKBOT_URL',
                   )
 

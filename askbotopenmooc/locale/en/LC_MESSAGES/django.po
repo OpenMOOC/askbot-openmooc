@@ -104,7 +104,7 @@ msgstr ""
 
 #: askbot-openmooc-themes/mooc/templates/widgets/header.html:38
 #, python-format
-msgid " %(COURSE_TITLE)s Q&A "
+msgid " %(INSTANCE_TITLE)s Q&A "
 msgstr ""
 
 #: askbot-openmooc-themes/mooc/templates/widgets/user_navigation.html:16
