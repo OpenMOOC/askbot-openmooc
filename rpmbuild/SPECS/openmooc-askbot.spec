@@ -120,7 +120,7 @@ fi
 ## Create custom link for fix xmlsec library load
 # xmlsec1 link
 if ! [ -e %{_prefix}/lib64/libxmlsec1-openssl.so ]; then
-    ln -s /usr/lib64/libxmlsec1-openssl.so.1 %{_prefix}/lib64/libxmlsec1-openssl.so
+    ln -s %{_prefix}/lib64/libxmlsec1-openssl.so.1 %{_prefix}/lib64/libxmlsec1-openssl.so
 fi
 
 
@@ -135,7 +135,7 @@ echo "INFO: You must execute openmooc-askbot-admin collectstatic"
 
 %postun
 ## Remove the .so link
-rm /usr/lib64/libxmlsec1-openssl.so
+rm %{_prefix}/lib64/libxmlsec1-openssl.so
 
 
 %files

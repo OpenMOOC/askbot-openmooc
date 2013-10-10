@@ -25,6 +25,7 @@ REMOTE_HOST = 'localhost'  # If the instances are behind an askbot proxy, set th
 DB_HOST = REMOTE_HOST  # By default, DB_HOST is the same as REMOTE_HOST but you can change it.
 DB_USER = 'YourDatabaseUser'
 DB_PASSWORD = 'YourDatabasePassword'
+META_REFRESH_KEY = 'YourIdPMetaRefreshKey'
 
 # These are default settings that the user is not expected to modify. You must know
 # what you are doing before modifying this.

@@ -32,7 +32,7 @@ if sys.version_info < (2, 6, 0):
           'works on other python versions.')
 elif sys.version_info >= (3, 0, 0):
     sys.stderr.write(' [ERROR] This script doesn\'t work in python 3.x series. '
-             'Exiting.')
+                     'Exiting.')
     sys.exit(2)
 
 # Add directories to path
@@ -41,15 +41,17 @@ sys.path.insert(0, os.getcwd())
 
 import shutil
 import optparse
+import requests
 import subprocess
+
 try:
     import instances_creator_conf as icc
     #from fabric.api import run, env, hosts  # TODO
     import psycopg2
 except ImportError:
     sys.stderr.write(' [ERROR] Either we couldn\'t import the default settings '
-             '(instances_creator_conf) or you don\'t have psycopg2 (Python '
-             'PostgreSQL binding) installed.')
+                     '(instances_creator_conf) or you don\'t have psycopg2 '
+                     '(Python PostgreSQL binding) installed.')
     sys.exit(3)
 
 os.environ['PGPASSWORD'] = icc.DB_PASSWORD
@@ -120,9 +122,9 @@ class AskbotInstance():
             print(' [ OK ] Instance {0} created.'.format(instance_name))
         except:
             self.abort(' [ERROR] Couldn\'t copy the instance skeleton into '
-                   'destination or populate the settings. Please check: '
-                   'a) You have permission. '
-                   'b) The directory doesn\'t exist already.')
+                       'destination or populate the settings. Please check: '
+                       'a) You have permission. '
+                       'b) The directory doesn\'t exist already.')
 
     def create_db(self, instance_db_name):
         """
@@ -140,10 +142,10 @@ class AskbotInstance():
                 host=icc.DB_HOST
             )
             print(' [ OK ] Database {0} created and connection '
-                   'tested.'.format(instance_db_name))
+                  'tested.'.format(instance_db_name))
         except:
             self.abort(' [ERROR] Couldn\'t connect to the PostgreSQL server '
-                     '(authentication failed or server down). Aborting.')
+                       '(authentication failed or server down). Aborting.')
 
     def syncdb_and_migrate(self, instance_name):
         """
@@ -186,7 +188,7 @@ class AskbotInstance():
             print(' [ OK ] Populated the supervisor settings.')
         except:
             self.abort(' [ERROR] Couldn\'t populate the supervisor settings. '
-                     'Exiting.')
+                       'Exiting.')
 
     def add_instance_to_nginx(self, instance_name):
         """
@@ -207,7 +209,7 @@ class AskbotInstance():
             print(' [ OK ] Populated nginx and nginx.forward settings.')
         except:
             self.abort(' [ERROR] Couldn\'t populate the nginx or the '
-                     'nginx.forward settings. Exiting.')
+                       'nginx.forward settings. Exiting.')
 
         # TODO
         #self._copy_to_remote(os.path.join(INSTANCE_DIR, 'nginx.forward.conf'))
@@ -221,9 +223,13 @@ class AskbotInstance():
                                                 'update_entries_metadata'),
                                                shell=True)
             update_metadata.wait()  # Wait until it finishes
+
+            url = ('https://idp.mooc.educalab.es/simplesaml/module.php/cron/'
+                   'cron.php?key=%s&tag=metarefresh') % icc.META_REFRESH_KEY
+            requests.get(url)
         except:
             self.abort(' [ERROR] Couldn\'t update the entries\' metadata. '
-                     'Exiting.')
+                       'Exiting.')
 
     def disable_instance(self, instance_name):
         """
@@ -244,7 +250,7 @@ class AskbotInstance():
             print(' [ OK ] Instance {0} disabled.'.format(instance_name))
         except:
             self.abort(' [ERROR] Couldn\'t disable the instance. Please check '
-                     'the directories.')
+                       'the directories.')
 
     def destroy_instance(self, instance_name):
         """
@@ -257,7 +263,7 @@ class AskbotInstance():
             import instance_settings
         except:
             self.abort(' [ERROR] Couldn\'t import the instance settings to '
-                     'destroy it. Check that it exists. Aborting.')
+                       'destroy it. Check that it exists. Aborting.')
         try:
             instance_db_name = instance_settings.DATABASE_NAME
             dropdb = subprocess.Popen('su - postgres -c "dropdb %s"' %
@@ -269,7 +275,7 @@ class AskbotInstance():
             print(' [ OK ] Instance {0} destroyed.'.format(instance_name))
         except:
             self.abort(' [ERROR] Couldn\'t drop database or remove instance '
-                     'files. Aborting.')
+                       'files. Aborting.')
 
     def abort(self, msg, status=1):
         sys.stderr.write(msg)
