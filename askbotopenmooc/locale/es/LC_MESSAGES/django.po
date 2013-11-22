@@ -133,6 +133,30 @@ msgstr "ayuda"
 msgid "Go to course site"
 msgstr "Ir al curso"
 
+#: skins/default/templates/faq_static.html:6
+msgid "What kinds of questions can I ask here?"
+msgstr ""
+
+#: skins/default/templates/faq_static.html:7
+msgid ""
+"Most importanly - questions should be <strong>relevant</strong> to this "
+"community."
+msgstr ""
+
+#: skins/default/templates/faq_static.html:15
+msgid "Who moderates this community?"
+msgstr ""
+
+#: skins/default/templates/faq_static.html:16
+msgid "The short answer is: <strong>you</strong>."
+msgstr ""
+
+#: skins/default/templates/faq_static.html:18
+msgid ""
+"Karma system allows users to earn rights to perform a variety of moderation "
+"tasks"
+msgstr ""
+
 #: skins/default/templates/faq_static.html:20
 msgid "How does karma system work?"
 msgstr "¿Cómo funciona el sistema de karma?"
@@ -171,6 +195,54 @@ msgstr ""
 "puntos que se pueden acumular por pregunta o respuesta por día. La tabla "
 "a continuación detalla los puntos de reputación requeridos para cada tipo "
 "de tarea de moderación."
+
+#: skins/default/templates/faq_static.html:69
+msgid "How to change my picture (gravatar) and what is gravatar?"
+msgstr ""
+
+#: skins/default/templates/faq_static.html:70
+msgid ""
+"<p>The picture that appears on the users profiles is called "
+"<strong>gravatar</strong> (which means <strong>g</strong>lobally <strong>r</"
+"strong>ecognized <strong>avatar</strong>).</p><p>Here is how it works: a "
+"<strong>cryptographic key</strong> (unbreakable code) is calculated from "
+"your email address. You upload your picture (or your favorite alter ego "
+"image) the website <a href='http://gravatar.com'><strong>gravatar.com</"
+"strong></a> from where we later retreive your image using the key.</"
+"p><p>This way all the websites you trust can show your image next to your "
+"posts and your email address remains private.</p><p>Please "
+"<strong>personalize your account</strong> with an image - just register at "
+"<a href='http://gravatar.com'><strong>gravatar.com</strong></a> (just please "
+"be sure to use the same email address that you used to register with us). "
+"Default image that looks like a kitchen tile is generated automatically.</p>"
+msgstr ""
+
+#: skins/default/templates/faq_static.html:71
+msgid "To register, do I need to create new password?"
+msgstr ""
+
+#: skins/default/templates/faq_static.html:75
+msgid "Why other people can edit my questions/answers?"
+msgstr ""
+
+#: skins/default/templates/faq_static.html:76
+msgid "Goal of this site is..."
+msgstr ""
+
+#: skins/default/templates/faq_static.html:76
+msgid ""
+"So questions and answers can be edited like wiki pages by experienced users "
+"of this site and this improves the overall quality of the knowledge base "
+"content."
+msgstr ""
+
+#: skins/default/templates/faq_static.html:77
+msgid "If this approach is not for you, we respect your choice."
+msgstr ""
+
+#: skins/default/templates/faq_static.html:79
+msgid "Still have questions?"
+msgstr ""
 
 #: skins/default/templates/badges.html:41
 msgid ""
