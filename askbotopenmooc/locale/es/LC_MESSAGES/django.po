@@ -135,27 +135,31 @@ msgstr "Ir al curso"
 
 #: skins/default/templates/faq_static.html:6
 msgid "What kinds of questions can I ask here?"
-msgstr ""
+msgstr "¿Qué tipo de preguntas puedo hacer aquí?"
 
 #: skins/default/templates/faq_static.html:7
 msgid ""
 "Most importanly - questions should be <strong>relevant</strong> to this "
 "community."
 msgstr ""
+"Y aún más importante - las preguntas deben ser <strong>relevantes</strong> a "
+"esta comunidad."
 
 #: skins/default/templates/faq_static.html:15
 msgid "Who moderates this community?"
-msgstr ""
+msgstr "¿Quién modera esta comunidad?"
 
 #: skins/default/templates/faq_static.html:16
 msgid "The short answer is: <strong>you</strong>."
-msgstr ""
+msgstr "La respuesta corta es: <strong>tú</strong>."
 
 #: skins/default/templates/faq_static.html:18
 msgid ""
 "Karma system allows users to earn rights to perform a variety of moderation "
 "tasks"
 msgstr ""
+"El sistema de karma permite a los usuarios conseguir el derecho a realizar "
+"ciertas tareas de moderación"
 
 #: skins/default/templates/faq_static.html:20
 msgid "How does karma system work?"
@@ -198,7 +202,7 @@ msgstr ""
 
 #: skins/default/templates/faq_static.html:69
 msgid "How to change my picture (gravatar) and what is gravatar?"
-msgstr ""
+msgstr "¿Cómo cambio mi imagen (gravatar) y qué es gravatar?"
 
 #: skins/default/templates/faq_static.html:70
 msgid ""
@@ -216,18 +220,33 @@ msgid ""
 "be sure to use the same email address that you used to register with us). "
 "Default image that looks like a kitchen tile is generated automatically.</p>"
 msgstr ""
+"<p>La imagen que aparece en los perfiles de los usuarios se llama "
+"<strong>gravatar</strong> (lo que significa <strong>g</strong>lobally "
+"<strong>r</strong>ecognized <strong>avatar</strong>).</p><p>Funciona de esta "
+"manera: una <strong>clave criptográfica</strong> (código irrompible) se "
+"calcula a partir de tu dirección de correo electrónico. Subes entonces una "
+"imagen tuya (o de tu alter ego favorito) en el sitio web "
+"<a href='http://gravatar.com'><strong>gravatar.com</strong></a>, que es de "
+"donde después nosotros obtendremos tu imagen, utilizado la clave.</p><p>De "
+"esta forma todos los sitios web en los que confíes pueden mostrar tu imagen "
+"junto a tus publicaciones y tu dirección de email permanecerá privada.</p>"
+"<p>Por favor, <strong>personalice su cuenta</strong> con una imagen - tan "
+"sólo regístrese en <a href='gravatar.com'><strong>gravatar.com</strong></a> "
+"(recuerde usar el mismo email que el que ha usado para registrarse aquí). "
+"La imagen por defecto tiene el aspecto de un azulejo de cocina generado "
+"automáticamente.</p>"
 
 #: skins/default/templates/faq_static.html:71
 msgid "To register, do I need to create new password?"
-msgstr ""
+msgstr "Para registrarme, ¿necesito una nueva contraseña?"
 
 #: skins/default/templates/faq_static.html:75
 msgid "Why other people can edit my questions/answers?"
-msgstr ""
+msgstr "¿Por qué el resto de la gente puede editar mis preguntas y respuestas?"
 
 #: skins/default/templates/faq_static.html:76
 msgid "Goal of this site is..."
-msgstr ""
+msgstr "El objetivo de este sitio es..."
 
 #: skins/default/templates/faq_static.html:76
 msgid ""
@@ -235,14 +254,17 @@ msgid ""
 "of this site and this improves the overall quality of the knowledge base "
 "content."
 msgstr ""
+"Así que las preguntas y respuestas pueden ser editadas por los usuarios más "
+"experimentados de este sitio, como si fueran páginas wiki, lo que aumenta la "
+"calidad general de la base de conocimiento."
 
 #: skins/default/templates/faq_static.html:77
 msgid "If this approach is not for you, we respect your choice."
-msgstr ""
+msgstr "Si esta aproximación no es para tí, respetamos tu elección."
 
 #: skins/default/templates/faq_static.html:79
 msgid "Still have questions?"
-msgstr ""
+msgstr "¿Aún tienes preguntas?"
 
 #: skins/default/templates/badges.html:41
 msgid ""
