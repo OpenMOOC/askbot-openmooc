@@ -133,6 +133,56 @@ msgstr "ayuda"
 msgid "Go to course site"
 msgstr "Ir al curso"
 
+#: skins/default/templates/faq_static.html:20
+msgid "How does karma system work?"
+msgstr "¿Cómo funciona el sistema de karma?"
+
+#: skins/default/templates/faq_static.html:21
+msgid ""
+"When a question or answer is upvoted, the user who posted them will gain "
+"some points, which are called \\\"karma points\\\". This points serve as a "
+"rough measure of the community trust to him/her. Various moderation tasks "
+"are gradually assigned to the users based on those points."
+msgstr ""
+"Cuando una pregunta o una respuesta recibe votos positivos, el usuario que "
+"las publicó recibirá algunos puntos, que se llaman \\\"puntos de karma\\\". "
+"Estos puntos sirven como una medida aproximada de la confianza que la "
+"comunidad deposita en dicha persona. Gradualmente se le asignan algunas "
+"tareas de moderación a los usuarios en función de estos puntos."
+
+#: skins/default/templates/badges.html:22
+#, python-format
+msgid ""
+"For example, if you ask an interesting question or give a helpful answer, "
+"your input will be upvoted. On the other hand if the answer is misleading - "
+"it will be downvoted. Each vote in favor will generate <strong>"
+"%(REP_GAIN_FOR_RECEIVING_UPVOTE)s</strong> points, each vote against will "
+"subtract <strong>%(REP_LOSS_FOR_RECEIVING_DOWNVOTE)s</strong> points. There "
+"is a limit of <strong>%(MAX_REP_GAIN_PER_USER_PER_DAY)s</strong> points that "
+"can be accumulated for a question or answer per day. The table below "
+"explains reputation point requirements for each type of moderation task."
+msgstr ""
+"Por ejemplo, si haces una pregunta interesante o das una respuesta útil, "
+"tu aportación recibirá votos positivos. Por el contrario, si la respuesta "
+"es engañosa - recibirá votos negativos. Cada voto a favor generará "
+"<strong>%(REP_GAIN_FOR_RECEIVING_UPVOTE)s</strong> puntos, cada voto en "
+"contra restará <strong>%(REP_LOSS_FOR_RECEIVING_DOWNVOTE)s</strong> puntos. "
+"Existe un límite de <strong>%(MAX_REP_GAIN_PER_USER_PER_DAY)s</strong> "
+"puntos que se pueden acumular por pregunta o respuesta por día. La tabla "
+"a continuación detalla los puntos de reputación requeridos para cada tipo "
+"de tarea de moderación."
+
+#: skins/default/templates/badges.html:41
+msgid ""
+"Gold badge is the highest award in this community. To obtain it have to "
+"show \n"
+"profound knowledge and ability in addition to your active participation."
+msgstr ""
+"Medalla de oro: es el mayor galardón de esta comunidad. Para conseguirla "
+"has de \n"
+"demostrar que has adquirido conocimientos en profundidad y que participas "
+"activamente."
+
 
 ####### Custom translations
 
