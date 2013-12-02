@@ -266,17 +266,27 @@ msgstr "Si esta aproximación no es para tí, respetamos tu elección."
 msgid "Still have questions?"
 msgstr "¿Aún tienes preguntas?"
 
+#: skins/default/templates/badges.html:8
+#, python-format
+msgid ""
+"Below is the list of available badges and number \n"
+"    of times each type of badge has been awarded. Have ideas about fun \n"
+"badges? Please, give us your <a href='%%(feedback_faq_url)s'>feedback</a>\n"
+msgstr ""
+"Debajo está la lista de las medallas disponibles y \n"
+"    el número de veces que cada tipo de medalla se ha concedido. ¿Se te \n"
+"ocurren medallas divertidas? Por favor, <a href='%%(feedback_faq_url)s'>"
+"coméntanoslo</a>.\n"
+
 #: skins/default/templates/badges.html:41
 msgid ""
-"Gold badge is the highest award in this community. To obtain it have to "
+"Gold badge is the highest award in this community. To obtain it you have to "
 "show \n"
 "profound knowledge and ability in addition to your active participation."
 msgstr ""
 "Medalla de oro: es el mayor galardón de esta comunidad. Para conseguirla "
-"has de \n"
-"demostrar que has adquirido conocimientos en profundidad y que participas "
-"activamente."
-
+"has de demostrar que has adquirido conocimientos en profundidad y que "
+"participas activamente."
 
 ####### Custom translations
 
@@ -359,14 +369,9 @@ msgstr ""
 msgid "oldest"
 msgstr "antigüedad"
 
-
 ## faq
 
 msgid "No, you don't have to. You can login through any service that supports OpenID, e.g. Google, Yahoo, AOL, etc."
 msgstr ""
 "Necesitarás la misma contraseña que usas para acceder a la herramienta de "
 "cursos"
-
-
-#~ msgid "%(lang_name)s"
-#~ msgstr "%(lang_name)s"
