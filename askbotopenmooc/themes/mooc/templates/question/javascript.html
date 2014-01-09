@@ -34,8 +34,10 @@
     var repNeededForComments = 50;
     $().ready(function(){
         {% if request.user.is_authenticated() %}
-          if ($('#question-subscribe-updates')[0].checked){
-             $('#question-subscribe-sidebar').attr({'checked': 'checked'});
+          if ($('#question-subscribe-updates').length > 0) {
+            if ($('#question-subscribe-updates')[0].checked){
+              $('#question-subscribe-sidebar').attr({'checked': 'checked'});
+            }
           }
         {%endif%}
         $("#nav_questions").attr('className',"on");
