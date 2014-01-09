@@ -11,8 +11,8 @@
         askbot['urls']['editComment'] = '{% url edit_comment %}';
         askbot['urls']['deleteComment'] = '{% url delete_comment %}';
         askbot['urls']['getComment'] = '{% url get_comment %}';
-        askbot['urls']['question_url_template'] = scriptUrl + '{{ 'question/'|transurl }}{{ "{{QuestionID}}/{{questionSlug}}" }}';{# yes it needs to be that whacky #}
-        askbot['urls']['vote_url_template'] = scriptUrl + '{{ 'questions/'|transurl }}{{ "{{QuestionID}}/" }}{{ 'vote/'|transurl }}';
+        askbot['urls']['question_url_template'] = '{% url index %}' + scriptUrl + '{{ 'question/'|transurl }}{{ "{{QuestionID}}/{{questionSlug}}" }}';{# yes it needs to be that whacky #}
+        askbot['urls']['vote_url_template'] = '{% url index %}' + scriptUrl + '{{ 'questions/'|transurl }}{{ "{{QuestionID}}/" }}{{ 'vote/'|transurl }}';
         askbot['urls']['user_signin'] = '{{ settings.LOGIN_URL }}';
         askbot['urls']['swap_question_with_answer'] = '{% url swap_question_with_answer %}';
         askbot['urls']['upvote_comment'] = '{% url upvote_comment %}';
