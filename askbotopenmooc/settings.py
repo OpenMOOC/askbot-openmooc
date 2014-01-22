@@ -230,8 +230,9 @@ INSTALLED_APPS = (
     'keyedcache',
     'robots',
     'django_countries',
-    #'djcelery',
+    'djcelery',
     'djkombu',
+    'kombu.transport.django',
     'followit',
     'tinymce',
     'group_messaging', # manage.py runtime testing needs it
@@ -284,7 +285,11 @@ ASKBOT_USE_STACKEXCHANGE_URLS = False #mimic url scheme of stackexchange
 
 #Celery Settings
 BROKER_TRANSPORT = "djkombu.transport.DatabaseTransport"
-CELERY_ALWAYS_EAGER = True
+CELERY_ALWAYS_EAGER = False
+CELERY_CREATE_MISSING_QUEUES = True
+CELERY_RESULT_BACKEND = 'database'
+CELERY_TASK_PUBLISH_RETRY_POLICY = {'max_retries': 2}
+BROKER_URL = 'django://'
 
 import djcelery
 djcelery.setup_loader()
