@@ -537,7 +537,7 @@ else:
 
     ASKBOT_URL = '%s/' % INSTANCE_NAME
     #ASKBOT_URL = ''
-    FULL_ASKBOT_URL = '%s%s/' % (BASE_URL, INSTANCE_NAME)
+    FULL_ASKBOT_URL = '%s/%s/' % (BASE_URL, INSTANCE_NAME)
 
     CSRF_COOKIE_NAME = '%s_csrf' % INSTANCE_NAME
     SESSION_COOKIE_NAME = '%s_sessionid' % INSTANCE_NAME
@@ -553,6 +553,7 @@ else:
         u'ENABLE_GREETING_FOR_ANON_USER': False,
         u'FEEDBACK_SITE_URL': u"AAAAAAA",
         u'APP_URL': '%s' % FULL_ASKBOT_URL,
+        u'DOMAIN_URL': BASE_URL,
     }
 
     if 'BOOTSTRAP_MODE' in dir():
