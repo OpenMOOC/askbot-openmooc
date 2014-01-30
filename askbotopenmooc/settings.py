@@ -547,7 +547,7 @@ else:
     }
 
     LIVESETTINGS_OPTIONS[1][u'SETTINGS'][u'QA_SITE_SETTINGS'] = {
-        u'APP_TITLE': INSTANCE_NAME,
+        u'APP_TITLE': INSTANCE_TITLE,
         u'APP_KEYWORDS': u'Mooc,OpenMooc,forum,community',
         u'APP_SHORT_NAME': INSTANCE_NAME,
         u'ENABLE_GREETING_FOR_ANON_USER': False,
