@@ -162,6 +162,7 @@ ul.tags, ul.tags.marked-tags, ul#related-tags {
   margin: 0;
   padding: 10px 0;
   line-height: 28px;
+  font-size: 25px;
 }
 
 .question-page .vote-buttons .notify-sidebar label {
@@ -190,7 +191,6 @@ ul.tags, ul.tags.marked-tags, ul#related-tags {
 }
 
 #userToolsNav {
-    width: 770px;
     text-align: right;
 }
 
