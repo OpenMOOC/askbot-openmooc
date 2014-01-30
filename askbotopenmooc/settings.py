@@ -535,8 +535,8 @@ else:
     MEDIA_ROOT = os.path.join(INSTANCE_DIR, 'upfiles')
     MEDIA_URL = '/%s/upfiles/' % INSTANCE_NAME
 
-    # ASKBOT_URL = ('%s/') % COURSE_NAME
-    ASKBOT_URL = ''
+    ASKBOT_URL = '%s/' % INSTANCE_NAME
+    #ASKBOT_URL = ''
     FULL_ASKBOT_URL = '%s%s/' % (BASE_URL, INSTANCE_NAME)
 
     CSRF_COOKIE_NAME = '%s_csrf' % INSTANCE_NAME
