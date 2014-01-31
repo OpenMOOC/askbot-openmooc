@@ -3,8 +3,7 @@ Scripts for cnprog.com
 Project Name: Lanai
 All Rights Resevred 2008. CNPROG.COM
 */
-var lanai =
-{
+var lanai = {
     /**
      * Finds any <pre><code></code></pre> tags which aren't registered for
      * pretty printing, adds the appropriate class name and invokes prettify.
@@ -24,6 +23,7 @@ var lanai =
     }
 };
 
+//todo: clean-up now there is utils:WaitIcon
 function appendLoader(element) {
     loading = gettext('loading...')
     element.append('<img class="ajax-loader" ' +
@@ -82,6 +82,35 @@ function setupFormValidation(form, validationRules, validationMessages, onSubmit
         }
     });
 }
+
+/**
+ * generic tag cleaning function, settings
+ * are from askbot live settings and askbot.const
+ */
+var cleanTag = function(tag_name, settings) {
+    var tag_regex = new RegExp(settings['tag_regex']);
+    if (tag_regex.test(tag_name) === false) {
+        throw settings['messages']['wrong_chars']
+    }
+
+    var max_length = settings['max_tag_length'];
+    if (tag_name.length > max_length) {
+        throw interpolate(
+            ngettext(
+                'must be shorter than %(max_chars)s character',
+                'must be shorter than %(max_chars)s characters',
+                max_length
+            ),
+            {'max_chars': max_length },
+            true
+        );
+    }
+    if (settings['force_lowercase_tags']) {
+        return tag_name.toLowerCase();
+    } else {
+        return tag_name;
+    }
+};
 
 var validateTagLength = function(value){
     var tags = getUniqueWords(value);
@@ -175,6 +204,207 @@ var CPValidator = function(){
         }
     };
 }();
+
+/**
+ * @constructor
+ */
+var ThreadUsersDialog = function() {
+    SimpleControl.call(this);
+    this._heading_text = 'Add heading with the setHeadingText()';
+};
+inherits(ThreadUsersDialog, SimpleControl);
+
+ThreadUsersDialog.prototype.setHeadingText = function(text) {
+    this._heading_text = text;
+};  
+
+ThreadUsersDialog.prototype.showUsers = function(html) {
+    this._dialog.setContent(html);
+    this._dialog.show();
+};
+
+ThreadUsersDialog.prototype.startShowingUsers = function() {
+    var me = this;
+    var threadId = this._threadId;
+    var url = this._url;
+    $.ajax({
+        type: 'GET',
+        data: {'thread_id': threadId},
+        dataType: 'json',
+        url: url,
+        cache: false,
+        success: function(data){
+            if (data['success'] == true){
+                me.showUsers(data['html']);
+            } else {
+                showMessage(me.getElement(), data['message'], 'after');
+            }
+        }
+    });
+};
+
+ThreadUsersDialog.prototype.decorate = function(element) {
+    this._element = element;
+    ThreadUsersDialog.superClass_.decorate.call(this, element);
+    this._threadId = element.data('threadId');
+    this._url = element.data('url');
+    var dialog = new ModalDialog();
+    dialog.setRejectButtonText('');
+    dialog.setAcceptButtonText(gettext('Back to the question'));
+    dialog.setHeadingText(this._heading_text);
+    dialog.setAcceptHandler(function(){ dialog.hide(); });
+    var dialog_element = dialog.getElement();
+    $(dialog_element).find('.modal-footer').css('text-align', 'center');
+    $(document).append(dialog_element);
+    this._dialog = dialog;
+    var me = this;
+    this.setHandler(function(){
+        me.startShowingUsers();
+    });
+};
+
+
+/**
+ * @constructor
+ */
+var DraftPost = function() {
+    WrappedElement.call(this);
+};
+inherits(DraftPost, WrappedElement);
+
+/**
+ * @return {string}
+ */
+DraftPost.prototype.getUrl = function() {
+    throw 'Not Implemented';
+};
+
+/**
+ * @return {boolean}
+ */
+DraftPost.prototype.shouldSave = function() {
+    throw 'Not Implemented';
+};
+
+/**
+ * @return {object} data dict
+ */
+DraftPost.prototype.getData = function() {
+    throw 'Not Implemented';
+};
+
+DraftPost.prototype.backupData = function() {
+    this._old_data = this.getData();
+};
+
+DraftPost.prototype.showNotification = function() {
+    var note = $('.editor-status span');
+    note.hide();
+    note.html(gettext('draft saved...'));
+    note.fadeIn().delay(3000).fadeOut();
+};
+
+DraftPost.prototype.getSaveHandler = function() {
+    var me = this;
+    return function(save_synchronously) {
+        if (me.shouldSave()) {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                async: save_synchronously ? false : true,
+                url: me.getUrl(),
+                data: me.getData(),
+                success: function(data) {
+                    if (data['success'] && !save_synchronously) {
+                        me.showNotification();
+                    }
+                    me.backupData();
+                }
+            });
+        }
+    };
+};
+
+DraftPost.prototype.decorate = function(element) {
+    this._element = element;
+    this.assignContentElements();
+    this.backupData();
+    setInterval(this.getSaveHandler(), 30000);//auto-save twice a minute
+    var me = this;
+    window.onbeforeunload = function() {
+        var saveHandler = me.getSaveHandler();
+        saveHandler(true);
+        //var msg = gettext("%s, we've saved your draft, but...");
+        //return interpolate(msg, [askbot['data']['userName']]);
+    };
+};
+
+
+/**
+ * @contstructor
+ */
+var DraftQuestion = function() {
+    DraftPost.call(this);
+};
+inherits(DraftQuestion, DraftPost);
+
+DraftQuestion.prototype.getUrl = function() {
+    return askbot['urls']['saveDraftQuestion'];
+};
+
+DraftQuestion.prototype.shouldSave = function() {
+    var newd = this.getData();
+    var oldd = this._old_data;
+    return (
+        newd['title'] !== oldd['title'] ||
+        newd['text'] !== oldd['text'] ||
+        newd['tagnames'] !== oldd['tagnames']
+    );
+};
+
+DraftQuestion.prototype.getData = function() {
+    return {
+        'title': this._title_element.val(),
+        'text': this._text_element.val(),
+        'tagnames': this._tagnames_element.val()
+    };
+};
+
+DraftQuestion.prototype.assignContentElements = function() {
+    this._title_element = $('#id_title');
+    this._text_element = $('#editor');
+    this._tagnames_element = $('#id_tags');
+};
+
+var DraftAnswer = function() {
+    DraftPost.call(this);
+};
+inherits(DraftAnswer, DraftPost);
+
+DraftAnswer.prototype.setThreadId = function(id) {
+    this._threadId = id;
+};
+
+DraftAnswer.prototype.getUrl = function() {
+    return askbot['urls']['saveDraftAnswer'];
+};
+
+DraftAnswer.prototype.shouldSave = function() {
+    return this.getData()['text'] !== this._old_data['text'];
+};
+
+DraftAnswer.prototype.getData = function() {
+    return {
+        'text': this._textElement.val(),
+        'thread_id': this._threadId
+    };
+};
+
+DraftAnswer.prototype.assignContentElements = function() {
+    this._textElement = $('#editor');
+};
+
 
 /**
  * @constructor
@@ -318,10 +548,8 @@ var Vote = function(){
     var acceptAnonymousMessage = gettext('insufficient privilege');
     var acceptOwnAnswerMessage = gettext('cannot pick own answer as best');
 
-    var pleaseLogin = " <a href='" + askbot['urls']['user_signin']
-                    + "?next=" + askbot['urls']['question_url_template']
-                    + "'>"
-                    + gettext('please login') + "</a>";
+    var pleaseLogin = " <a href='" + askbot['urls']['user_signin'] + ">"
+                        + gettext('please login') + "</a>";
 
     var favoriteAnonymousMessage = gettext('anonymous users cannot follow questions') + pleaseLogin;
     var subscribeAnonymousMessage = gettext('anonymous users cannot subscribe to questions') + pleaseLogin;
@@ -548,10 +776,12 @@ var Vote = function(){
             type: "POST",
             cache: false,
             dataType: "json",
-            url: askbot['urls']['vote_url_template'].replace('{{QuestionID}}', questionId),
+            url: askbot['urls']['vote_url'],
             data: { "type": voteType, "postId": postId },
             error: handleFail,
-            success: function(data){callback(object, voteType, data);}
+            success: function(data) {
+                    callback(object, voteType, data);
+                }
             });
     };
 
@@ -572,8 +802,8 @@ var Vote = function(){
             $("#"+commentLinkIdPrefix+postId).removeClass("comment-link-accepted");
         }
         else if(data.success == "1"){
-            var answers = ('div[id^="'+answerContainerIdPrefix +"']");
-            $(answers).removeClass("accepted-answer");
+            var answers = ('div[id^="'+answerContainerIdPrefix +'"]');
+            $(answers).removeClass('accepted-answer');
             var commentLinks = ('div[id^="'+answerContainerIdPrefix +'"] div[id^="'+ commentLinkIdPrefix +'"]');
             $(commentLinks).removeClass("comment-link-accepted");
 
@@ -953,30 +1183,24 @@ var questionRetagger = function(){
         initRetagger();
     };
 
-    var render_tag = function(tag_name){
-        //copy-paste from live search!!!
-        var tag = new Tag();
-        tag.setName(tag_name);
-        return tag.getElement().outerHTML();
-    };
-
     var drawNewTags = function(new_tags){
+        tagsDiv.empty();
         if (new_tags === ''){
-            tagsDiv.html('');
             return;
         }
         new_tags = new_tags.split(/\s+/);
         var tags_html = ''
         $.each(new_tags, function(index, name){
-            tags_html += render_tag(name);
+            var tag = new Tag();
+            tag.setName(name);
+            tagsDiv.append(tag.getElement());
         });
-        tagsDiv.html(tags_html);
     };
 
     var doRetag = function(){
         $.ajax({
             type: "POST",
-            url: retagUrl,
+            url: retagUrl,//todo add this url to askbot['urls']
             dataType: "json",
             data: { tags: getUniqueWords(tagInput.val()).join(' ') },
             success: function(json) {
@@ -985,6 +1209,9 @@ var questionRetagger = function(){
                     oldTagsHtml = '';
                     cancelRetag();
                     drawNewTags(new_tags.join(' '));
+                    if (json['message']) {
+                        notify.show(json['message']);
+                    }
                 }
                 else {
                     cancelRetag();
@@ -992,7 +1219,7 @@ var questionRetagger = function(){
                 }
             },
             error: function(xhr, textStatus, errorThrown) {
-                showMessage(tagsDiv, 'sorry, somethin is not right here');
+                showMessage(tagsDiv, 'sorry, something is not right here');
                 cancelRetag();
             }
         });
@@ -1013,7 +1240,6 @@ var questionRetagger = function(){
         var div = $('<form method="post"></form>');
         tagInput = $('<input id="retag_tags" type="text" autocomplete="off" name="tags" size="30"/>');
         //var tagLabel = $('<label for="retag_tags" class="error"></label>');
-        tagInput.val(old_tags_string);
         //populate input
         var tagAc = new AutoCompleter({
             url: askbot['urls']['get_tag_list'],
@@ -1025,6 +1251,7 @@ var questionRetagger = function(){
             delay: 10
         });
         tagAc.decorate(tagInput);
+        tagInput.val(old_tags_string);
         div.append(tagInput);
         //div.append(tagLabel);
         setupInputEventHandlers(tagInput);
@@ -1062,10 +1289,11 @@ var questionRetagger = function(){
         var tags_str = '';
         links.each(function(index, element){
             if (index === 0){
-                tags_str = $(element).html();
+                //this is pretty bad - we should use Tag.getName()
+                tags_str = $(element).data('tagName');
             }
             else {
-                tags_str += ' ' + $(element).html();
+                tags_str += ' ' + $(element).data('tagName');
             }
         });
         return tags_str;
@@ -1215,6 +1443,7 @@ EditCommentForm.prototype.attachTo = function(comment, mode){
         this._submit_btn.html(gettext('save comment'));
     }
     this.getElement().show();
+    this.enableForm();
     this.focus();
     putCursorAtEnd(this._textarea);
 };
@@ -1341,27 +1570,31 @@ EditCommentForm.prototype.createDom = function(){
     this._textarea.val(this._text);
 };
 
-EditCommentForm.prototype.enableButtons = function(){
-    this._submit_btn.removeAttr('disabled');
-    this._cancel_btn.removeAttr('disabled');
+EditCommentForm.prototype.isEnabled = function() {
+    return (this._submit_btn.attr('disabled') !== 'disabled');//confusing! setters use boolean
 };
 
-EditCommentForm.prototype.disableButtons = function(){
-    this._submit_btn.attr('disabled', 'disabled');
-    this._cancel_btn.attr('disabled', 'disabled');
+EditCommentForm.prototype.enableForm = function() {
+    this._submit_btn.attr('disabled', false);
+    this._cancel_btn.attr('disabled', false);
+};
+
+EditCommentForm.prototype.disableForm = function() {
+    this._submit_btn.attr('disabled', true);
+    this._cancel_btn.attr('disabled', true);
 };
 
 EditCommentForm.prototype.reset = function(){
     this._comment = null;
     this._text = '';
     this._textarea.val('');
-    this.enableButtons();
+    this.enableForm();
 };
 
 EditCommentForm.prototype.confirmAbandon = function(){
     this.focus(true);
     this._textarea.addClass('highlight');
-    var answer = confirm(gettext('confirm abandon comment'));
+    var answer = confirm(gettext("Are you sure you don't want to post this comment?"));
     this._textarea.removeClass('highlight');
     return answer;
 };
@@ -1377,6 +1610,9 @@ EditCommentForm.prototype.getSaveHandler = function(){
 
     var me = this;
     return function(){
+        if (me.isEnabled() === false) {//prevent double submits
+            return false;
+        }
         var text = me._textarea.val();
         if (text.length < 10){
             me.focus();
@@ -1397,7 +1633,7 @@ EditCommentForm.prototype.getSaveHandler = function(){
             post_url = askbot['urls']['postComments'];
         }
 
-        me.disableButtons();
+        me.disableForm();
 
         $.ajax({
             type: "POST",
@@ -1405,6 +1641,7 @@ EditCommentForm.prototype.getSaveHandler = function(){
             dataType: "json",
             data: post_data,
             success: function(json) {
+                //type is 'edit' or 'add'
                 if (me._type == 'add'){
                     me._comment.dispose();
                     me._comment.getContainerWidget().reRenderComments(json);
@@ -1419,7 +1656,7 @@ EditCommentForm.prototype.getSaveHandler = function(){
                 me._comment.getElement().show();
                 showMessage(me._comment.getElement(), xhr.responseText, 'after');
                 me.detach();
-                me.enableButtons();
+                me.enableForm();
             }
         });
         return false;
@@ -1435,6 +1672,8 @@ var Comment = function(widget, data){
     this._data = data || {};
     this._blank = true;//set to false by setContent
     this._element = null;
+    this._is_convertible = askbot['data']['userIsAdminOrMod'];
+    this.convert_link = null;
     this._delete_prompt = gettext('delete this comment');
     if (data && data['is_deletable']){
         this._deletable = data['is_deletable'];
@@ -1469,6 +1708,12 @@ Comment.prototype.decorate = function(element){
         this._edit_link = new EditLink();
         this._edit_link.setHandler(this.getEditHandler());
         this._edit_link.decorate(edit_link);
+    }
+
+    var convert_link = this._element.find('form.convert-comment');
+    if (this._is_convertible){
+        this._convert_link = new CommentConvertLink(comment_id); 
+        this._convert_link.decorate(convert_link);
     }
 
     var vote = new CommentVoteButton(this);
@@ -1539,6 +1784,7 @@ Comment.prototype.setContent = function(data){
     this._user_link = $('<a></a>').attr('class', 'author');
     this._user_link.attr('href', this._data['user_url']);
     this._user_link.html(this._data['user_display_name']);
+    this._comment_body.append(' ');
     this._comment_body.append(this._user_link);
 
     this._comment_body.append(' (');
@@ -1553,6 +1799,11 @@ Comment.prototype.setContent = function(data){
         this._edit_link = new EditLink();
         this._edit_link.setHandler(this.getEditHandler())
         this._comment_body.append(this._edit_link.getElement());
+    }
+
+    if (this._is_convertible){
+        this._convert_link = new CommentConvertLink(this._data['id']); 
+        this._comment_body.append(this._convert_link.getElement());
     }
     this._element.append(this._comment_body);
 
@@ -1577,6 +1828,9 @@ Comment.prototype.dispose = function(){
     }
     if (this._edit_link){
         this._edit_link.dispose();
+    }
+    if (this._convert_link){
+        this._convert_link.dispose();
     }
     this._data = null;
     Comment.superClass_.dispose.call(this);
@@ -1797,19 +2051,19 @@ var socialSharing = function(){
     var SERVICE_DATA = {
         //url - template for the sharing service url, params are for the popup
         identica: {
-            url: "//identi.ca/notice/new?status_textarea={TEXT}%20{URL}",
+            url: "http://identi.ca/notice/new?status_textarea={TEXT}%20{URL}",
             params: "width=820, height=526,toolbar=1,status=1,resizable=1,scrollbars=1"
         },
         twitter: {
-            url: "//twitter.com/share?url={URL}&ref=twitbtn&text={TEXT}",
+            url: "http://twitter.com/share?url={URL}&ref=twitbtn&text={TEXT}",
             params: "width=820,height=526,toolbar=1,status=1,resizable=1,scrollbars=1"
         },
         facebook: {
-            url: "//www.facebook.com/sharer.php?u={URL}&ref=fbshare&t={TEXT}",
+            url: "http://www.facebook.com/sharer.php?u={URL}&ref=fbshare&t={TEXT}",
             params: "width=630,height=436,toolbar=1,status=1,resizable=1,scrollbars=1"
         },
         linkedin: {
-            url: "//www.linkedin.com/shareArticle?mini=true&amp;url={URL}&amp;source={TEXT}",
+            url: "http://www.linkedin.com/shareArticle?mini=true&url={URL}&title={TEXT}",
             params: "width=630,height=436,toolbar=1,status=1,resizable=1,scrollbars=1"
         }
     };
@@ -1819,22 +2073,31 @@ var socialSharing = function(){
     var share_page = function(service_name){
         if (SERVICE_DATA[service_name]){
             var url = SERVICE_DATA[service_name]['url'];
+            url = url.replace('{TEXT}', TEXT);
+            url = url.replace('{URL}', URL);
+            var params = SERVICE_DATA[service_name]['params'];
+            debugger;
+            if(!window.open(url, "sharing", params)){
+                window.location.href=url;
+            }
+            return false;
+            //@todo: change to some other url shortening service
             $.ajax({
-                async: false,
-                url: "//urltinyfy.appspot.com/?&callback=?",
+                url: "http://json-tinyurl.appspot.com/?&callback=?",
                 dataType: "json",
                 data: {'url':URL},
-                success: function(data){
+                success: function(data) {
                     url = url.replace('{URL}', data.tinyurl);
                 },
-                error: function(data){
+                error: function(xhr, opts, error) {
+                    debugger;
                     url = url.replace('{URL}', URL);
                 },
-                complete: function(data){
+                complete: function(data) {
+                    debugger;
                     url = url.replace('{TEXT}', TEXT);
                     var params = SERVICE_DATA[service_name]['params'];
                     if(!window.open(url, "sharing", params)){
-			alert("Pues ahora resulta que te mando a " + url);
                         window.location.href=url;
                     }
                 }
@@ -1845,7 +2108,14 @@ var socialSharing = function(){
     return {
         init: function(){
             URL = window.location.href;
-            TEXT = encodeURIComponent($('h1 > a').html());
+            var urlBits = URL.split('/');
+            URL = urlBits.slice(0, -2).join('/') + '/';
+            TEXT = escape($('h1 > a').html());
+            var hashtag = encodeURIComponent(
+                                askbot['settings']['sharingSuffixText']
+                            );
+            TEXT = TEXT.substr(0, 134 - URL.length - hashtag.length);
+            TEXT = TEXT + '... ' + hashtag;
             var fb = $('a.facebook-share')
             var tw = $('a.twitter-share');
             var ln = $('a.linkedin-share');
@@ -1854,10 +2124,10 @@ var socialSharing = function(){
             copyAltToTitle(tw);
             copyAltToTitle(ln);
             copyAltToTitle(ica);
-            setupButtonEventHandlers(fb, function(){share_page("facebook")});
-            setupButtonEventHandlers(tw, function(){share_page("twitter")});
-            setupButtonEventHandlers(ln, function(){share_page("linkedin")});
-            setupButtonEventHandlers(ica, function(){share_page("identica")});
+            setupButtonEventHandlers(fb, function(){ share_page("facebook") });
+            setupButtonEventHandlers(tw, function(){ share_page("twitter") });
+            setupButtonEventHandlers(ln, function(){ share_page("linkedin") });
+            setupButtonEventHandlers(ica, function(){ share_page("identica") });
         }
     }
 }();
@@ -1893,15 +2163,7 @@ QASwapper.prototype.startSwapping = function(){
                 url: askbot['urls']['swap_question_with_answer'],
                 data: data,
                 success: function(data){
-                    var url_template = askbot['urls']['question_url_template'];
-                    new_question_url = url_template.replace(
-                        '{{QuestionID}}',
-                        data['id']
-                    ).replace(
-                        '{{questionSlug}}',
-                        data['slug']
-                    );
-                    window.location.href = new_question_url;
+                    window.location.href = data['question_url'];
                 }
             });
             break;
@@ -1914,7 +2176,7 @@ QASwapper.prototype.startSwapping = function(){
  */
 var WMD = function(){
     WrappedElement.call(this);
-    this._markdown = undefined;
+    this._text = undefined;
     this._enabled_buttons = 'bold italic link blockquote code ' +
         'image attachment ol ul heading hr';
     this._is_previewer_enabled = true;
@@ -1930,10 +2192,6 @@ WMD.prototype.setPreviewerEnabled = function(state){
     if (this._previewer){
         this._previewer.hide();
     }
-};
-
-WMD.prototype.setEscapeHandler = function(handler){
-    this._escape_handler = handler;
 };
 
 WMD.prototype.createDom = function(){
@@ -1969,24 +2227,86 @@ WMD.prototype.createDom = function(){
     }
 };
 
-WMD.prototype.setMarkdown = function(text){
+WMD.prototype.setText = function(text){
     this._markdown = text;
     if (this._textarea){
         this._textarea.val(text);
     }
 };
 
-WMD.prototype.getMarkdown = function(){
+WMD.prototype.getText = function(){
     return this._textarea.val();
 };
 
 WMD.prototype.start = function(){
     Attacklab.Util.startEditor(true, this._enabled_buttons);
-    this._textarea.keyup(makeKeyHandler(27, this._escape_handler));
 };
 
 /**
  * @constructor
+ */
+var TinyMCE = function(config) {
+    WrappedElement.call(this);
+    this._config = config || {};
+};
+inherits(TinyMCE, WrappedElement);
+
+/* 3 dummy functions to match WMD api */
+TinyMCE.prototype.setEnabledButtons = function() {};
+TinyMCE.prototype.start = function() {
+    this.loadEditor();
+};
+TinyMCE.prototype.setPreviewerEnabled = function() {};
+
+TinyMCE.prototype.setText = function(text) {
+    this._text = text;
+};
+
+TinyMCE.prototype.getText = function() {
+    return tinyMCE.activeEditor.getContent();
+};
+
+TinyMCE.prototype.loadEditor = function() {
+    var config = JSON.stringify(this._config);
+    var data = {config: config};
+    var editorBox = this._element;
+    var me = this;
+    $.ajax({
+        async: false,
+        type: 'GET',
+        dataType: 'json',
+        cache: false,
+        url: askbot['urls']['getEditor'],
+        data: data,
+        success: function(data) {
+            if (data['success']) {
+                editorBox.html(data['html']);
+                editorBox.find('textarea').val(me._text);//@todo: fixme
+                $.each(data['scripts'], function(idx, scriptData) {
+                    var scriptElement = me.makeElement('script');
+                    scriptElement.attr('type', 'text/javascript');
+                    if (scriptData['src']) {
+                        scriptElement.attr('src', scriptData['src']);
+                    }
+                    if (scriptData['contents']) {
+                        scriptElement.html(scriptData['contents']);
+                    }
+                    $('head').append(scriptElement);
+                });
+            }
+        }
+    });
+};
+
+TinyMCE.prototype.createDom = function() {
+    var editorBox = this.makeElement('div');
+    editorBox.addClass('wmd-container');
+    this._element = editorBox;
+};
+
+/**
+ * @constructor
+ * @todo: change this to generic object description editor
  */
 var TagWikiEditor = function(){
     WrappedElement.call(this);
@@ -2061,14 +2381,18 @@ TagWikiEditor.prototype.setEditorLoaded = function(){
 TagWikiEditor.prototype.startActivatingEditor = function(){
     var editor = this._editor;
     var me = this;
+    var data = {
+        object_id: me.getTagId(),
+        model_name: 'Group'
+    };
     $.ajax({
         type: 'GET',
-        url: askbot['urls']['load_tag_wiki_text'],
-        data: {tag_id: me.getTagId()},
+        url: askbot['urls']['load_object_description'],
+        data: data,
         cache: false,
         success: function(data){
             me.backupContent();
-            editor.setMarkdown(data);
+            editor.setText(data);
             me.setContent(editor.getElement());
             me.setState('edit');
             if (me.isEditorLoaded() === false){
@@ -2081,12 +2405,17 @@ TagWikiEditor.prototype.startActivatingEditor = function(){
 
 TagWikiEditor.prototype.saveData = function(){
     var me = this;
-    var text = this._editor.getMarkdown();
+    var text = this._editor.getText();
+    var data = {
+        object_id: me.getTagId(),
+        model_name: 'Group',//todo: fixme
+        text: text
+    };
     $.ajax({
         type: 'POST',
         dataType: 'json',
-        url: askbot['urls']['save_tag_wiki_text'],
-        data: {tag_id: me.getTagId(), text: text},
+        url: askbot['urls']['save_object_description'],
+        data: data,
         cache: false,
         success: function(data){
             if (data['success']){
@@ -2131,12 +2460,22 @@ TagWikiEditor.prototype.decorate = function(element){
     this._tag_id = element.attr('id').split('-').pop();
 
     var me = this;
-    var editor = new WMD();
+    if (askbot['settings']['editorType'] === 'markdown') {
+        var editor = new WMD();
+    } else {
+        var editor = new TinyMCE({//override defaults
+            mode: 'exact',
+            elements: 'editor',
+            theme_advanced_buttons1: 'bold, italic, |, link, |, numlist, bullist',
+            theme_advanced_buttons2: '',
+            plugins: '',
+            width: '200'
+        });
+    }
     if (this._enabled_editor_buttons){
         editor.setEnabledButtons(this._enabled_editor_buttons);
     }
     editor.setPreviewerEnabled(this._is_previewer_enabled);
-    editor.setEscapeHandler(function(){me.cancelEdit()});
     this._editor = editor;
     setupButtonEventHandlers(edit_btn, function(){ me.startActivatingEditor() });
     setupButtonEventHandlers(cancel_btn, function(){me.cancelEdit()});
@@ -2324,13 +2663,29 @@ UserGroupProfileEditor.prototype.decorate = function(element){
     this._moderate_email_btn = moderate_email_btn;
     moderate_email_toggle.decorate(moderate_email_btn);
 
-    var open_group_toggle = new TwoStateToggle();
-    open_group_toggle.setPostData({
+    var moderate_publishing_replies_toggle = new TwoStateToggle();
+    moderate_publishing_replies_toggle.setPostData({
         group_id: this.getTagId(),
-        property_name: 'is_open'
+        property_name: 'moderate_answers_to_enquirers'
     });
-    var open_group_btn = element.find('#open-or-close-group');
-    open_group_toggle.decorate(open_group_btn);
+    var btn = element.find('#moderate-answers-to-enquirers');
+    moderate_publishing_replies_toggle.decorate(btn);
+
+    var vip_toggle = new TwoStateToggle();
+    vip_toggle.setPostData({
+        group_id: this.getTagId(),
+        property_name: 'is_vip'
+    });
+    var btn = element.find('#vip-toggle');
+    vip_toggle.decorate(btn);
+
+    var opennessSelector = new DropdownSelect();
+    var selectorElement = element.find('#group-openness-selector');
+    opennessSelector.setPostData({
+        group_id: this.getTagId(),
+        property_name: 'openness'
+    });
+    opennessSelector.decorate(selectorElement);
 
     var email_editor = new TextPropertyEditor();
     email_editor.decorate(element.find('#preapproved-emails'));
@@ -2354,9 +2709,8 @@ UserGroupProfileEditor.prototype.decorate = function(element){
     logo_changer.decorate(change_logo_btn);
 };
 
-var GroupJoinButton = function(group_id){
+var GroupJoinButton = function(){
     TwoStateToggle.call(this);
-    this._group_id = group_id;
 };
 inherits(GroupJoinButton, TwoStateToggle);
 
@@ -2375,13 +2729,1257 @@ GroupJoinButton.prototype.getHandler = function(){
             url: askbot['urls']['join_or_leave_group'],
             success: function(data){
                 if (data['success']){
-                    me.setOn(data['is_member']);
+                    var level = data['membership_level'];
+                    var new_state = 'off-state';
+                    if (level == 'full' || level == 'pending') {
+                        new_state = 'on-state';
+                    }
+                    me.setState(new_state);
                 } else {
                     showMessage(me.getElement(), data['message']);
                 }
             }
         });
     };
+};
+GroupJoinButton.prototype.decorate = function(elem) {
+    GroupJoinButton.superClass_.decorate.call(this, elem);
+    this._group_id = this._element.data('groupId');
+};
+
+var TagEditor = function() {
+    WrappedElement.call(this);
+    this._has_hot_backspace = false;
+    this._settings = JSON.parse(askbot['settings']['tag_editor']);
+};
+inherits(TagEditor, WrappedElement);
+
+TagEditor.prototype.getSelectedTags = function() {
+    return $.trim(this._hidden_tags_input.val()).split(/\s+/);
+};
+
+TagEditor.prototype.setSelectedTags = function(tag_names) {
+    this._hidden_tags_input.val($.trim(tag_names.join(' ')));
+};
+
+TagEditor.prototype.addSelectedTag = function(tag_name) {
+    var tag_names = this._hidden_tags_input.val();
+    this._hidden_tags_input.val(tag_names + ' ' + tag_name);
+    $('.acResults').hide();//a hack to hide the autocompleter
+};
+
+TagEditor.prototype.isSelectedTagName = function(tag_name) {
+    var tag_names = this.getSelectedTags();
+    return $.inArray(tag_name, tag_names) != -1;
+};
+
+TagEditor.prototype.removeSelectedTag = function(tag_name) {
+    var tag_names = this.getSelectedTags();
+    var idx = $.inArray(tag_name, tag_names);
+    if (idx !== -1) {
+        tag_names.splice(idx, 1)
+    }
+    this.setSelectedTags(tag_names);
+};
+
+TagEditor.prototype.getTagDeleteHandler = function(tag){
+    var me = this;
+    return function(){
+        me.removeSelectedTag(tag.getName());
+        me.clearErrorMessage();
+        tag.dispose();
+        $('.acResults').hide();//a hack to hide the autocompleter
+        me.fixHeight();
+    };
+};
+
+TagEditor.prototype.cleanTag = function(tag_name, reject_dupe) {
+    tag_name = $.trim(tag_name);
+    tag_name = tag_name.replace(/\s+/, ' ');
+
+    var force_lowercase = this._settings['force_lowercase_tags'];
+    if (force_lowercase) {
+        tag_name = tag_name.toLowerCase();
+    }
+
+    if (reject_dupe && this.isSelectedTagName(tag_name)) {
+        throw interpolate(
+            gettext('tag "%s" was already added, no need to repeat (press "escape" to delete)'),
+            [tag_name]
+        );
+    }
+
+    var max_tags = this._settings['max_tags_per_post'];
+    if (this.getSelectedTags().length + 1 > max_tags) {//count current
+        throw interpolate(
+            ngettext(
+                'a maximum of %s tag is allowed',
+                'a maximum of %s tags are allowed',
+                max_tags
+            ),
+            [max_tags]
+        );
+    }
+
+    //generic cleaning
+    return cleanTag(tag_name, this._settings);
+};
+
+TagEditor.prototype.addTag = function(tag_name) {
+    var tag = new Tag();
+    tag.setName(tag_name);
+    tag.setDeletable(true);
+    tag.setLinkable(true);
+    tag.setDeleteHandler(this.getTagDeleteHandler(tag));
+    this._tags_container.append(tag.getElement());
+    this.addSelectedTag(tag_name);
+};
+
+TagEditor.prototype.immediateClearErrorMessage = function() {
+    this._error_alert.html('');
+    this._error_alert.show();
+    //this._element.css('margin-top', '18px');//todo: the margin thing is a hack
+}
+
+TagEditor.prototype.clearErrorMessage = function(fade) {
+    if (fade) {
+        var me = this;
+        this._error_alert.fadeOut(function(){
+            me.immediateClearErrorMessage();
+        });
+    } else {
+        this.immediateClearErrorMessage();
+    }
+};
+
+TagEditor.prototype.setErrorMessage = function(text) {
+    var old_text = this._error_alert.html();
+    this._error_alert.html(text);
+    if (old_text == '') {
+        this._error_alert.hide();
+        this._error_alert.fadeIn(100);
+    }
+    //this._element.css('margin-top', '0');//todo: remove this hack
+};
+
+TagEditor.prototype.getAddTagHandler = function() {
+    var me = this;
+    return function(tag_name) {
+        if (me.isSelectedTagName(tag_name)) {
+            return;
+        }
+        try {
+            var clean_tag_name = me.cleanTag($.trim(tag_name));
+            me.addTag(clean_tag_name);
+            me.clearNewTagInput();
+            me.fixHeight();
+        } catch (error) {
+            me.setErrorMessage(error);
+            setTimeout(function(){
+                me.clearErrorMessage(true);
+            }, 1000);
+        }
+    };
+};
+
+TagEditor.prototype.getRawNewTagValue = function() {
+    return this._visible_tags_input.val();//without trimming
+};
+
+TagEditor.prototype.clearNewTagInput = function() {
+    return this._visible_tags_input.val('');
+};
+
+TagEditor.prototype.editLastTag = function() {
+    //delete rendered tag
+    var tc = this._tags_container;
+    tc.find('li:last').remove();
+    //remove from hidden tags input
+    var tags = this.getSelectedTags();
+    var last_tag = tags.pop();
+    this.setSelectedTags(tags);
+    //populate the tag editor
+    this._visible_tags_input.val(last_tag);
+    putCursorAtEnd(this._visible_tags_input);
+};
+
+TagEditor.prototype.setHotBackspace = function(is_hot) {
+    this._has_hot_backspace = is_hot;
+};
+
+TagEditor.prototype.hasHotBackspace = function() {
+    return this._has_hot_backspace;
+};
+
+TagEditor.prototype.completeTagInput = function(reject_dupe) {
+    var tag_name = $.trim(this._visible_tags_input.val());
+    try {
+        tag_name = this.cleanTag(tag_name, reject_dupe);
+        this.addTag(tag_name);
+        this.clearNewTagInput();
+    } catch (error) {
+        this.setErrorMessage(error);
+    }
+};
+
+TagEditor.prototype.saveHeight = function() {
+    return;
+    var elem = this._visible_tags_input;
+    this._height = elem.offset().top;
+};
+
+TagEditor.prototype.fixHeight = function() {
+    return;
+    var new_height = this._visible_tags_input.offset().top;
+    //@todo: replace this by real measurement
+    var element_height = parseInt(
+        this._element.css('height').replace('px', '')
+    );
+    if (new_height > this._height) {
+        this._element.css('height', element_height + 28);//magic number!!!
+    } else if (new_height < this._height) {
+        this._element.css('height', element_height - 28);//magic number!!!
+    }
+    this.saveHeight();
+};
+
+TagEditor.prototype.closeAutoCompleter = function() {
+    this._autocompleter.finish();
+};
+
+TagEditor.prototype.getTagInputKeyHandler = function() {
+    var new_tags = this._visible_tags_input;
+    var me = this;
+    return function(e) {
+        if (e.shiftKey) {
+            return;
+        }
+        me.saveHeight();
+        var key = e.which || e.keyCode;
+        var text = me.getRawNewTagValue();
+
+        //space 32, enter 13
+        if (key == 32 || key == 13) {
+            var tag_name = $.trim(text);
+            if (tag_name.length > 0) {
+                me.completeTagInput(true);//true for reject dupes
+            }
+            me.fixHeight();
+            return false;
+        }
+
+        if (text == '') {
+            me.clearErrorMessage();
+            me.closeAutoCompleter();
+        } else {
+            try {
+                /* do-nothing validation here
+                 * just to report any errors while 
+                 * the user is typing */
+                me.cleanTag(text);
+                me.clearErrorMessage();
+            } catch (error) {
+                me.setErrorMessage(error);
+            }
+        }
+        
+        //8 is backspace
+        if (key == 8 && text.length == 0) {
+            if (me.hasHotBackspace() === true) {
+                me.editLastTag();
+                me.setHotBackspace(false);
+            } else {
+                me.setHotBackspace(true);
+            }
+        }
+
+        //27 is escape
+        if (key == 27) {
+            me.clearNewTagInput();
+            me.clearErrorMessage();
+        }
+
+        if (key !== 8) {
+            me.setHotBackspace(false);
+        }
+        me.fixHeight();
+        return false;
+    };
+}
+
+TagEditor.prototype.decorate = function(element) {
+    this._element = element;
+    this._hidden_tags_input = element.find('input[name="tags"]');//this one is hidden
+    this._tags_container = element.find('ul.tags');
+    this._error_alert = $('.tag-editor-error-alert > span');
+
+    var me = this;
+    this._tags_container.children().each(function(idx, elem){
+        var tag = new Tag();
+        tag.setDeletable(true);
+        tag.setLinkable(false);
+        tag.decorate($(elem));
+        tag.setDeleteHandler(me.getTagDeleteHandler(tag));
+    });
+
+    var visible_tags_input = element.find('.new-tags-input');
+    this._visible_tags_input = visible_tags_input;
+    this.saveHeight();
+
+    var me = this;
+    var tagsAc = new AutoCompleter({
+        url: askbot['urls']['get_tag_list'],
+        onItemSelect: function(item){
+            if (me.isSelectedTagName(item['value']) === false) {
+                me.completeTagInput();
+            } else {
+                me.clearNewTagInput();
+            }
+        },
+        preloadData: true,
+        minChars: 1,
+        useCache: true,
+        matchInside: true,
+        maxCacheLength: 100,
+        delay: 10
+    });
+    tagsAc.decorate(visible_tags_input);
+    this._autocompleter = tagsAc;
+    visible_tags_input.keyup(this.getTagInputKeyHandler());
+
+    element.click(function(e) {
+        visible_tags_input.focus();
+        return false;
+    });
+};
+
+/**
+ * @constructor
+ * Category is a select box item
+ * that has CategoryEditControls
+ */
+var Category = function() {
+    SelectBoxItem.call(this);
+    this._state = 'display';
+    this._settings = JSON.parse(askbot['settings']['tag_editor']);
+};
+inherits(Category, SelectBoxItem);
+
+Category.prototype.setCategoryTree = function(tree) {
+    this._tree = tree;
+};
+
+Category.prototype.getCategoryTree = function() {
+    return this._tree;
+};
+
+Category.prototype.getName = function() {
+    return this.getContent().getContent();
+};
+
+Category.prototype.getPath = function() {
+    return this._tree.getPathToItem(this);
+};
+
+Category.prototype.setState = function(state) {
+    this._state = state;
+    if ( !this._element ) {
+        return;
+    }
+    this._input_box.val('');
+    if (state === 'display') {
+        this.showContent();
+        this.hideEditor();
+        this.hideEditControls();
+    } else if (state === 'editable') {
+        this._tree._state = 'editable';//a hack
+        this.showContent();
+        this.hideEditor();
+        this.showEditControls();
+    } else if (state === 'editing') {
+        this._prev_tree_state = this._tree.getState();
+        this._tree._state = 'editing';//a hack
+        this._input_box.val(this.getName());
+        this.hideContent();
+        this.showEditor();
+        this.hideEditControls();
+    }
+};
+
+Category.prototype.hideEditControls = function() {
+    this._delete_button.hide();
+    this._edit_button.hide();
+    this._element.unbind('mouseenter mouseleave');
+};
+
+Category.prototype.showEditControls = function() {
+    var del = this._delete_button;
+    var edit = this._edit_button;
+    this._element.hover(
+        function(){
+            del.show();
+            edit.show();
+        },
+        function(){
+            del.hide();
+            edit.hide();
+        }
+    );
+};
+
+Category.prototype.showEditControlsNow = function() {
+    this._delete_button.show();
+    this._edit_button.show();
+};
+
+Category.prototype.hideContent = function() {
+    this.getContent().getElement().hide();
+};
+
+Category.prototype.showContent = function() {
+    this.getContent().getElement().show();
+};
+
+Category.prototype.showEditor = function() {
+    this._input_box.show();
+    this._input_box.focus();
+    this._save_button.show();
+    this._cancel_button.show();
+};
+
+Category.prototype.hideEditor = function() {
+    this._input_box.hide();
+    this._save_button.hide();
+    this._cancel_button.hide();
+};
+
+Category.prototype.getInput = function() {
+    return this._input_box.val();
+};
+
+Category.prototype.getDeleteHandler = function() {
+    var me = this;
+    return function() {
+        if (confirm(gettext('Delete category?'))) {
+            var tree = me.getCategoryTree();
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    tag_name: me.getName(),
+                    path: me.getPath()
+                }),
+                cache: false,
+                url: askbot['urls']['delete_tag'],
+                success: function(data) {
+                    if (data['success']) {
+                        //rebuild category tree based on data
+                        tree.setData(data['tree_data']);
+                        //re-open current branch
+                        tree.selectPath(tree.getCurrentPath());
+                        tree.setState('editable');
+                    } else {
+                        alert(data['message']);
+                    }
+                }
+            });
+        }
+        return false;
+    };
+};
+
+Category.prototype.getSaveHandler = function() {
+    var me = this;
+    var settings = this._settings;
+    //here we need old value and new value
+    return function(){
+        var to_name = me.getInput();
+        try {
+            to_name = cleanTag(to_name, settings);
+            var data = {
+                from_name: me.getOriginalName(),
+                to_name: to_name,
+                path: me.getPath()
+            };
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                cache: false,
+                url: askbot['urls']['rename_tag'],
+                success: function(data) {
+                    if (data['success']) {
+                        me.setName(to_name);
+                        me.setState('editable');
+                        me.showEditControlsNow();
+                    } else {
+                        alert(data['message']);
+                    }
+                }
+            });
+        } catch (error) {
+            alert(error);
+        }
+        return false;
+    };
+};
+
+Category.prototype.addControls = function() {
+    var input_box = this.makeElement('input');
+    this._input_box = input_box;
+    this._element.append(input_box);
+
+    var save_button = this.makeButton(
+        gettext('save'),
+        this.getSaveHandler()
+    );
+    this._save_button = save_button;
+    this._element.append(save_button);
+
+    var me = this;
+    var cancel_button = this.makeButton(
+        'x',
+        function(){
+            me.setState('editable');
+            me.showEditControlsNow();
+            return false;
+        }
+    );
+    this._cancel_button = cancel_button;
+    this._element.append(cancel_button);
+
+    var edit_button = this.makeButton(
+        gettext('edit'),
+        function(){ 
+            //todo: I would like to make only one at a time editable
+            //var tree = me.getCategoryTree();
+            //tree.closeAllEditors();
+            //tree.setState('editable');
+            //calc path, then select it
+            var tree = me.getCategoryTree();
+            tree.selectPath(me.getPath());
+            me.setState('editing');
+            return false;
+        }
+    );
+    this._edit_button = edit_button;
+    this._element.append(edit_button);
+
+    var delete_button = this.makeButton(
+        'x', this.getDeleteHandler()
+    );
+    this._delete_button = delete_button;
+    this._element.append(delete_button);
+};
+
+Category.prototype.getOriginalName = function() {
+    return this._original_name;
+};
+
+Category.prototype.createDom = function() {
+    Category.superClass_.createDom.call(this);
+    this.addControls();
+    this.setState('display');
+    this._original_name = this.getName();
+};
+
+Category.prototype.decorate = function(element) {
+    Category.superClass_.decorate.call(this, element);
+    this.addControls();
+    this.setState('display');
+    this._original_name = this.getName();
+};
+
+var CategoryAdder = function() {
+    WrappedElement.call(this);
+    this._state = 'disabled';//waitedit
+    this._tree = undefined;//category tree
+    this._settings = JSON.parse(askbot['settings']['tag_editor']);
+};
+inherits(CategoryAdder, WrappedElement);
+
+CategoryAdder.prototype.setCategoryTree = function(tree) {
+    this._tree = tree;
+};
+
+CategoryAdder.prototype.setLevel = function(level) {
+    this._level = level;
+};
+
+CategoryAdder.prototype.setState = function(state) {
+    this._state = state;
+    if (!this._element) {
+        return;
+    }
+    if (state === 'waiting') {
+        this._element.show();
+        this._input.val('');
+        this._input.hide();
+        this._save_button.hide();
+        this._cancel_button.hide();
+        this._trigger.show();
+    } else if (state === 'editable') {
+        this._element.show();
+        this._input.show();
+        this._input.val('');
+        this._input.focus();
+        this._save_button.show();
+        this._cancel_button.show();
+        this._trigger.hide();
+    } else if (state === 'disabled') {
+        this.setState('waiting');//a little hack
+        this._state = 'disabled';
+        this._element.hide();
+    }
+};
+
+CategoryAdder.prototype.cleanCategoryName = function(name) {
+    name = $.trim(name);
+    if (name === '') {
+        throw gettext('category name cannot be empty');
+    }
+    //if ( this._tree.hasCategory(name) ) {
+        //throw interpolate(
+        //throw gettext('this category already exists');
+        //    [this._tree.getDisplayPathByName(name)]
+        //)
+    //}
+    return cleanTag(name, this._settings);
+};
+
+CategoryAdder.prototype.getPath = function() {
+    var path = this._tree.getCurrentPath();
+    if (path.length > this._level + 1) {
+        return path.slice(0, this._level + 1);
+    } else {
+        return path;
+    }
+};
+
+CategoryAdder.prototype.getSelectBox = function() {
+    return this._tree.getSelectBox(this._level);
+};
+
+CategoryAdder.prototype.startAdding = function() {
+    try {
+        var name = this._input.val();
+        name = this.cleanCategoryName(name);
+    } catch (error) {
+        alert(error);
+        return;
+    }
+
+    //don't add dupes to the same level
+    var existing_names = this.getSelectBox().getNames();
+    if ($.inArray(name, existing_names) != -1) {
+        alert(gettext('already exists at the current level!'));
+        return;
+    }
+
+    var me = this;
+    var tree = this._tree;
+    var adder_path = this.getPath();
+
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        data: JSON.stringify({
+            path: adder_path,
+            new_category_name: name
+        }),
+        url: askbot['urls']['add_tag_category'],
+        cache: false,
+        success: function(data) {
+            if (data['success']) {
+                //rebuild category tree based on data
+                tree.setData(data['tree_data']);
+                tree.selectPath(data['new_path']);
+                tree.setState('editable');
+                me.setState('waiting');
+            } else {
+                alert(data['message']);
+            }
+        }
+    });
+};
+
+CategoryAdder.prototype.createDom = function() {
+    this._element = this.makeElement('li');
+    //add open adder link
+    var trigger = this.makeElement('a');
+    this._trigger = trigger;
+    trigger.html(gettext('add category'));
+    this._element.append(trigger);
+    //add input box and the add button
+    var input = this.makeElement('input');
+    this._input = input;
+    input.addClass('add-category');
+    input.attr('name', 'add_category');
+    this._element.append(input);
+    //add save category button
+    var save_button = this.makeElement('button');
+    this._save_button = save_button;
+    save_button.html(gettext('save'));
+    this._element.append(save_button);
+
+    var cancel_button = this.makeElement('button');
+    this._cancel_button = cancel_button;
+    cancel_button.html('x');
+    this._element.append(cancel_button);
+
+    this.setState(this._state);
+
+    var me = this;
+    setupButtonEventHandlers(
+        trigger,
+        function(){ me.setState('editable'); }
+    )
+    setupButtonEventHandlers(
+        save_button,
+        function() { 
+            me.startAdding();
+            return false;//prevent form submit
+        }
+    );
+    setupButtonEventHandlers(
+        cancel_button,
+        function() {
+            me.setState('waiting');
+            return false;//prevent submit
+        }
+    );
+    //create input box, button and the "activate" link
+};
+
+/**
+ * @constructor
+ * SelectBox subclass to create/edit/delete
+ * categories
+ */
+var CategorySelectBox = function() {
+    SelectBox.call(this);
+    this._item_class = Category;
+    this._category_adder = undefined;
+    this._tree = undefined;//cat tree
+    this._level = undefined;
+};
+inherits(CategorySelectBox, SelectBox);
+
+CategorySelectBox.prototype.setState = function(state) {
+    this._state = state;
+    if (state === 'select') {
+        if (this._category_adder) {
+            this._category_adder.setState('disabled');
+        }
+        $.each(this._items, function(idx, item){
+            item.setState('display');
+        });
+    } else if (state === 'editable') {
+        this._category_adder.setState('waiting');
+        $.each(this._items, function(idx, item){
+            item.setState('editable');
+        });
+    }
+};
+
+CategorySelectBox.prototype.setCategoryTree = function(tree) {
+    this._tree = tree;
+};
+
+CategorySelectBox.prototype.getCategoryTree = function() {
+};
+
+CategorySelectBox.prototype.setLevel = function(level) {
+    this._level = level;
+};
+
+CategorySelectBox.prototype.getNames = function() {
+    var names = [];
+    $.each(this._items, function(idx, item) {
+        names.push(item.getName());
+    });
+    return names;
+};
+
+CategorySelectBox.prototype.appendCategoryAdder = function() {
+    var adder = new CategoryAdder();
+    adder.setLevel(this._level);
+    adder.setCategoryTree(this._tree);
+    this._category_adder = adder;
+    this._element.append(adder.getElement());
+};
+
+CategorySelectBox.prototype.createDom = function() {
+    CategorySelectBox.superClass_.createDom();
+    if (askbot['data']['userIsAdmin']) {
+        this.appendCategoryAdder();
+    }
+};
+
+CategorySelectBox.prototype.decorate = function(element) {
+    CategorySelectBox.superClass_.decorate.call(this, element);
+    this.setState(this._state);
+    if (askbot['data']['userIsAdmin']) {
+        this.appendCategoryAdder();
+    }
+};
+
+/**
+ * @constructor
+ * turns on/off the category editor
+ */
+var CategoryEditorToggle = function() {
+    TwoStateToggle.call(this);
+};
+inherits(CategoryEditorToggle, TwoStateToggle);
+
+CategoryEditorToggle.prototype.setCategorySelector = function(sel) {
+    this._category_selector = sel;
+};
+
+CategoryEditorToggle.prototype.getCategorySelector = function() {
+    return this._category_selector;
+};
+
+CategoryEditorToggle.prototype.decorate = function(element) {
+    CategoryEditorToggle.superClass_.decorate.call(this, element);
+};
+
+CategoryEditorToggle.prototype.getDefaultHandler = function() {
+    var me = this;
+    return function() {
+        var editor = me.getCategorySelector();
+        if (me.isOn()) {
+            me.setState('off-state');
+            editor.setState('select');
+        } else {
+            me.setState('on-state');
+            editor.setState('editable');
+        }
+    };
+};
+
+var CategorySelector = function() {
+    Widget.call(this);
+    this._data = null;
+    this._select_handler = function(){};//dummy default
+    this._current_path = [0];//path points to selected item in tree
+};
+inherits(CategorySelector, Widget);
+
+/**
+ * propagates state to the individual selectors
+ */
+CategorySelector.prototype.setState = function(state) {
+    this._state = state;
+    if (state === 'editing') {
+        return;//do not propagate this state
+    }
+    $.each(this._selectors, function(idx, selector){
+        selector.setState(state);
+    });
+};
+
+CategorySelector.prototype.getPathToItem = function(item) {
+    function findPathToItemInTree(tree, item) {
+        for (var i = 0; i < tree.length; i++) {
+            var node = tree[i];
+            if (node[2] === item) {
+                return [i];
+            }
+            var path = findPathToItemInTree(node[1], item);
+            if (path.length > 0) {
+                path.unshift(i);
+                return path;
+            }
+        }
+        return [];
+    };
+    return findPathToItemInTree(this._data, item);
+};
+
+CategorySelector.prototype.applyToDataItems = function(func) {
+    function applyToDataItems(tree) {
+        $.each(tree, function(idx, item) {
+            func(item);
+            applyToDataItems(item[1]);
+        });
+    };
+    if (this._data) {
+        applyToDataItems(this._data);
+    }
+};
+
+CategorySelector.prototype.setData = function(data) {
+    this._clearData
+    this._data = data;
+    var tree = this;
+    function attachCategory(item) {
+        var cat = new Category();
+        cat.setName(item[0]);
+        cat.setCategoryTree(tree);
+        item[2] = cat;
+    };
+    this.applyToDataItems(attachCategory);
+};
+
+/**
+ * clears contents of selector boxes starting from
+ * the given level, in range 0..2
+ */
+CategorySelector.prototype.clearCategoryLevels = function(level) {
+    for (var i = level; i < 3; i++) {
+        this._selectors[i].detachAllItems();
+    }
+};
+
+CategorySelector.prototype.getLeafItems = function(selection_path) {
+    //traverse the tree down to items pointed to by the path
+    var data = this._data[0];
+    for (var i = 1; i < selection_path.length; i++) {
+        data = data[1][selection_path[i]];
+    }
+    return data[1];
+}
+
+/**
+ * called when a sub-level needs to open
+ */
+CategorySelector.prototype.populateCategoryLevel = function(source_path) {
+    var level = source_path.length - 1;
+    if (level >= 3) {
+        return;
+    }
+    //clear all items downstream
+    this.clearCategoryLevels(level);
+
+    //populate current selector
+    var selector = this._selectors[level];
+    var items  = this.getLeafItems(source_path);
+
+    $.each(items, function(idx, item) {
+        var category_name = item[0];
+        var category_subtree = item[1];
+        var category_object = item[2];
+        selector.addItemObject(category_object);
+        if (category_subtree.length > 0) {
+            category_object.addCssClass('tree');
+        }
+    });
+
+    this.setState(this._state);//update state
+
+    selector.clearSelection();
+};
+
+CategorySelector.prototype.selectPath = function(path) {
+    for (var i = 1; i <= path.length; i++) {
+        this.populateCategoryLevel(path.slice(0, i));
+    }
+    for (var i = 1; i < path.length; i++) {
+        var sel_box = this._selectors[i-1];
+        var category = sel_box.getItemByIndex(path[i]);
+        sel_box.selectItem(category);
+    }
+};
+
+CategorySelector.prototype.getSelectBox = function(level) {
+    return this._selectors[level];
+};
+
+CategorySelector.prototype.getSelectedPath = function(selected_level) {
+    var path = [0];//root, todo: better use names for path???
+    /* 
+     * upper limit capped by current clicked level
+     * we ignore all selection above the current level
+     */
+    for (var i = 0; i < selected_level + 1; i++) {
+        var selector = this._selectors[i];
+        var item = selector.getSelectedItem();
+        if (item) {
+            path.push(selector.getItemIndex(item));
+        } else {
+            return path;
+        }
+    }
+    return path;
+};
+
+/** getter and setter are not symmetric */
+CategorySelector.prototype.setSelectHandler = function(handler) {
+    this._select_handler = handler;
+};
+
+CategorySelector.prototype.getSelectHandlerInternal = function() {
+    return this._select_handler;
+};
+
+CategorySelector.prototype.setCurrentPath = function(path) {
+    return this._current_path = path;
+};
+
+CategorySelector.prototype.getCurrentPath = function() {
+    return this._current_path;
+};
+
+CategorySelector.prototype.getEditorToggle = function() {
+    return this._editor_toggle;
+};
+
+/*CategorySelector.prototype.closeAllEditors = function() {
+    $.each(this._selectors, function(idx, sel) {
+        sel._category_adder.setState('wait');
+        $.each(sel._items, function(idx2, item) {
+            item.setState('editable');
+        });
+    });
+};*/
+
+CategorySelector.prototype.getSelectHandler = function(level) {
+    var me = this;
+    return function(item_data) {
+        if (me.getState() === 'editing') {
+            return;//don't navigate when editing
+        }
+        //1) run the assigned select handler
+        var tag_name = item_data['title']
+        if (me.getState() === 'select') {
+            /* this one will actually select the tag
+             * maybe a bit too implicit
+             */
+            me.getSelectHandlerInternal()(tag_name);
+        }
+        //2) if appropriate, populate the higher level
+        if (level < 2) {
+            var current_path = me.getSelectedPath(level);
+            me.setCurrentPath(current_path);
+            me.populateCategoryLevel(current_path);
+        }
+    }
+};
+
+CategorySelector.prototype.decorate = function(element) {
+    this._element = element;
+    this._selectors = [];
+
+    var selector0 = new CategorySelectBox();
+    selector0.setLevel(0);
+    selector0.setCategoryTree(this);
+    selector0.decorate(element.find('.cat-col-0'));
+    selector0.setSelectHandler(this.getSelectHandler(0));
+    this._selectors.push(selector0);
+
+    var selector1 = new CategorySelectBox();
+    selector1.setLevel(1);
+    selector1.setCategoryTree(this);
+    selector1.decorate(element.find('.cat-col-1'));
+    selector1.setSelectHandler(this.getSelectHandler(1));
+    this._selectors.push(selector1)
+
+    var selector2 = new CategorySelectBox();
+    selector2.setLevel(2);
+    selector2.setCategoryTree(this);
+    selector2.decorate(element.find('.cat-col-2'));
+    selector2.setSelectHandler(this.getSelectHandler(2));
+    this._selectors.push(selector2);
+
+    if (askbot['data']['userIsAdminOrMod']) {
+        var editor_toggle = new CategoryEditorToggle();
+        editor_toggle.setCategorySelector(this);
+        var toggle_element = $('.category-editor-toggle');
+        toggle_element.show();
+        editor_toggle.decorate(toggle_element);
+        this._editor_toggle = editor_toggle;
+    }
+
+    this.populateCategoryLevel([0]);
+};
+
+/**
+ * @constructor
+ * loads html for the category selector from
+ * the server via ajax and activates the
+ * CategorySelector on the loaded HTML
+ */
+var CategorySelectorLoader = function() {
+    WrappedElement.call(this);
+    this._is_loaded = false;
+};
+inherits(CategorySelectorLoader, WrappedElement);
+
+CategorySelectorLoader.prototype.setCategorySelector = function(sel) {
+    this._category_selector = sel;
+};
+
+CategorySelectorLoader.prototype.setLoaded = function(is_loaded) {
+    this._is_loaded = is_loaded;
+};
+
+CategorySelectorLoader.prototype.isLoaded = function() {
+    return this._is_loaded;
+};
+
+CategorySelectorLoader.prototype.setEditor = function(editor) {
+    this._editor = editor;
+};
+
+CategorySelectorLoader.prototype.closeEditor = function() {
+    this._editor.hide();
+    this._editor_buttons.hide();
+    this._display_tags_container.show();
+    this._question_body.show();
+    this._question_controls.show();
+};
+
+CategorySelectorLoader.prototype.openEditor = function() {
+    this._editor.show();
+    this._editor_buttons.show();
+    this._display_tags_container.hide();
+    this._question_body.hide();
+    this._question_controls.hide();
+    var sel = this._category_selector;
+    sel.setState('select');
+    sel.getEditorToggle().setState('off-state');
+};
+
+CategorySelectorLoader.prototype.addEditorButtons = function() {
+    this._editor.after(this._editor_buttons);
+};
+
+CategorySelectorLoader.prototype.getOnLoadHandler = function() {
+    var me = this;
+    return function(html){
+        me.setLoaded(true);
+
+        //append loaded html to dom
+        var editor = $('<div>' + html + '</div>');
+        me.setEditor(editor);
+        $('#question-tags').after(editor);
+
+        var selector = askbot['functions']['initCategoryTree']();
+        me.setCategorySelector(selector);
+
+        me.addEditorButtons();
+        me.openEditor();
+        //add the save button
+    };
+};
+
+CategorySelectorLoader.prototype.startLoadingHTML = function(on_load) {
+    var me = this;
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        data: { template_name: 'widgets/tag_category_selector.html' },
+        url: askbot['urls']['get_html_template'],
+        cache: true,
+        success: function(data) {
+            if (data['success']) {
+                on_load(data['html']);
+            } else {
+                showMessage(me.getElement(), data['message']);
+            }
+        }
+    });
+};
+
+CategorySelectorLoader.prototype.getRetagHandler = function() {
+    var me = this;
+    return function() {
+        if (me.isLoaded() === false) {
+            me.startLoadingHTML(me.getOnLoadHandler());
+        } else {
+            me.openEditor();
+        }
+        return false;
+    }
+};
+
+CategorySelectorLoader.prototype.drawNewTags = function(new_tags) {
+    if (new_tags === ''){
+        this._display_tags_container.html('');
+        return;
+    }
+    new_tags = new_tags.split(/\s+/);
+    var tags_html = ''
+    $.each(new_tags, function(index, name){
+        var tag = new Tag();
+        tag.setName(name);
+        tags_html += tag.getElement().outerHTML();
+    });
+    this._display_tags_container.html(tags_html);
+};
+
+CategorySelectorLoader.prototype.getSaveHandler = function() {
+    var me = this;
+    return function() {
+        var tagInput = $('input[name="tags"]');
+        $.ajax({
+            type: "POST",
+            url: retagUrl,//add to askbot['urls']
+            dataType: "json",
+            data: { tags: getUniqueWords(tagInput.val()).join(' ') },
+            success: function(json) {
+                if (json['success'] === true){
+                    var new_tags = getUniqueWords(json['new_tags']);
+                    oldTagsHtml = '';
+                    me.closeEditor();
+                    me.drawNewTags(new_tags.join(' '));
+                }
+                else {
+                    me.closeEditor();
+                    showMessage(me.getElement(), json['message']);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                showMessage(tagsDiv, 'sorry, something is not right here');
+                cancelRetag();
+            }
+        });
+        return false;
+    };
+};
+
+CategorySelectorLoader.prototype.getCancelHandler = function() {
+    var me = this;
+    return function() {
+        me.closeEditor();
+    };
+};
+
+CategorySelectorLoader.prototype.decorate = function(element) {
+    this._element = element;
+    this._display_tags_container = $('#question-tags');
+    this._question_body = $('.question-body');
+    this._question_controls = $('#question-controls');
+
+    this._editor_buttons = this.makeElement('div');
+    this._done_button = this.makeElement('button');
+    this._done_button.html(gettext('save tags'));
+    this._editor_buttons.append(this._done_button);
+
+    this._cancel_button = this.makeElement('button');
+    this._cancel_button.html(gettext('cancel'));
+    this._editor_buttons.append(this._cancel_button);
+    this._editor_buttons.find('button').addClass('submit');
+    this._editor_buttons.addClass('retagger-buttons');
+
+    //done button
+    setupButtonEventHandlers(
+        this._done_button,
+        this.getSaveHandler()
+    );
+    //cancel button
+    setupButtonEventHandlers(
+        this._cancel_button,
+        this.getCancelHandler()
+    );
+
+    //retag button
+    setupButtonEventHandlers(
+        element,
+        this.getRetagHandler()
+    );
 };
 
 $(document).ready(function() {
@@ -2400,8 +3998,104 @@ $(document).ready(function() {
         deleter.setPostId(post_id);
         deleter.decorate($(element).find('.question-delete'));
     });
-    questionRetagger.init();
+    //todo: convert to "control" class
+    var publishBtns = $('.answer-publish, .answer-unpublish');
+    publishBtns.each(function(idx, btn) {
+        setupButtonEventHandlers($(btn), function() {
+            var answerId = $(btn).data('answerId');
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                data: {'answer_id': answerId},
+                url: askbot['urls']['publishAnswer'],
+                success: function(data) {
+                    if (data['success']) {
+                        window.location.reload(true);
+                    } else {
+                        showMessage($(btn), data['message']);
+                    }
+                }
+            });
+        });
+    });
+
+    if (askbot['settings']['tagSource'] == 'category-tree') {
+        var catSelectorLoader = new CategorySelectorLoader();
+        catSelectorLoader.decorate($('#retag'));
+    } else {
+        questionRetagger.init();
+    }
     socialSharing.init();
+
+    var proxyUserNameInput = $('#id_post_author_username');
+    var proxyUserEmailInput = $('#id_post_author_email');
+    if (proxyUserNameInput.length === 1) {
+
+        var userSelectHandler = function(data) {
+            proxyUserEmailInput.val(data['data'][0]);
+        };
+
+        var fakeUserAc = new AutoCompleter({
+            url: '/get-users-info/',//askbot['urls']['get_users_info'],
+            preloadData: true,
+            promptText: gettext('User name:'),
+            minChars: 1,
+            useCache: true,
+            matchInside: true,
+            maxCacheLength: 100,
+            delay: 10,
+            onItemSelect: userSelectHandler
+        });
+
+        fakeUserAc.decorate(proxyUserNameInput);
+        if (proxyUserEmailInput.length === 1) {
+            var tip = new TippedInput();
+            tip.decorate(proxyUserEmailInput);
+        }
+        
+    }
+    //if groups are enabled - activate share functions
+    var groupsInput = $('#share_group_name');
+    if (groupsInput.length === 1) {
+        var groupsAc = new AutoCompleter({
+            url: askbot['urls']['getGroupsList'],
+            preloadData: true,
+            promptText: gettext('Group name:'),
+            minChars: 1,
+            useCache: false,
+            matchInside: true,
+            maxCacheLength: 100,
+            delay: 10
+        });
+        groupsAc.decorate(groupsInput);
+    }
+    var usersInput = $('#share_user_name');
+    if (usersInput.length === 1) {
+        var usersAc = new AutoCompleter({
+            url: '/get-users-info/',
+            preloadData: true,
+            promptText: gettext('User name:'),
+            minChars: 1,
+            useCache: false,
+            matchInside: true,
+            maxCacheLength: 100,
+            delay: 10
+        });
+        usersAc.decorate(usersInput);
+    }
+
+    var showSharedUsers = $('.see-related-users');
+    if (showSharedUsers.length) {
+        var usersPopup = new ThreadUsersDialog();
+        usersPopup.setHeadingText(gettext('Shared with the following users:'));
+        usersPopup.decorate(showSharedUsers);
+    }
+    var showSharedGroups = $('.see-related-groups');
+    if (showSharedGroups.length) {
+        var groupsPopup = new ThreadUsersDialog();
+        groupsPopup.setHeadingText(gettext('Shared with the following groups:'));
+        groupsPopup.decorate(showSharedGroups);
+    }
 });
 
 
