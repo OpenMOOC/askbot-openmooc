@@ -25,7 +25,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
-    (r'%s' % settings.ASKBOT_URL, include('askbot.urls')),
+    (r'', include('askbot.urls')),
 
     (r'^admin/', include(admin.site.urls)),
 

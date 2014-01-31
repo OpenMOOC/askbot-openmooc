@@ -539,6 +539,8 @@ else:
     #ASKBOT_URL = ''
     FULL_ASKBOT_URL = '%s/%s/' % (BASE_URL, INSTANCE_NAME)
 
+    ROOT_URLCONF = 'askbotopenmooc.urls_prefix'
+
     CSRF_COOKIE_NAME = '%s_csrf' % INSTANCE_NAME
     SESSION_COOKIE_NAME = '%s_sessionid' % INSTANCE_NAME
 
