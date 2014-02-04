@@ -20,7 +20,6 @@ to be used by the user.
 """
 
 import os
-import logging
 import sys
 import askbot
 import site
@@ -31,8 +30,8 @@ ROOT = os.path.dirname(askbot.__file__)
 
 site.addsitedir(os.path.join(ASKBOT_ROOT, 'deps'))
 
-DEBUG = False #set to True to enable debugging
-TEMPLATE_DEBUG = False# keep false when debugging jinja2 templates
+DEBUG = False  # set to True to enable debugging
+TEMPLATE_DEBUG = False  # keep false when debugging jinja2 templates
 INTERNAL_IPS = ('127.0.0.1',)
 
 ADMINS = (
@@ -43,7 +42,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'askbot',                      # Or path to database file if using sqlite3.
         'USER': 'askbot',                      # Not used with sqlite3.
         'PASSWORD': 'askbot',                  # Not used with sqlite3.
@@ -58,9 +57,9 @@ DEFAULT_FROM_EMAIL = ''
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_SUBJECT_PREFIX = ''
-EMAIL_HOST=''
-EMAIL_PORT=''
-EMAIL_USE_TLS=False
+EMAIL_HOST = ''
+EMAIL_PORT = ''
+EMAIL_USE_TLS = False
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 #incoming mail settings
@@ -106,7 +105,7 @@ LANGUAGES = (
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'askbot', 'upfiles')
 MEDIA_URL = '/upfiles/'
-STATIC_URL = '/m/'#this must be different from MEDIA_URL
+STATIC_URL = '/m/'  # this must be different from MEDIA_URL
 
 PROJECT_ROOT = os.path.dirname(__file__)
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
@@ -138,7 +137,6 @@ MIDDLEWARE_CLASSES = (
     #'django.middleware.cache.FetchFromCacheMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'django.middleware.sqlprint.SqlPrintingMiddleware',
-
     'askbotopenmooc.app.middlewares.Saml2SSORedirect',
 
     #below is askbot stuff for this tuple
@@ -182,7 +180,7 @@ ASKBOT_ALLOWED_UPLOAD_FILE_TYPES = (
     '.pptm',
 )
 
-ASKBOT_MAX_UPLOAD_FILE_SIZE = 2 * 1024 * 1024 #result in bytes
+ASKBOT_MAX_UPLOAD_FILE_SIZE = 2 * 1024 * 1024  # result in bytes
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 #TEMPLATE_DIRS = (,) #template have no effect in askbot, use the variable below
@@ -201,9 +199,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'askbot.context.application_settings',
     'askbotopenmooc.context.openmooc_settings',
     'django.core.context_processors.i18n',
-    'askbot.user_messages.context_processors.user_messages',#must be before auth
-    'django.contrib.auth.context_processors.auth', #this is required for the admin app
-    'django.core.context_processors.csrf', #necessary for csrf protection
+    'askbot.user_messages.context_processors.user_messages',  # must be before auth
+    'django.contrib.auth.context_processors.auth',  # this is required for the admin app
+    'django.core.context_processors.csrf',  # necessary for csrf protection
 )
 
 
@@ -235,7 +233,7 @@ INSTALLED_APPS = (
     'kombu.transport.django',
     'followit',
     'tinymce',
-    'group_messaging', # manage.py runtime testing needs it
+    'group_messaging',  # manage.py runtime testing needs it
     #'avatar',#experimental use git clone git://github.com/ericflo/django-avatar.git$
     'djangosaml2',
     'askbotopenmooc.app',
@@ -248,7 +246,7 @@ CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 CACHE_TIMEOUT = 6000
 #sets a special timeout for livesettings if you want to make them different
 LIVESETTINGS_CACHE_TIMEOUT = CACHE_TIMEOUT
-CACHE_PREFIX = 'askbot' #make this unique
+CACHE_PREFIX = 'askbot'  # make this unique
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 #If you use memcache you may want to uncomment the following line to enable memcached based sessions
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
@@ -273,15 +271,15 @@ AUTHENTICATION_BACKENDS = (
 #
 #   ASKBOT_URL = 'forum/'
 #
-ASKBOT_URL = '' #no leading slash, default = '' empty string
-ASKBOT_TRANSLATE_URL = True #translate specific URLs
-_ = lambda v:v #fake translation function for the login url
-LOGIN_URL = '/%s%s%s' % (ASKBOT_URL,_('account/'),_('signin/'))
-LOGIN_REDIRECT_URL = ASKBOT_URL #adjust, if needed
+ASKBOT_URL = ''  # no leading slash, default = '' empty string
+ASKBOT_TRANSLATE_URL = True  # translate specific URLs
+_ = lambda v: v   # fake translation function for the login url
+LOGIN_URL = '/%s%s%s' % (ASKBOT_URL, _('account/'), _('signin/'))
+LOGIN_REDIRECT_URL = ASKBOT_URL  # adjust, if needed
 #note - it is important that upload dir url is NOT translated!!!
 #also, this url must not have the leading slash
 ALLOW_UNICODE_SLUGS = False
-ASKBOT_USE_STACKEXCHANGE_URLS = False #mimic url scheme of stackexchange
+ASKBOT_USE_STACKEXCHANGE_URLS = False  # mimic url scheme of stackexchange
 
 #Celery Settings
 BROKER_TRANSPORT = "djkombu.transport.DatabaseTransport"
@@ -325,8 +323,8 @@ GROUP_MESSAGING = {
     'BASE_URL_PARAMS': {'section': 'messages', 'sort': 'inbox'}
 }
 
-ASKBOT_INTERNAL_IPS=('127.0.0.1',)
-ASKBOT_USE_LOCAL_FONTS=True
+ASKBOT_INTERNAL_IPS = ('127.0.0.1',)
+ASKBOT_USE_LOCAL_FONTS = True
 
   ######################################################
  ########################################################
@@ -433,7 +431,7 @@ LIVESETTINGS_OPTIONS = {
 # withe the IdP
 
 LOGIN_URL = '/saml2/login/'
-LOGIN_REDIRECT_URL = '/questions/' #aadjust, if needed
+LOGIN_REDIRECT_URL = '/questions/'  # aadjust, if needed
 LOGOUT_URL = '/saml2/logout/'
 LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -471,7 +469,6 @@ else:
 try:
     sys.path.insert(0, os.getcwd())
     from instance_settings import *
-    import instance_settings
 
     # All the askbot settings located here are beacuse of the local_settings rewriting the STATIC_ROOT setting.
     TINYMCE_COMPRESSOR = True
@@ -486,14 +483,14 @@ try:
         'force_br_newlines': True,
         'force_p_newlines': False,
         'forced_root_block': '',
-        'mode' : 'textareas',
+        'mode': 'textareas',
         'oninit': "function(){ tinyMCE.activeEditor.setContent(askbot['data']['editorContent'] || ''); }",
         'plugins': 'askbot_imageuploader,askbot_attachment',
-        'theme_advanced_toolbar_location' : 'top',
+        'theme_advanced_toolbar_location': 'top',
         'theme_advanced_toolbar_align': 'left',
         'theme_advanced_buttons1': 'bold,italic,underline,|,bullist,numlist,|,undo,redo,|,link,unlink,askbot_imageuploader,askbot_attachment',
         'theme_advanced_buttons2': '',
-        'theme_advanced_buttons3' : '',
+        'theme_advanced_buttons3': '',
         'theme_advanced_path': False,
         'theme_advanced_resizing': True,
         'theme_advanced_resize_horizontal': False,
@@ -535,10 +532,6 @@ else:
     MEDIA_ROOT = os.path.join(INSTANCE_DIR, 'upfiles')
     MEDIA_URL = '/%s/upfiles/' % INSTANCE_NAME
 
-    ASKBOT_URL = '%s/' % INSTANCE_NAME
-    #ASKBOT_URL = ''
-    FULL_ASKBOT_URL = '%s/%s/' % (BASE_URL, INSTANCE_NAME)
-
     ROOT_URLCONF = 'askbotopenmooc.urls_prefix'
 
     CSRF_COOKIE_NAME = '%s_csrf' % INSTANCE_NAME
@@ -577,5 +570,5 @@ else:
         saml2.BINDING_HTTP_POST)]
 
     SAML_CONFIG['service']['sp']['endpoints']['single_logout_service'] = [(
-                    "%s%s" % (FULL_ASKBOT_URL, 'saml2/ls/'),
-                    saml2.BINDING_HTTP_REDIRECT)]
+        "%s%s" % (FULL_ASKBOT_URL, 'saml2/ls/'),
+        saml2.BINDING_HTTP_REDIRECT)]
