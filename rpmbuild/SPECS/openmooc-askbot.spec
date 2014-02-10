@@ -1,7 +1,7 @@
 %define platform openmooc
 %define component askbot
-%define version 0.1dev
-%define release 2
+%define version 0.2
+%define release 8
 %define libname %{component}%{platform}
 
 Summary: Askbot OpenMOOC integration. Default theme and SAML2 authentication
@@ -23,8 +23,10 @@ Prefix: %{_prefix}
 Vendor: Rooter <info@rooter.es>
 URL: https://github.com/OpenMOOC/%{platform}-%{component}
 
-Requires: askbot = 0.7.48
+Requires: askbot48 >= 0.7.48.1-5
 
+Requires: django-celery = 3.0.17
+Requires: python-celery = 3.0.20
 Requires: python-djangosaml2 = 0.10.0
 Requires: python-memcached = 1.48
 Requires: python-gunicorn >= 0.14.6
@@ -35,7 +37,7 @@ Requires: python-devel
 
 Requires: memcached = 1.4.4
 Requires: nginx
-Requires: postgresql-server = 8.4.13
+Requires: postgresql-server >= 8.4.13
 Requires: supervisor >= 3.0
 Requires: xmlsec1 >= 1.2.16
 Requires: xmlsec1-openssl >= 1.2.16
@@ -176,10 +178,6 @@ rm %{_prefix}/lib64/libxmlsec1-openssl.so
 %dir %{python_sitelib}/%{libname}/themes/mooc/media/style
 %dir %{python_sitelib}/%{libname}/themes/mooc/templates
 %dir %{python_sitelib}/%{libname}/themes/mooc/templates/widgets
-%dir %{python_sitelib}/%{libname}/themes/mooc/templates/meta
-%dir %{python_sitelib}/%{libname}/themes/mooc/templates/question
-%dir %{python_sitelib}/%{libname}/admin-templates
-%dir %{python_sitelib}/%{libname}/admin-templates/admin
 %dir %{python_sitelib}/%{libname}/locale/en/LC_MESSAGES/
 %dir %{python_sitelib}/%{libname}/locale/es/LC_MESSAGES/
 %dir %{python_sitelib}/%{libname}/saml2
@@ -208,18 +206,13 @@ rm %{_prefix}/lib64/libxmlsec1-openssl.so
 %{python_sitelib}/%{libname}/app/management/commands/*.py*
 %{python_sitelib}/%{libname}/app/migrations/*.py*
 %{python_sitelib}/%{libname}/app/templates/mooc/*.html
-%{python_sitelib}/%{libname}/admin-templates/admin/*.html
 %{python_sitelib}/%{libname}/saml2/attribute-maps/*py*
 
 # Check for the OpenMOOC theme
 %{python_sitelib}/%{libname}/themes/mooc/media/images/*
 %{python_sitelib}/%{libname}/themes/mooc/media/bootstrap/css/bootstrap.css
 %{python_sitelib}/%{libname}/themes/mooc/media/style/*.css
-%{python_sitelib}/%{libname}/themes/mooc/media/js/*.js
 %{python_sitelib}/%{libname}/themes/mooc/templates/widgets/*.html
-%{python_sitelib}/%{libname}/themes/mooc/templates/meta/*.html
-%{python_sitelib}/%{libname}/themes/mooc/templates/question/*.html
-%{python_sitelib}/%{libname}/themes/mooc/templates/main_page/*.html
 
 %{python_sitelib}/%{libname}/locale/en/LC_MESSAGES/*
 %{python_sitelib}/%{libname}/locale/es/LC_MESSAGES/*
