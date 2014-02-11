@@ -137,6 +137,7 @@ MIDDLEWARE_CLASSES = (
     #'django.middleware.cache.FetchFromCacheMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'django.middleware.sqlprint.SqlPrintingMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'askbotopenmooc.app.middlewares.Saml2SSORedirect',
 
     #below is askbot stuff for this tuple
@@ -217,6 +218,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.humanize',
     'django.contrib.sitemaps',
+    'django.contrib.messages',
     #'debug_toolbar',
     #Optional, to enable haystack search
     #'haystack',
