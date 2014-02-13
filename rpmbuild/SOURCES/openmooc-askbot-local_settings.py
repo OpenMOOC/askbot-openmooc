@@ -23,6 +23,7 @@ Configuration levels: openmooc-askbot, local_settings, instance_settings
 """
 
 import askbotopenmooc
+import instance_settings
 import saml2
 from os import path
 
@@ -118,7 +119,7 @@ CACHE_PREFIX = 'askbot'  # make this unique
 
 # Base URLs. These are some basic URLs needed by openmooc-askbot to determine
 # the redirects in Askbot.
-ASKBOT_URL = ''
+ASKBOT_URL = '%s/' % instance_settings.INSTANCE_NAME
 BASE_URL = 'http://questions.example.com/'
 FULL_ASKBOT_URL = '%s%s' % (BASE_URL, ASKBOT_URL)
 
