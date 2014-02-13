@@ -31,7 +31,6 @@ INSTANCE_URL = '{base_url}/{instance_name}/'
 INSTANCE_TITLE = INSTANCE_NAME.capitalize()
 DATABASE_NAME = '{instance_db_name}'
 DATABASE_HOST = '{instance_db_host}'
-FORCE_SCRIPT_NAME = '/{instance_name}'
 
 # If the instance doesn't use the default Askbot theme or the extra themes provided
 # by OpenMOOC, uncomment this line and redirect to your skins directory
