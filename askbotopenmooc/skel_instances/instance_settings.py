@@ -27,7 +27,7 @@ from os import path
 # Instance details section. You must edit this section according to your needs.
 INSTANCE_NAME = '{instance_name}'
 INSTANCE_DIR = path.dirname(__file__)
-INSTANCE_URL = '{base_url}/{instance_name}/'
+INSTANCE_URL = '{base_url}{instance_name}/'
 INSTANCE_TITLE = INSTANCE_NAME.capitalize()
 DATABASE_NAME = '{instance_db_name}'
 DATABASE_HOST = '{instance_db_host}'

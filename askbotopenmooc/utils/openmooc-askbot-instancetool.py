@@ -25,6 +25,8 @@ askbot instances
 
 import sys
 import os
+import time
+
 
 # Check Python version
 if sys.version_info < (2, 6, 0):
@@ -214,6 +216,15 @@ class AskbotInstance():
         # TODO
         #self._copy_to_remote(os.path.join(INSTANCE_DIR, 'nginx.forward.conf'))
 
+    def restart_server(self):
+        supervisord = subprocess.Popen(('service '
+                                        'supervisord restart'), shell=True)
+        supervisord.wait()
+        nginx = subprocess.Popen(('service '
+                                  'nginx restart'), shell=True)
+        nginx.wait()
+        time.sleep(5)
+
     def update_entries_metadata(self):
         """
         Update all entries' metadata
@@ -329,6 +340,7 @@ if opts.instance_data:
     inst.create_db(INSTANCE_DB_NAME)
     inst.syncdb_and_migrate(INSTANCE_NAME)
     inst.collect_static(INSTANCE_NAME)
+    inst.restart_server()
     if not opts.no_metadata:
         inst.update_entries_metadata()
 
