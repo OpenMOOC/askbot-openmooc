@@ -135,11 +135,6 @@ rm -rf $RPM_BUILD_ROOT
 echo "INFO: You must execute openmooc-askbot-admin collectstatic"
 
 
-%postun
-## Remove the .so link
-rm %{_prefix}/lib64/libxmlsec1-openssl.so
-
-
 %files
 %defattr(-,root,root)
 
