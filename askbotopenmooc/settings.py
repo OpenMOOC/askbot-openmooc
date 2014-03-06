@@ -231,7 +231,6 @@ INSTALLED_APPS = (
     'robots',
     'django_countries',
     'djcelery',
-    'djkombu',
     'kombu.transport.django',
     'followit',
     'tinymce',

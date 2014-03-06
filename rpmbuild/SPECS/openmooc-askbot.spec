@@ -1,7 +1,7 @@
 %define platform openmooc
 %define component askbot
-%define version 0.2
-%define release 8
+%define version 0.3
+%define release 1
 %define libname %{component}%{platform}
 
 Summary: Askbot OpenMOOC integration. Default theme and SAML2 authentication
@@ -221,6 +221,8 @@ rm %{_prefix}/lib64/libxmlsec1-openssl.so
 
 
 %changelog
+* Thu Mar 06 2014 Pablo Martín <pmartin@yaco.es> - 0.3-1
+- Fix several paths and bugs.
 * Thu Sep 10 2013 Alejandro Blanco <ablanco@yaco.es> - 0.1-2
 - Fix several paths and bugs.
 

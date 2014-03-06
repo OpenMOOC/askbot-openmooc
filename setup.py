@@ -18,7 +18,7 @@ def recursive_include(directory, patterns):
     return result
 
 
-version = '0.2'
+version = '0.3'
 
 setup(name='openmooc-askbot',
       version=version,
