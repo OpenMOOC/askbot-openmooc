@@ -23,7 +23,7 @@ Prefix: %{_prefix}
 Vendor: Rooter <info@rooter.es>
 URL: https://github.com/OpenMOOC/%{platform}-%{component}
 
-Requires: askbot48 >= 0.7.48.1-5
+Requires: askbot48 >= 0.7.48.2
 
 Requires: django-celery = 3.0.17
 Requires: python-celery = 3.0.20
@@ -212,6 +212,7 @@ rm %{_prefix}/lib64/libxmlsec1-openssl.so
 %{python_sitelib}/%{libname}/themes/mooc/media/images/*
 %{python_sitelib}/%{libname}/themes/mooc/media/bootstrap/css/bootstrap.css
 %{python_sitelib}/%{libname}/themes/mooc/media/style/*.css
+%{python_sitelib}/%{libname}/themes/mooc/templates/*.html
 %{python_sitelib}/%{libname}/themes/mooc/templates/widgets/*.html
 
 %{python_sitelib}/%{libname}/locale/en/LC_MESSAGES/*
