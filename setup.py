@@ -1,4 +1,4 @@
-# Copyright 2012 Rooter. All rights reserved.
+# Copyright 2012 UNED. All rights reserved.
 import fnmatch
 from setuptools import setup, find_packages
 import os
@@ -33,7 +33,7 @@ setup(name='openmooc-askbot',
         'Programming Language :: Python',
       ],
       keywords='askbot openmoc',
-      author='Rooter',
+      author='UNED',
       url='https://github.com/OpenMOOC/askbot-openmooc',
       license='Apache Software License',
       packages=find_packages('.'),

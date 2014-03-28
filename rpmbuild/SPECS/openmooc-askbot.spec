@@ -20,7 +20,7 @@ License: Apache Software License 2.0
 Group: Development/Libraries
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Prefix: %{_prefix}
-Vendor: Rooter <info@rooter.es>
+Vendor: UNED <infouned@adm.uned.es>
 URL: https://github.com/OpenMOOC/%{platform}-%{component}
 
 Requires: askbot48 >= 0.7.48.2
