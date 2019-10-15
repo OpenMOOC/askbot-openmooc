@@ -46,7 +46,7 @@ setup(name='openmooc-askbot',
           'askbot==0.7.48',
           'djangosaml2==0.10.0',
           'python-memcached==1.48',
-          'requests==1.2.0',
+          'requests==2.20.0',
           'supervisor',
           'gunicorn',
           # Fixed version of relates requires"
